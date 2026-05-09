@@ -14,10 +14,39 @@ const articleImages: { [key: string]: string } = {
   'hantavirus-vs-covid-19': '/images/vs-covid-19.jpg',
 };
 
-// MAKE.COM NEWS ITEMS - These will be auto-populated by Make.com workflow
-// Structure: { id, type: 'news', source, sourceUrl, date, headline, summary, isBreaking }
-const newsItems = [
+// Types
+type OriginalArticle = {
+  feedId: string;
+  type: 'article';
+  id: string | number;
+  title: string;
+  slug: string;
+  excerpt: string;
+  category: string;
+  isBreaking: boolean;
+  author: string;
+  content: string;
+  date: Date;
+};
+
+type NewsItem = {
+  feedId: string;
+  type: 'news';
+  id: string;
+  source: string;
+  sourceUrl: string;
+  date: Date;
+  headline: string;
+  summary: string;
+  isBreaking: boolean;
+};
+
+type FeedItem = OriginalArticle | NewsItem;
+
+// News items array
+const newsItems: NewsItem[] = [
   {
+    feedId: 'news-001',
     id: 'news-001',
     type: 'news',
     source: 'NDTV Health',
@@ -28,6 +57,7 @@ const newsItems = [
     isBreaking: true,
   },
   {
+    feedId: 'news-002',
     id: 'news-002',
     type: 'news',
     source: 'Deutsche Welle',
@@ -38,6 +68,7 @@ const newsItems = [
     isBreaking: false,
   },
   {
+    feedId: 'news-003',
     id: 'news-003',
     type: 'news',
     source: 'BBC News',
@@ -49,17 +80,23 @@ const newsItems = [
   },
 ];
 
-// UNIFIED FEED - Combine articles and news, sort by date (latest first)
-const createUnifiedFeed = () => {
-  const originalArticles = articles.map(article => ({
-    id: `article-${article.id}`,
+// Create unified feed
+const createUnifiedFeed = (): FeedItem[] => {
+  const originalArticles: OriginalArticle[] = articles.map(article => ({
+    feedId: `article-${article.id}`,
     type: 'article',
-    ...article,
-    date: new Date('2026-05-09'), // All articles dated today for now
+    id: article.id,
+    title: article.title,
+    slug: article.slug,
+    excerpt: article.excerpt,
+    category: article.category,
+    isBreaking: article.isBreaking,
+    author: article.author,
+    content: article.content,
+    date: new Date('2026-05-09'),
   }));
 
-  const combined = [...originalArticles, ...newsItems];
-  // Sort by date descending (latest first)
+  const combined: FeedItem[] = [...originalArticles, ...newsItems];
   return combined.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 };
 
@@ -97,12 +134,12 @@ export default function Home() {
 
   const filteredFeed = searchTerm.trim() === ''
     ? unifiedFeed
-    : unifiedFeed.filter(item =>
-        item.headline?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.summary?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.excerpt?.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+    : unifiedFeed.filter(item => {
+        const searchLower = searchTerm.toLowerCase();
+        const itemTitle = item.type === 'article' ? item.title : item.headline;
+        const itemBody = item.type === 'article' ? item.excerpt : item.summary;
+        return itemTitle.toLowerCase().includes(searchLower) || itemBody.toLowerCase().includes(searchLower);
+      });
 
   return (
     <div style={{ minHeight: '100vh', background: '#ffffff' }}>
@@ -224,9 +261,12 @@ export default function Home() {
               filteredFeed.map((item) => {
                 const isArticle = item.type === 'article';
                 const imageUrl = isArticle ? articleImages[item.slug] : undefined;
+                const title = isArticle ? item.title : item.headline;
+                const body = isArticle ? item.excerpt : item.summary;
+                const label = isArticle ? item.category : item.source;
 
                 return (
-                  <div key={item.id} style={{
+                  <div key={item.feedId} style={{
                     background: 'white',
                     border: `1px solid ${isArticle ? '#e0e0e0' : '#e8e8e8'}`,
                     borderRadius: '6px',
@@ -247,7 +287,7 @@ export default function Home() {
                         {imageUrl ? (
                           <Image
                             src={imageUrl}
-                            alt={item.title}
+                            alt={title}
                             fill
                             style={{ objectFit: 'cover' }}
                           />
@@ -282,7 +322,7 @@ export default function Home() {
                             fontWeight: '600',
                             textTransform: 'uppercase',
                           }}>
-                            {isArticle ? item.category : item.source}
+                            {label}
                           </div>
                           <span style={{ fontSize: '12px', color: '#999' }}>
                             {new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
@@ -298,7 +338,7 @@ export default function Home() {
                           lineHeight: '1.3',
                           color: '#1a1a1a',
                         }}>
-                          {isArticle ? item.title : item.headline}
+                          {title}
                         </h3>
 
                         {/* SUMMARY */}
@@ -308,7 +348,7 @@ export default function Home() {
                           margin: '8px 0',
                           lineHeight: '1.5',
                         }}>
-                          {isArticle ? item.excerpt : item.summary}
+                          {body}
                         </p>
                       </div>
 
