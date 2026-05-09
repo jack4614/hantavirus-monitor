@@ -3,6 +3,7 @@
 import { articles } from '@/articles';
 import { outbreakStats } from '@/lib/stats';
 import Image from 'next/image';
+import { useState } from 'react';
 
 const articleImages: { [key: string]: string } = {
   'what-is-hantavirus': '/images/what-is-hantavirus.jpg',
@@ -14,7 +15,17 @@ const articleImages: { [key: string]: string } = {
 };
 
 export default function Home() {
+  const [searchTerm, setSearchTerm] = useState('');
   const breakingArticles = articles.filter(a => a.isBreaking);
+
+  // Filter articles based on search
+  const filteredArticles = searchTerm.trim() === '' 
+    ? articles 
+    : articles.filter(a => 
+        a.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        a.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        a.category.toLowerCase().includes(searchTerm.toLowerCase())
+      );
 
   return (
     <div style={{ minHeight: '100vh', background: '#ffffff' }}>
@@ -79,8 +90,26 @@ export default function Home() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          gap: '20px',
         }}>
           <div style={{ fontSize: '22px', fontWeight: '600' }}>🚨 Hantavirus Updates</div>
+          <input
+            type="text"
+            placeholder="Search articles..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{
+              flex: 1,
+              maxWidth: '400px',
+              padding: '10px 14px',
+              border: '1px solid #555',
+              borderRadius: '6px',
+              background: '#3a3a3a',
+              color: 'white',
+              fontFamily: 'inherit',
+              fontSize: '14px',
+            }}
+          />
         </div>
       </header>
 
@@ -100,7 +129,20 @@ export default function Home() {
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '40px' }}>
           {/* ARTICLES */}
           <div>
-            {articles.map((article) => {
+            {filteredArticles.length === 0 ? (
+              <div style={{
+                background: 'white',
+                borderRadius: '8px',
+                padding: '40px',
+                textAlign: 'center',
+                border: '1px solid #e8e8e8',
+              }}>
+                <p style={{ fontSize: '18px', color: '#999', margin: 0 }}>
+                  No articles found matching "{searchTerm}"
+                </p>
+              </div>
+            ) : (
+              filteredArticles.map((article) => {
               const imageUrl = articleImages[article.slug];
               return (
                 <article key={article.id} style={{
@@ -198,7 +240,8 @@ export default function Home() {
                   </div>
                 </article>
               );
-            })}
+            })
+            )}
           </div>
 
           {/* SIDEBAR */}
