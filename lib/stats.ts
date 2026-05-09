@@ -19,8 +19,8 @@ export const outbreakStats = {
   deaths: '3',
   countries: '7',
   mortality: '39%',
-  lastUpdated: 'May 9, 2026, 2:30 PM',
-  lastUpdatedTime: '2026-05-09T14:30:00', // ISO format for calculations
+  lastUpdated: 'May 9, 2026, 1:30 PM',
+  lastUpdatedTime: '2026-05-09T12:30:00', // ISO format for calculations
   banner: {
     title: 'MV Hondius Cruise Ship Outbreak: 3 Deaths in 7 Countries',
     subtitle: 'Updated 2 hours ago', // This will be replaced on client
