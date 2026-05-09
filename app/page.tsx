@@ -3,7 +3,7 @@
 import { articles } from '@/articles';
 import { outbreakStats } from '@/lib/stats';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const articleImages: { [key: string]: string } = {
   'what-is-hantavirus': '/images/what-is-hantavirus.jpg',
@@ -16,7 +16,32 @@ const articleImages: { [key: string]: string } = {
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [timeElapsed, setTimeElapsed] = useState('Updated 2 hours ago');
   const breakingArticles = articles.filter(a => a.isBreaking);
+
+  // Calculate time elapsed on client side only
+  useEffect(() => {
+    const calculateTime = () => {
+      const lastUpdate = new Date(outbreakStats.lastUpdatedTime);
+      const now = new Date();
+      const diffMs = now.getTime() - lastUpdate.getTime();
+      const diffMins = Math.floor(diffMs / 60000);
+      const diffHours = Math.floor(diffMins / 60);
+      const diffDays = Math.floor(diffHours / 24);
+
+      let time = 'Just now';
+      if (diffMins < 1) time = 'Just now';
+      else if (diffMins < 60) time = `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+      else if (diffHours < 24) time = `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+      else time = `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+
+      setTimeElapsed(`Updated ${time}`);
+    };
+
+    calculateTime();
+    const interval = setInterval(calculateTime, 60000); // Update every minute
+    return () => clearInterval(interval);
+  }, []);
 
   // Filter articles based on search
   const filteredArticles = searchTerm.trim() === '' 
@@ -58,7 +83,7 @@ export default function Home() {
               {breakingArticles.length > 0 ? breakingArticles[0].title : ''}
             </p>
             <p style={{ fontSize: '12px', opacity: 0.9, margin: '4px 0 0 0' }}>
-              {outbreakStats.banner.subtitle}
+              {timeElapsed}
             </p>
           </div>
           <a href={breakingArticles.length > 0 ? `/articles/${breakingArticles[0].slug}` : '#'} style={{

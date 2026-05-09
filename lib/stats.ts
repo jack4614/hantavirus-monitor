@@ -14,16 +14,16 @@ function getTimeElapsed(dateString: string): string {
 }
 
 // Outbreak statistics - update this file to change numbers displayed on website
-const lastUpdateTime = 'May 9, 2026, 2:30 PM';
-
 export const outbreakStats = {
   cases: '5+',
   deaths: '3',
   countries: '7',
   mortality: '39%',
-  lastUpdated: lastUpdateTime,
+  lastUpdated: 'May 9, 2026, 2:30 PM',
+  lastUpdatedTime: '2026-05-09T14:30:00', // ISO format for calculations
   banner: {
     title: 'MV Hondius Cruise Ship Outbreak: 3 Deaths in 7 Countries',
-    subtitle: `Updated ${getTimeElapsed(lastUpdateTime)}`,
+    subtitle: 'Updated 2 hours ago', // This will be replaced on client
   },
 };
+ 
