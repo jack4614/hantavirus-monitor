@@ -2840,7 +2840,86 @@ export const categories = [
   "Prevention Tips",
   "Case Updates",
   "Resources & Links"
+
+
 ];
+
+
+// Add this article to your articles.ts file
+
+{
+  id: 16,
+  slug: 'mv-hondius-canary-islands-evacuation',
+  title: 'MV Hondius Cruise Ship: Passengers to Evacuate at Canary Islands - WHO Screening & Contact Tracing Plans',
+  category: 'Case Updates',
+  author: 'Breaking News Monitor',
+  excerpt: 'Cruise ship passengers infected with hantavirus will be evacuated at Canary Islands as WHO implements comprehensive screening and contact tracing protocols to contain the outbreak.',
+  isBreaking: true,
+  content: `
+## MV Hondius Evacuation: Critical Update
+
+### Breaking News
+
+Passengers aboard the MV Hondius cruise ship are set to evacuate at the Canary Islands soon, according to WHO officials who have shared detailed screening and contact tracing plans for managing the ongoing hantavirus outbreak.
+
+### WHO Screening & Contact Tracing Plans
+
+The World Health Organization has implemented comprehensive measures to prevent further spread:
+
+- **Pre-evacuation screening**: All passengers and crew will undergo medical screening before leaving the vessel
+- **Contact tracing protocols**: Close contacts of confirmed cases will be identified and monitored throughout evacuation
+- **Quarantine procedures**: Suspected cases will remain isolated during transport to prevent transmission
+- **Medical support**: Healthcare teams stationed at evacuation points to manage suspected cases
+- **Follow-up monitoring**: Passengers will be tracked for 21 days post-evacuation
+
+### Timeline & Location
+
+Evacuation operations are expected to begin within the coming days at designated Canary Islands ports. The WHO is coordinating with Spanish health authorities, local governments, and cruise operators to ensure safe and orderly evacuation procedures.
+
+### Why This Matters
+
+This evacuation represents a critical step in containing the outbreak. The MV Hondius has been a focal point of the 2026 Hantavirus crisis. Proper screening and contact tracing during evacuation can prevent further community transmission at port destinations across Europe.
+
+### Current Situation
+
+- **Confirmed cases on ship**: Multiple passengers and crew members
+- **Deaths**: 3 confirmed related to cruise ship exposure
+- **Countries affected**: Cases traced to passengers from 7 nations
+- **Risk level**: High - human-to-human transmission possible with Andes strain
+
+### What Passengers Should Know
+
+✅ Medical screening is mandatory before evacuation  
+✅ Anyone with symptoms will receive immediate care  
+✅ Contact tracing will continue for 21 days after evacuation  
+✅ WHO and Spanish health officials will provide support  
+✅ Detailed health guidance will be provided at evacuation sites
+
+### Next Steps
+
+The WHO, Spanish Ministry of Health, and international health agencies will:
+
+1. Coordinate evacuation logistics and timing
+2. Prepare quarantine facilities at Canary Islands ports
+3. Deploy medical teams for screening and monitoring
+4. Establish communication with passengers' home countries
+5. Implement enhanced surveillance in European ports
+
+### Sources & Official Information
+
+- World Health Organization (WHO) official briefing
+- Spanish Ministry of Health announcements
+- NDTV Health reporting
+- International Maritime Organization updates
+
+---
+
+**Last Updated**: [Auto-filled with current date/time]
+
+**Original Source**: NDTV Health - MV Hondius Hantavirus Coverage
+  `
+},
+
 
 export const featuredBreakingArticles = articles.filter(a => a.isBreaking);
 export const articlesByCategory = (category: string) => articles.filter(a => a.category === category);

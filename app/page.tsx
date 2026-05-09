@@ -17,7 +17,10 @@ const articleImages: { [key: string]: string } = {
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
   const [timeElapsed, setTimeElapsed] = useState('Updated 2 hours ago');
+
   const breakingArticles = articles.filter(a => a.isBreaking);
+  const latestArticles = articles.slice(0, 3); // 3 most recent
+  const otherArticles = articles.slice(3); // Rest of articles
 
   // Calculate time elapsed on client side only
   useEffect(() => {
@@ -39,17 +42,23 @@ export default function Home() {
     };
 
     calculateTime();
-    const interval = setInterval(calculateTime, 60000); // Update every minute
+    const interval = setInterval(calculateTime, 60000);
     return () => clearInterval(interval);
   }, []);
 
   // Filter articles based on search
-  const filteredArticles = searchTerm.trim() === '' 
-    ? articles 
-    : articles.filter(a => 
+  const filteredLatest = searchTerm.trim() === '' 
+    ? latestArticles 
+    : latestArticles.filter(a => 
         a.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        a.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        a.category.toLowerCase().includes(searchTerm.toLowerCase())
+        a.excerpt.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+  const filteredOther = searchTerm.trim() === '' 
+    ? otherArticles 
+    : otherArticles.filter(a => 
+        a.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        a.excerpt.toLowerCase().includes(searchTerm.toLowerCase())
       );
 
   return (
@@ -144,17 +153,169 @@ export default function Home() {
         margin: '0 auto',
         padding: '40px 32px',
       }}>
-        <h1 style={{ fontSize: '32px', fontWeight: '700', marginBottom: '10px', color: '#1a1a1a' }}>
-          Latest News & Updates
-        </h1>
-        <p style={{ fontSize: '15px', color: '#666', marginBottom: '32px' }}>
-          Breaking news and comprehensive information about the 2026 Hantavirus outbreak
-        </p>
+        {/* LATEST NEWS SECTION - PROMINENT */}
+        <section style={{ marginBottom: '60px' }}>
+          <div style={{
+            background: '#fff3cd',
+            border: '2px solid #ffc107',
+            borderRadius: '12px',
+            padding: '24px',
+            marginBottom: '32px',
+          }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              marginBottom: '16px',
+            }}>
+              <span style={{ fontSize: '24px' }}>⚡</span>
+              <h2 style={{ fontSize: '24px', fontWeight: '700', color: '#1a1a1a', margin: 0 }}>
+                Latest News & Updates
+              </h2>
+            </div>
+            <p style={{ fontSize: '14px', color: '#666', margin: 0 }}>
+              Our original reporting and curated news from official health sources
+            </p>
+          </div>
 
+          {filteredLatest.length === 0 ? (
+            <div style={{
+              background: 'white',
+              borderRadius: '8px',
+              padding: '40px',
+              textAlign: 'center',
+              border: '1px solid #e8e8e8',
+            }}>
+              <p style={{ fontSize: '18px', color: '#999', margin: 0 }}>
+                No articles found matching "{searchTerm}"
+              </p>
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gap: '32px', marginBottom: '40px' }}>
+              {filteredLatest.map((article) => {
+                const imageUrl = articleImages[article.slug];
+                return (
+                  <article key={article.id} style={{
+                    background: 'white',
+                    borderRadius: '8px',
+                    overflow: 'hidden',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
+                    border: '2px solid #ffc107',
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr',
+                    gap: 0,
+                  }}>
+                    <div style={{
+                      position: 'relative',
+                      width: '100%',
+                      height: '300px',
+                      background: '#f0f0f0',
+                    }}>
+                      {imageUrl ? (
+                        <Image
+                          src={imageUrl}
+                          alt={article.title}
+                          fill
+                          style={{ objectFit: 'cover' }}
+                        />
+                      ) : (
+                        <div style={{
+                          width: '100%',
+                          height: '100%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#999',
+                          fontSize: '14px',
+                        }}>
+                          Featured Image
+                        </div>
+                      )}
+                    </div>
+                    <div style={{ padding: '32px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      <div>
+                        <div style={{
+                          display: 'inline-block',
+                          background: '#ffc107',
+                          color: '#1a1a1a',
+                          padding: '6px 12px',
+                          borderRadius: '4px',
+                          fontSize: '11px',
+                          fontWeight: '600',
+                          marginBottom: '16px',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.5px',
+                        }}>
+                          {article.category}
+                        </div>
+                        <h3 style={{
+                          fontSize: '22px',
+                          fontWeight: '700',
+                          marginBottom: '12px',
+                          lineHeight: '1.4',
+                          color: '#1a1a1a',
+                        }}>
+                          {article.title}
+                        </h3>
+                        <div style={{
+                          display: 'flex',
+                          gap: '16px',
+                          fontSize: '12px',
+                          color: '#999',
+                          marginBottom: '16px',
+                        }}>
+                          <span>By {article.author}</span>
+                          <span>•</span>
+                          <span>May 2026</span>
+                        </div>
+                        <p style={{
+                          fontSize: '15px',
+                          lineHeight: '1.7',
+                          color: '#555',
+                          marginBottom: '24px',
+                        }}>
+                          {article.excerpt}
+                        </p>
+                      </div>
+                      <a href={`/articles/${article.slug}`} style={{
+                        display: 'inline-block',
+                        background: '#ffc107',
+                        color: '#1a1a1a',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        fontWeight: '600',
+                        fontSize: '14px',
+                        textDecoration: 'none',
+                        width: 'fit-content',
+                      }}>
+                        Read Full Article →
+                      </a>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+        </section>
+
+        {/* DIVIDER */}
+        <div style={{
+          borderTop: '2px solid #e0e0e0',
+          margin: '60px 0',
+          paddingTop: '60px',
+        }}>
+          <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '32px', color: '#1a1a1a' }}>
+            Reference & Information
+          </h2>
+          <p style={{ fontSize: '15px', color: '#666', marginBottom: '32px' }}>
+            Comprehensive guides and reference materials about hantavirus
+          </p>
+        </div>
+
+        {/* ORIGINAL ARTICLES SECTION */}
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '40px' }}>
-          {/* ARTICLES */}
           <div>
-            {filteredArticles.length === 0 ? (
+            {filteredOther.length === 0 ? (
               <div style={{
                 background: 'white',
                 borderRadius: '8px',
@@ -167,105 +328,105 @@ export default function Home() {
                 </p>
               </div>
             ) : (
-              filteredArticles.map((article) => {
-              const imageUrl = articleImages[article.slug];
-              return (
-                <article key={article.id} style={{
-                  background: 'white',
-                  borderRadius: '8px',
-                  overflow: 'hidden',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-                  marginBottom: '32px',
-                  border: '1px solid #e8e8e8',
-                }}>
-                  <div style={{
-                    position: 'relative',
-                    width: '100%',
-                    height: '320px',
-                    background: '#f0f0f0',
+              filteredOther.map((article) => {
+                const imageUrl = articleImages[article.slug];
+                return (
+                  <article key={article.id} style={{
+                    background: 'white',
+                    borderRadius: '8px',
+                    overflow: 'hidden',
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+                    marginBottom: '32px',
+                    border: '1px solid #e8e8e8',
                   }}>
-                    {imageUrl ? (
-                      <Image
-                        src={imageUrl}
-                        alt={article.title}
-                        fill
-                        style={{ objectFit: 'cover' }}
-                      />
-                    ) : (
+                    <div style={{
+                      position: 'relative',
+                      width: '100%',
+                      height: '320px',
+                      background: '#f0f0f0',
+                    }}>
+                      {imageUrl ? (
+                        <Image
+                          src={imageUrl}
+                          alt={article.title}
+                          fill
+                          style={{ objectFit: 'cover' }}
+                        />
+                      ) : (
+                        <div style={{
+                          width: '100%',
+                          height: '100%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#999',
+                          fontSize: '14px',
+                        }}>
+                          Featured Image
+                        </div>
+                      )}
+                    </div>
+                    <div style={{ padding: '32px' }}>
                       <div style={{
-                        width: '100%',
-                        height: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: '#999',
-                        fontSize: '14px',
+                        display: 'inline-block',
+                        background: '#f5f5f5',
+                        color: '#555',
+                        padding: '6px 12px',
+                        borderRadius: '4px',
+                        fontSize: '11px',
+                        fontWeight: '600',
+                        marginBottom: '16px',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
                       }}>
-                        Featured Image
+                        {article.category}
                       </div>
-                    )}
-                  </div>
-                  <div style={{ padding: '32px' }}>
-                    <div style={{
-                      display: 'inline-block',
-                      background: '#f5f5f5',
-                      color: '#555',
-                      padding: '6px 12px',
-                      borderRadius: '4px',
-                      fontSize: '11px',
-                      fontWeight: '600',
-                      marginBottom: '16px',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.5px',
-                    }}>
-                      {article.category}
+                      <h3 style={{
+                        fontSize: '22px',
+                        fontWeight: '700',
+                        marginBottom: '12px',
+                        lineHeight: '1.4',
+                        color: '#1a1a1a',
+                      }}>
+                        {article.title}
+                      </h3>
+                      <div style={{
+                        display: 'flex',
+                        gap: '16px',
+                        fontSize: '12px',
+                        color: '#999',
+                        marginBottom: '16px',
+                        paddingBottom: '16px',
+                        borderBottom: '1px solid #e8e8e8',
+                      }}>
+                        <span>By {article.author}</span>
+                        <span>•</span>
+                        <span>May 2026</span>
+                      </div>
+                      <p style={{
+                        fontSize: '15px',
+                        lineHeight: '1.7',
+                        color: '#555',
+                        marginBottom: '24px',
+                      }}>
+                        {article.excerpt}
+                      </p>
+                      <a href={`/articles/${article.slug}`} style={{
+                        display: 'inline-block',
+                        background: '#2d2d2d',
+                        color: 'white',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        fontWeight: '600',
+                        fontSize: '14px',
+                        textDecoration: 'none',
+                      }}>
+                        Read Article →
+                      </a>
                     </div>
-                    <h2 style={{
-                      fontSize: '22px',
-                      fontWeight: '700',
-                      marginBottom: '12px',
-                      lineHeight: '1.4',
-                      color: '#1a1a1a',
-                    }}>
-                      {article.title}
-                    </h2>
-                    <div style={{
-                      display: 'flex',
-                      gap: '16px',
-                      fontSize: '12px',
-                      color: '#999',
-                      marginBottom: '16px',
-                      paddingBottom: '16px',
-                      borderBottom: '1px solid #e8e8e8',
-                    }}>
-                      <span>By {article.author}</span>
-                      <span>•</span>
-                      <span>May 2026</span>
-                    </div>
-                    <p style={{
-                      fontSize: '15px',
-                      lineHeight: '1.7',
-                      color: '#555',
-                      marginBottom: '24px',
-                    }}>
-                      {article.excerpt}
-                    </p>
-                    <a href={`/articles/${article.slug}`} style={{
-                      display: 'inline-block',
-                      background: '#2d2d2d',
-                      color: 'white',
-                      padding: '12px 24px',
-                      borderRadius: '6px',
-                      fontWeight: '600',
-                      fontSize: '14px',
-                      textDecoration: 'none',
-                    }}>
-                      Read Article →
-                    </a>
-                  </div>
-                </article>
-              );
-            })
+                  </article>
+                );
+              })
             )}
           </div>
 
