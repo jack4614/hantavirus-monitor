@@ -2843,4 +2843,4 @@ export const categories = [
 ];
 
 export const featuredBreakingArticles = articles.filter(a => a.isBreaking);
-export const articlesByCategory = (category) => articles.filter(a => a.category === category);
+export const articlesByCategory = (category: string) => articles.filter(a => a.category === category);
