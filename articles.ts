@@ -2831,32 +2831,16 @@ Many occupations carry hantavirus risk, but risk can be managed through:
 - Early reporting
 
 If your occupation exposes you to hantavirus risk, understand that risk, use proper protection, and seek immediate medical attention for any symptoms.`
-  }
-];
-
-export const categories = [
-  "Medical Information",
-  "Symptoms & Signs",
-  "Prevention Tips",
-  "Case Updates",
-  "Resources & Links"
-
-
-];
-
-
-// Add this article to your articles.ts file
-
-{
-  id: 16,
-  slug: 'mv-hondius-canary-islands-evacuation',
-  title: 'MV Hondius Cruise Ship: Passengers to Evacuate at Canary Islands - WHO Screening & Contact Tracing Plans',
-  category: 'Case Updates',
-  author: 'Breaking News Monitor',
-  excerpt: 'Cruise ship passengers infected with hantavirus will be evacuated at Canary Islands as WHO implements comprehensive screening and contact tracing protocols to contain the outbreak.',
-  isBreaking: true,
-  content: `
-## MV Hondius Evacuation: Critical Update
+  },
+  {
+    id: 16,
+    slug: 'mv-hondius-canary-islands-evacuation',
+    title: 'MV Hondius Cruise Ship: Passengers to Evacuate at Canary Islands - WHO Screening & Contact Tracing Plans',
+    category: 'Case Updates',
+    author: 'Breaking News Monitor',
+    excerpt: 'Cruise ship passengers infected with hantavirus will be evacuated at Canary Islands as WHO implements comprehensive screening and contact tracing protocols to contain the outbreak.',
+    isBreaking: true,
+    content: `## MV Hondius Evacuation: Critical Update
 
 ### Breaking News
 
@@ -2889,10 +2873,10 @@ This evacuation represents a critical step in containing the outbreak. The MV Ho
 
 ### What Passengers Should Know
 
-✅ Medical screening is mandatory before evacuation  
-✅ Anyone with symptoms will receive immediate care  
-✅ Contact tracing will continue for 21 days after evacuation  
-✅ WHO and Spanish health officials will provide support  
+✅ Medical screening is mandatory before evacuation
+✅ Anyone with symptoms will receive immediate care
+✅ Contact tracing will continue for 21 days after evacuation
+✅ WHO and Spanish health officials will provide support
 ✅ Detailed health guidance will be provided at evacuation sites
 
 ### Next Steps
@@ -2914,12 +2898,19 @@ The WHO, Spanish Ministry of Health, and international health agencies will:
 
 ---
 
-**Last Updated**: [Auto-filled with current date/time]
+**Last Updated**: Today
 
-**Original Source**: NDTV Health - MV Hondius Hantavirus Coverage
-  `
-},
+**Original Source**: NDTV Health - MV Hondius Coverage`
+  }
+];
 
+export const categories = [
+  "Medical Information",
+  "Symptoms & Signs",
+  "Prevention Tips",
+  "Case Updates",
+  "Resources & Links"
+];
 
 export const featuredBreakingArticles = articles.filter(a => a.isBreaking);
 export const articlesByCategory = (category: string) => articles.filter(a => a.category === category);
