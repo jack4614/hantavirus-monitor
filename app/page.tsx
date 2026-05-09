@@ -19,10 +19,8 @@ export default function Home() {
   const [timeElapsed, setTimeElapsed] = useState('Updated 2 hours ago');
 
   const breakingArticles = articles.filter(a => a.isBreaking);
-  const latestArticles = articles.slice(0, 3); // 3 most recent
-  const otherArticles = articles.slice(3); // Rest of articles
+  const originalArticles = articles.slice(0, 6);
 
-  // Calculate time elapsed on client side only
   useEffect(() => {
     const calculateTime = () => {
       const lastUpdate = new Date(outbreakStats.lastUpdatedTime);
@@ -46,17 +44,9 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  // Filter articles based on search
-  const filteredLatest = searchTerm.trim() === '' 
-    ? latestArticles 
-    : latestArticles.filter(a => 
-        a.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        a.excerpt.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-
-  const filteredOther = searchTerm.trim() === '' 
-    ? otherArticles 
-    : otherArticles.filter(a => 
+  const filteredArticles = searchTerm.trim() === '' 
+    ? originalArticles 
+    : originalArticles.filter(a => 
         a.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         a.excerpt.toLowerCase().includes(searchTerm.toLowerCase())
       );
@@ -72,144 +62,109 @@ export default function Home() {
         zIndex: 50,
         background: '#c0392b',
         color: 'white',
-        padding: '16px 32px',
+        padding: '12px 32px',
         boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
         display: breakingArticles.length > 0 ? 'block' : 'none',
       }}>
         <div style={{
-          maxWidth: '1200px',
+          maxWidth: '1400px',
           margin: '0 auto',
           display: 'flex',
           gap: '16px',
           alignItems: 'center',
+          fontSize: '14px',
         }}>
-          <div style={{ fontSize: '20px' }}>🚨</div>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: '700', fontSize: '11px', textTransform: 'uppercase' }}>
-              Breaking News
-            </div>
-            <p style={{ fontSize: '17px', fontWeight: '600', margin: '2px 0' }}>
-              {breakingArticles.length > 0 ? breakingArticles[0].title : ''}
-            </p>
-            <p style={{ fontSize: '12px', opacity: 0.9, margin: '4px 0 0 0' }}>
-              {timeElapsed}
-            </p>
-          </div>
-          <a href={breakingArticles.length > 0 ? `/articles/${breakingArticles[0].slug}` : '#'} style={{
-            background: 'white',
-            color: '#c0392b',
-            padding: '10px 18px',
-            borderRadius: '6px',
-            fontWeight: '700',
-            fontSize: '13px',
-            whiteSpace: 'nowrap',
-            textDecoration: 'none',
-          }}>
-            Read More →
-          </a>
+          <div style={{ fontSize: '16px' }}>🚨</div>
+          <strong>{breakingArticles.length > 0 ? breakingArticles[0].title : ''}</strong>
+          <span style={{ marginLeft: 'auto', opacity: 0.9, fontSize: '12px' }}>
+            {timeElapsed}
+          </span>
         </div>
       </div>
 
       {/* HEADER */}
       <header style={{
-        background: '#2d2d2d',
-        color: 'white',
-        padding: '20px 32px',
-        marginTop: breakingArticles.length > 0 ? '80px' : '0',
+        background: '#ffffff',
         borderBottom: '1px solid #e0e0e0',
+        padding: '24px 32px',
+        marginTop: breakingArticles.length > 0 ? '50px' : '0',
+        position: 'sticky',
+        top: breakingArticles.length > 0 ? '50px' : '0',
+        zIndex: 40,
       }}>
         <div style={{
-          maxWidth: '1200px',
+          maxWidth: '1400px',
           margin: '0 auto',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           gap: '20px',
         }}>
-          <div style={{ fontSize: '22px', fontWeight: '600' }}>🚨 Hantavirus Updates</div>
+          <div>
+            <h1 style={{ fontSize: '28px', fontWeight: '700', margin: 0, color: '#1a1a1a' }}>
+              🚨 Hantavirus Updates
+            </h1>
+            <p style={{ fontSize: '13px', color: '#999', margin: '4px 0 0 0' }}>
+              Breaking news & professional analysis
+            </p>
+          </div>
           <input
             type="text"
-            placeholder="Search articles..."
+            placeholder="Search guides..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{
-              flex: 1,
-              maxWidth: '400px',
               padding: '10px 14px',
-              border: '1px solid #555',
+              border: '1px solid #ddd',
               borderRadius: '6px',
-              background: '#3a3a3a',
-              color: 'white',
+              background: '#f9f9f9',
+              color: '#333',
               fontFamily: 'inherit',
               fontSize: '14px',
+              width: '250px',
             }}
           />
         </div>
       </header>
 
-      {/* MAIN CONTENT */}
-      <main style={{
-        maxWidth: '1200px',
+      {/* MAIN LAYOUT */}
+      <div style={{
+        maxWidth: '1400px',
         margin: '0 auto',
-        padding: '40px 32px',
+        padding: '32px',
+        display: 'grid',
+        gridTemplateColumns: '1fr 320px',
+        gap: '32px',
       }}>
-        {/* LATEST NEWS SECTION - PROMINENT */}
-        <section style={{ marginBottom: '60px' }}>
-          <div style={{
-            background: '#fff3cd',
-            border: '2px solid #ffc107',
-            borderRadius: '12px',
-            padding: '24px',
-            marginBottom: '32px',
-          }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              marginBottom: '16px',
-            }}>
-              <span style={{ fontSize: '24px' }}>⚡</span>
-              <h2 style={{ fontSize: '24px', fontWeight: '700', color: '#1a1a1a', margin: 0 }}>
-                Latest News & Updates
-              </h2>
-            </div>
-            <p style={{ fontSize: '14px', color: '#666', margin: 0 }}>
-              Our original reporting and curated news from official health sources
+        {/* MAIN CONTENT */}
+        <main>
+          {/* FEATURED ORIGINAL ARTICLES */}
+          <section style={{ marginBottom: '48px' }}>
+            <h2 style={{ fontSize: '20px', fontWeight: '700', marginBottom: '20px', color: '#1a1a1a' }}>
+              Our Research & Guides
+            </h2>
+            <p style={{ fontSize: '14px', color: '#666', marginBottom: '24px' }}>
+              In-depth analysis and comprehensive guides written by our team
             </p>
-          </div>
-
-          {filteredLatest.length === 0 ? (
-            <div style={{
-              background: 'white',
-              borderRadius: '8px',
-              padding: '40px',
-              textAlign: 'center',
-              border: '1px solid #e8e8e8',
-            }}>
-              <p style={{ fontSize: '18px', color: '#999', margin: 0 }}>
-                No articles found matching "{searchTerm}"
-              </p>
-            </div>
-          ) : (
-            <div style={{ display: 'grid', gap: '32px', marginBottom: '40px' }}>
-              {filteredLatest.map((article) => {
+            <div style={{ display: 'grid', gap: '20px' }}>
+              {filteredArticles.map((article) => {
                 const imageUrl = articleImages[article.slug];
                 return (
                   <article key={article.id} style={{
                     background: 'white',
                     borderRadius: '8px',
                     overflow: 'hidden',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
-                    border: '2px solid #ffc107',
+                    border: '1px solid #e0e0e0',
                     display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
+                    gridTemplateColumns: '200px 1fr',
                     gap: 0,
                   }}>
                     <div style={{
                       position: 'relative',
-                      width: '100%',
-                      height: '300px',
+                      width: '200px',
+                      height: '200px',
                       background: '#f0f0f0',
+                      flexShrink: 0,
                     }}>
                       {imageUrl ? (
                         <Image
@@ -225,387 +180,308 @@ export default function Home() {
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          color: '#999',
-                          fontSize: '14px',
+                          color: '#ccc',
+                          fontSize: '12px',
+                          textAlign: 'center',
                         }}>
-                          Featured Image
+                          Image
                         </div>
                       )}
                     </div>
-                    <div style={{ padding: '32px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                       <div>
                         <div style={{
                           display: 'inline-block',
-                          background: '#ffc107',
-                          color: '#1a1a1a',
-                          padding: '6px 12px',
+                          background: '#f5f5f5',
+                          color: '#555',
+                          padding: '4px 10px',
                           borderRadius: '4px',
                           fontSize: '11px',
                           fontWeight: '600',
-                          marginBottom: '16px',
+                          marginBottom: '10px',
                           textTransform: 'uppercase',
-                          letterSpacing: '0.5px',
                         }}>
                           {article.category}
                         </div>
                         <h3 style={{
-                          fontSize: '22px',
+                          fontSize: '16px',
                           fontWeight: '700',
-                          marginBottom: '12px',
-                          lineHeight: '1.4',
+                          margin: '8px 0',
+                          lineHeight: '1.3',
                           color: '#1a1a1a',
                         }}>
                           {article.title}
                         </h3>
-                        <div style={{
-                          display: 'flex',
-                          gap: '16px',
-                          fontSize: '12px',
-                          color: '#999',
-                          marginBottom: '16px',
-                        }}>
-                          <span>By {article.author}</span>
-                          <span>•</span>
-                          <span>May 2026</span>
-                        </div>
                         <p style={{
-                          fontSize: '15px',
-                          lineHeight: '1.7',
-                          color: '#555',
-                          marginBottom: '24px',
+                          fontSize: '13px',
+                          color: '#666',
+                          margin: '8px 0',
+                          lineHeight: '1.5',
                         }}>
                           {article.excerpt}
                         </p>
                       </div>
                       <a href={`/articles/${article.slug}`} style={{
                         display: 'inline-block',
-                        background: '#ffc107',
-                        color: '#1a1a1a',
-                        padding: '12px 24px',
-                        borderRadius: '6px',
+                        color: '#2d2d2d',
                         fontWeight: '600',
-                        fontSize: '14px',
+                        fontSize: '13px',
                         textDecoration: 'none',
-                        width: 'fit-content',
+                        marginTop: '12px',
                       }}>
-                        Read Full Article →
+                        Read full article →
                       </a>
                     </div>
                   </article>
                 );
               })}
             </div>
-          )}
-        </section>
+          </section>
 
-        {/* DIVIDER */}
-        <div style={{
-          borderTop: '2px solid #e0e0e0',
-          margin: '60px 0',
-          paddingTop: '60px',
-        }}>
-          <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '32px', color: '#1a1a1a' }}>
-            Reference & Information
-          </h2>
-          <p style={{ fontSize: '15px', color: '#666', marginBottom: '32px' }}>
-            Comprehensive guides and reference materials about hantavirus
-          </p>
-        </div>
-
-        {/* ORIGINAL ARTICLES SECTION */}
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '40px' }}>
-          <div>
-            {filteredOther.length === 0 ? (
+          {/* LATEST NEWS FROM SOURCES */}
+          <section>
+            <h2 style={{ fontSize: '20px', fontWeight: '700', marginBottom: '20px', color: '#1a1a1a' }}>
+              Latest News From Official Sources
+            </h2>
+            <p style={{ fontSize: '14px', color: '#666', marginBottom: '24px' }}>
+              Curated updates from WHO, CDC, and international media
+            </p>
+            <div style={{ display: 'grid', gap: '16px' }}>
+              {/* SAMPLE NEWS ITEMS - Replace with dynamic data from Make.com */}
               <div style={{
                 background: 'white',
-                borderRadius: '8px',
-                padding: '40px',
-                textAlign: 'center',
-                border: '1px solid #e8e8e8',
+                border: '1px solid #e0e0e0',
+                borderRadius: '6px',
+                padding: '20px',
               }}>
-                <p style={{ fontSize: '18px', color: '#999', margin: 0 }}>
-                  No articles found matching "{searchTerm}"
-                </p>
-              </div>
-            ) : (
-              filteredOther.map((article) => {
-                const imageUrl = articleImages[article.slug];
-                return (
-                  <article key={article.id} style={{
-                    background: 'white',
-                    borderRadius: '8px',
-                    overflow: 'hidden',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-                    marginBottom: '32px',
-                    border: '1px solid #e8e8e8',
-                  }}>
-                    <div style={{
-                      position: 'relative',
-                      width: '100%',
-                      height: '320px',
-                      background: '#f0f0f0',
-                    }}>
-                      {imageUrl ? (
-                        <Image
-                          src={imageUrl}
-                          alt={article.title}
-                          fill
-                          style={{ objectFit: 'cover' }}
-                        />
-                      ) : (
-                        <div style={{
-                          width: '100%',
-                          height: '100%',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: '#999',
-                          fontSize: '14px',
-                        }}>
-                          Featured Image
-                        </div>
-                      )}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', gap: '16px' }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: '12px', color: '#999', marginBottom: '6px' }}>
+                      <strong>NDTV Health</strong> • May 9, 2026
                     </div>
-                    <div style={{ padding: '32px' }}>
-                      <div style={{
-                        display: 'inline-block',
-                        background: '#f5f5f5',
-                        color: '#555',
-                        padding: '6px 12px',
-                        borderRadius: '4px',
-                        fontSize: '11px',
-                        fontWeight: '600',
-                        marginBottom: '16px',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.5px',
-                      }}>
-                        {article.category}
-                      </div>
-                      <h3 style={{
-                        fontSize: '22px',
-                        fontWeight: '700',
-                        marginBottom: '12px',
-                        lineHeight: '1.4',
-                        color: '#1a1a1a',
-                      }}>
-                        {article.title}
-                      </h3>
-                      <div style={{
-                        display: 'flex',
-                        gap: '16px',
-                        fontSize: '12px',
-                        color: '#999',
-                        marginBottom: '16px',
-                        paddingBottom: '16px',
-                        borderBottom: '1px solid #e8e8e8',
-                      }}>
-                        <span>By {article.author}</span>
-                        <span>•</span>
-                        <span>May 2026</span>
-                      </div>
-                      <p style={{
-                        fontSize: '15px',
-                        lineHeight: '1.7',
-                        color: '#555',
-                        marginBottom: '24px',
-                      }}>
-                        {article.excerpt}
-                      </p>
-                      <a href={`/articles/${article.slug}`} style={{
-                        display: 'inline-block',
-                        background: '#2d2d2d',
-                        color: 'white',
-                        padding: '12px 24px',
-                        borderRadius: '6px',
-                        fontWeight: '600',
-                        fontSize: '14px',
-                        textDecoration: 'none',
-                      }}>
-                        Read Article →
-                      </a>
-                    </div>
-                  </article>
-                );
-              })
-            )}
-          </div>
-
-          {/* SIDEBAR */}
-          <div>
-            {/* DISCLAIMER BOX */}
-            <div style={{
-              background: '#fff9e6',
-              borderRadius: '8px',
-              padding: '20px',
-              marginBottom: '28px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-              border: '1px solid #ffe8cc',
-            }}>
-              <div style={{ fontSize: '18px', marginBottom: '8px' }}>⚠️</div>
-              <h3 style={{ fontSize: '14px', fontWeight: '700', marginBottom: '10px', color: '#1a1a1a' }}>
-                Important Disclaimer
-              </h3>
-              <p style={{ fontSize: '12px', color: '#666', lineHeight: '1.6', margin: 0 }}>
-                This website provides <strong>informational purposes only</strong> and is not a substitute for professional medical advice. We monitor official health sources (WHO, CDC, national health authorities) and curate updates for public awareness. Always consult healthcare professionals for medical guidance or concerns.
-              </p>
-            </div>
-
-            {/* STATS */}
-            <div style={{
-              background: 'white',
-              borderRadius: '8px',
-              padding: '28px',
-              marginBottom: '28px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-              border: '1px solid #e8e8e8',
-            }}>
-              <h3 style={{ fontSize: '16px', fontWeight: '700', marginBottom: '20px', color: '#1a1a1a' }}>
-                Outbreak Status
-              </h3>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                <div style={{
-                  textAlign: 'center',
-                  padding: '16px',
-                  background: '#f9f9f9',
-                  borderRadius: '6px',
-                  border: '1px solid #e8e8e8',
-                }}>
-                  <div style={{ fontSize: '24px', fontWeight: '700', color: '#c0392b' }}>
-                    {outbreakStats.cases}
+                    <h3 style={{ fontSize: '15px', fontWeight: '700', margin: '6px 0', color: '#1a1a1a' }}>
+                      MV Hondius Cruise Ship: Passengers to Evacuate at Canary Islands
+                    </h3>
+                    <p style={{ fontSize: '13px', color: '#666', margin: '8px 0' }}>
+                      WHO implements comprehensive screening and contact tracing protocols as cruise ship prepares for evacuation operations.
+                    </p>
                   </div>
-                  <div style={{ fontSize: '12px', color: '#999', marginTop: '6px' }}>Cases</div>
-                </div>
-                <div style={{
-                  textAlign: 'center',
-                  padding: '16px',
-                  background: '#f9f9f9',
-                  borderRadius: '6px',
-                  border: '1px solid #e8e8e8',
-                }}>
-                  <div style={{ fontSize: '24px', fontWeight: '700', color: '#c0392b' }}>
-                    {outbreakStats.deaths}
-                  </div>
-                  <div style={{ fontSize: '12px', color: '#999', marginTop: '6px' }}>Deaths</div>
-                </div>
-                <div style={{
-                  textAlign: 'center',
-                  padding: '16px',
-                  background: '#f9f9f9',
-                  borderRadius: '6px',
-                  border: '1px solid #e8e8e8',
-                }}>
-                  <div style={{ fontSize: '24px', fontWeight: '700', color: '#2d2d2d' }}>
-                    {outbreakStats.countries}
-                  </div>
-                  <div style={{ fontSize: '12px', color: '#999', marginTop: '6px' }}>Countries</div>
-                </div>
-                <div style={{
-                  textAlign: 'center',
-                  padding: '16px',
-                  background: '#f9f9f9',
-                  borderRadius: '6px',
-                  border: '1px solid #e8e8e8',
-                }}>
-                  <div style={{ fontSize: '24px', fontWeight: '700', color: '#2d2d2d' }}>
-                    {outbreakStats.mortality}
-                  </div>
-                  <div style={{ fontSize: '12px', color: '#999', marginTop: '6px' }}>Mortality</div>
+                  <a href="https://www.ndtv.com/health/hantavirus-cruise-ship-passengers-to-evacuate-at-canary-islands-soon-who-shares-screening-contact-tracing-plans-11470796" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                     style={{
+                       color: '#2d2d2d',
+                       fontWeight: '600',
+                       fontSize: '12px',
+                       textDecoration: 'none',
+                       whiteSpace: 'nowrap',
+                       padding: '8px 14px',
+                       background: '#f5f5f5',
+                       borderRadius: '4px',
+                     }}>
+                    Read source →
+                  </a>
                 </div>
               </div>
-              <p style={{ fontSize: '11px', color: '#999', marginTop: '12px' }}>
-                Last updated: {outbreakStats.lastUpdated}
-              </p>
-            </div>
 
-            {/* FEATURED */}
-            <div style={{
-              background: 'white',
-              borderRadius: '8px',
-              padding: '28px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-              border: '1px solid #e8e8e8',
-            }}>
-              <h3 style={{ fontSize: '16px', fontWeight: '700', marginBottom: '16px', color: '#1a1a1a' }}>
-                Featured Articles
-              </h3>
-              {articles.slice(0, 5).map((article) => (
-                <a key={article.id} href={`/articles/${article.slug}`} style={{
-                  display: 'block',
-                  padding: '10px 12px',
-                  background: '#f9f9f9',
-                  borderRadius: '6px',
-                  marginBottom: '8px',
-                  color: '#555',
-                  fontSize: '12px',
-                  fontWeight: '500',
-                  textDecoration: 'none',
-                  border: '1px solid #e8e8e8',
-                }}>
-                  {article.title}
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      </main>
+              <div style={{
+                background: 'white',
+                border: '1px solid #e0e0e0',
+                borderRadius: '6px',
+                padding: '20px',
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', gap: '16px' }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: '12px', color: '#999', marginBottom: '6px' }}>
+                      <strong>Deutsche Welle</strong> • May 7, 2026
+                    </div>
+                    <h3 style={{ fontSize: '15px', fontWeight: '700', margin: '6px 0', color: '#1a1a1a' }}>
+                      Hantavirus: American CDC Says Risk to Public 'Very Low'
+                    </h3>
+                    <p style={{ fontSize: '13px', color: '#666', margin: '8px 0' }}>
+                      Live update on CDC monitoring, medical evacuations, and public health risk assessment around the MV Hondius outbreak.
+                    </p>
+                  </div>
+                  <a href="https://www.dw.com/en/hantavirus-american-cdc-says-risk-to-public-very-low/live-77063670" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                     style={{
+                       color: '#2d2d2d',
+                       fontWeight: '600',
+                       fontSize: '12px',
+                       textDecoration: 'none',
+                       whiteSpace: 'nowrap',
+                       padding: '8px 14px',
+                       background: '#f5f5f5',
+                       borderRadius: '4px',
+                     }}>
+                    Read source →
+                  </a>
+                </div>
+              </div>
 
-      {/* FOOTER */}
-      <footer style={{
-        background: '#f9f9f9',
-        color: '#666',
-        padding: '40px 32px',
-        marginTop: '60px',
-        borderTop: '1px solid #e0e0e0',
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+              <div style={{
+                background: 'white',
+                border: '1px solid #e0e0e0',
+                borderRadius: '6px',
+                padding: '20px',
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', gap: '16px' }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: '12px', color: '#999', marginBottom: '6px' }}>
+                      <strong>BBC News</strong> • May 7, 2026
+                    </div>
+                    <h3 style={{ fontSize: '15px', fontWeight: '700', margin: '6px 0', color: '#1a1a1a' }}>
+                      Hantavirus-Hit Cruise Ship on Way to Canary Islands After Three Evacuated
+                    </h3>
+                    <p style={{ fontSize: '13px', color: '#666', margin: '8px 0' }}>
+                      Update on the cruise ship's route and the medical evacuation of three confirmed cases to Spanish ports.
+                    </p>
+                  </div>
+                  <a href="https://www.bbc.com/news/articles/c5y093d5n9ko" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                     style={{
+                       color: '#2d2d2d',
+                       fontWeight: '600',
+                       fontSize: '12px',
+                       textDecoration: 'none',
+                       whiteSpace: 'nowrap',
+                       padding: '8px 14px',
+                       background: '#f5f5f5',
+                       borderRadius: '4px',
+                     }}>
+                    Read source →
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        {/* SIDEBAR - ALWAYS VISIBLE */}
+        <aside style={{ position: 'sticky', top: breakingArticles.length > 0 ? '146px' : '96px', height: 'fit-content' }}>
+          {/* DISCLAIMER */}
           <div style={{
-            marginBottom: '32px',
-            paddingBottom: '32px',
-            borderBottom: '1px solid #e0e0e0',
+            background: '#fff9e6',
+            border: '1px solid #ffe8cc',
+            borderRadius: '6px',
+            padding: '16px',
+            marginBottom: '20px',
+          }}>
+            <div style={{ fontSize: '18px', marginBottom: '8px' }}>⚠️</div>
+            <h3 style={{ fontSize: '13px', fontWeight: '700', marginBottom: '8px', color: '#1a1a1a' }}>
+              Disclaimer
+            </h3>
+            <p style={{ fontSize: '12px', color: '#666', lineHeight: '1.5', margin: 0 }}>
+              Not medical advice. For urgent concerns, follow official health authority guidance.
+            </p>
+          </div>
+
+          {/* STATS */}
+          <div style={{
+            background: 'white',
+            border: '1px solid #e0e0e0',
+            borderRadius: '6px',
+            padding: '20px',
+            marginBottom: '20px',
+          }}>
+            <h3 style={{ fontSize: '14px', fontWeight: '700', marginBottom: '16px', color: '#1a1a1a' }}>
+              Outbreak Status
+            </h3>
+            <div style={{ display: 'grid', gap: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '12px', borderBottom: '1px solid #e0e0e0' }}>
+                <span style={{ fontSize: '12px', color: '#666' }}>Cases</span>
+                <strong style={{ fontSize: '18px', color: '#c0392b' }}>{outbreakStats.cases}</strong>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '12px', borderBottom: '1px solid #e0e0e0' }}>
+                <span style={{ fontSize: '12px', color: '#666' }}>Deaths</span>
+                <strong style={{ fontSize: '18px', color: '#c0392b' }}>{outbreakStats.deaths}</strong>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '12px', borderBottom: '1px solid #e0e0e0' }}>
+                <span style={{ fontSize: '12px', color: '#666' }}>Countries</span>
+                <strong style={{ fontSize: '18px', color: '#2d2d2d' }}>{outbreakStats.countries}</strong>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '12px', color: '#666' }}>Mortality Rate</span>
+                <strong style={{ fontSize: '18px', color: '#2d2d2d' }}>{outbreakStats.mortality}</strong>
+              </div>
+            </div>
+            <p style={{ fontSize: '11px', color: '#999', marginTop: '12px', marginBottom: 0 }}>
+              Last updated: {outbreakStats.lastUpdated}
+            </p>
+          </div>
+
+          {/* QUICK LINKS */}
+          <div style={{
+            background: 'white',
+            border: '1px solid #e0e0e0',
+            borderRadius: '6px',
+            padding: '20px',
           }}>
             <h3 style={{ fontSize: '14px', fontWeight: '700', marginBottom: '12px', color: '#1a1a1a' }}>
-              About Hantavirus Updates
+              Essential Reading
             </h3>
-            <p style={{ fontSize: '13px', lineHeight: '1.6', margin: 0, color: '#666' }}>
-              Hantavirus Updates is an independent news and information resource dedicated to tracking and reporting on the 2026 Hantavirus outbreak. We aggregate information from official health organizations including the World Health Organization (WHO), Centers for Disease Control and Prevention (CDC), and national health authorities. This website is for informational purposes only and does not provide medical advice. Always consult qualified healthcare professionals for medical guidance.
-            </p>
-          </div>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '32px',
-            marginBottom: '32px',
-          }}>
-            <div>
-              <h4 style={{ fontSize: '12px', fontWeight: '700', marginBottom: '8px', color: '#1a1a1a', textTransform: 'uppercase' }}>
-                Official Sources
-              </h4>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                <li style={{ marginBottom: '6px' }}>
-                  <a href='https://www.who.int' target='_blank' rel='noopener noreferrer' style={{ color: '#666', fontSize: '12px', textDecoration: 'none' }}>WHO</a>
-                </li>
-                <li style={{ marginBottom: '6px' }}>
-                  <a href='https://www.cdc.gov' target='_blank' rel='noopener noreferrer' style={{ color: '#666', fontSize: '12px', textDecoration: 'none' }}>CDC</a>
-                </li>
-              </ul>
+            <div style={{ display: 'grid', gap: '8px' }}>
+              <a href="/articles/what-is-hantavirus" style={{
+                display: 'block',
+                fontSize: '12px',
+                color: '#2d2d2d',
+                textDecoration: 'none',
+                fontWeight: '500',
+              }}>
+                → What is Hantavirus?
+              </a>
+              <a href="/articles/hantavirus-symptoms-warning-signs" style={{
+                display: 'block',
+                fontSize: '12px',
+                color: '#2d2d2d',
+                textDecoration: 'none',
+                fontWeight: '500',
+              }}>
+                → Symptoms & Warning Signs
+              </a>
+              <a href="/articles/hantavirus-prevention-guide" style={{
+                display: 'block',
+                fontSize: '12px',
+                color: '#2d2d2d',
+                textDecoration: 'none',
+                fontWeight: '500',
+              }}>
+                → Prevention Guide
+              </a>
             </div>
           </div>
 
+          {/* SOURCES */}
           <div style={{
-            textAlign: 'center',
-            paddingTop: '24px',
-            borderTop: '1px solid #e0e0e0',
+            background: '#f9f9f9',
+            borderRadius: '6px',
+            padding: '16px',
+            marginTop: '20px',
           }}>
-            <p style={{ marginBottom: '8px', fontSize: '13px' }}>
-              © 2026 Hantavirus Updates. All rights reserved.
-            </p>
-            <p style={{ fontSize: '11px', color: '#999', margin: 0 }}>
-              Breaking news about the 2026 Hantavirus outbreak | Not a substitute for professional medical advice
-            </p>
+            <h4 style={{ fontSize: '12px', fontWeight: '700', marginBottom: '10px', color: '#1a1a1a', textTransform: 'uppercase' }}>
+              Official Sources
+            </h4>
+            <div style={{ display: 'grid', gap: '8px' }}>
+              <a href="https://www.who.int" target="_blank" rel="noopener noreferrer" style={{
+                fontSize: '12px',
+                color: '#2d2d2d',
+                textDecoration: 'none',
+              }}>
+                World Health Organization
+              </a>
+              <a href="https://www.cdc.gov" target="_blank" rel="noopener noreferrer" style={{
+                fontSize: '12px',
+                color: '#2d2d2d',
+                textDecoration: 'none',
+              }}>
+                CDC (US)
+              </a>
+            </div>
           </div>
-        </div>
-      </footer>
+        </aside>
+      </div>
     </div>
   );
 }
