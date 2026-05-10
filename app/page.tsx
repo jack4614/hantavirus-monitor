@@ -149,20 +149,23 @@ export default function Home() {
     <div style={{ minHeight: '100vh', background: '#ffffff' }}>
       {/* BREAKING NEWS BANNER */}
       {hasBreaking && (
-        <a href={breakingArticles.length > 0 ? `/articles/${breakingArticles[0].slug}` : breakingNews.length > 0 ? breakingNews[0].sourceUrl : '#'} style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 50,
-          background: '#c0392b',
-          color: 'white',
-          padding: '12px 32px',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-          textDecoration: 'none',
-          display: 'block',
-          target: breakingNews.length > 0 ? '_blank' : undefined,
-        }}>
+        <a 
+          href={breakingArticles.length > 0 ? `/articles/${breakingArticles[0].slug}` : breakingNews.length > 0 ? breakingNews[0].sourceUrl : '#'} 
+          target={breakingNews.length > 0 ? '_blank' : undefined}
+          rel={breakingNews.length > 0 ? 'noopener noreferrer' : undefined}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 50,
+            background: '#c0392b',
+            color: 'white',
+            padding: '12px 32px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+            textDecoration: 'none',
+            display: 'block',
+          }}>
           <div style={{
             maxWidth: '1400px',
             margin: '0 auto',
