@@ -14,7 +14,6 @@ const articleImages: { [key: string]: string } = {
   'hantavirus-vs-covid-19': '/images/vs-covid-19.jpg',
 };
 
-// Types
 type OriginalArticle = {
   feedId: string;
   type: 'article';
@@ -77,7 +76,7 @@ const newsItems: NewsItem[] = [
     sourceUrl: 'https://www.bbc.com/news/articles/c5y093d5n9ko',
     date: new Date('2026-05-07T12:15:00'),
     headline: 'Hantavirus-Hit Cruise Ship on Way to Canary Islands After Three Evacuated',
-    summary: 'Update on the cruise ship route change and medical evacuation of confirmed cases to Spanish ports.',
+    summary: 'Update on the cruise ship route change and medical evacuation of confirmed cases.',
     isBreaking: false,
     imageUrl: 'https://images.unsplash.com/photo-1557804506-669714d2e9d8?w=800&h=600&fit=crop',
   },
@@ -131,19 +130,10 @@ export default function Home() {
   }, []);
 
   const breakingItems = unifiedFeed.filter(item => item.isBreaking);
-  const hasBreaking = breakingItems.length > 0;
   const breakingItem = breakingItems.length > 0 ? breakingItems[0] : null;
-  const breakingTitle = breakingItem?.type === 'article' ? breakingItem.title : breakingItem?.type === 'news' ? breakingItem.headline : '';
-  const breakingLink = breakingItem?.type === 'article' ? `/articles/${breakingItem.slug}` : breakingItem?.type === 'news' ? breakingItem.sourceUrl : '#';
-  const isBreakingExternal = breakingItem?.type === 'news';
-  const breakingImage = breakingItem?.type === 'article' 
-    ? articleImages[breakingItem.slug] 
-    : breakingItem?.type === 'news' 
-    ? breakingItem.imageUrl 
-    : undefined;
 
   const filteredFeed = searchTerm.trim() === ''
-    ? unifiedFeed
+    ? unifiedFeed.filter(item => !item.isBreaking)
     : unifiedFeed.filter(item => {
         const searchLower = searchTerm.toLowerCase();
         const itemTitle = item.type === 'article' ? item.title : item.headline;
@@ -151,416 +141,491 @@ export default function Home() {
         return itemTitle.toLowerCase().includes(searchLower) || itemBody.toLowerCase().includes(searchLower);
       });
 
-  const nonBreakingFeed = filteredFeed.filter(item => !item.isBreaking);
+  // Group articles by category
+  const groupByCategory = (items: FeedItem[]) => {
+    const groups: { [key: string]: FeedItem[] } = {};
+    items.forEach(item => {
+      const category = item.type === 'article' ? item.category : item.source;
+      if (!groups[category]) groups[category] = [];
+      groups[category].push(item);
+    });
+    return groups;
+  };
+
+  const categorized = groupByCategory(filteredFeed);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f5f5f5', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
-      {/* HEADER - MOBILE FIRST */}
-      <header style={{
-        background: '#ffffff',
+    <div style={{ minHeight: '100vh', background: '#ffffff', fontFamily: 'Georgia, "Times New Roman", serif', color: '#1a1a1a' }}>
+      {/* TOP NAV */}
+      <div style={{
         borderBottom: '1px solid #e0e0e0',
         padding: '12px 16px',
-        position: 'sticky',
-        top: 0,
-        zIndex: 40,
+        fontSize: '12px',
+        color: '#666',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
       }}>
-        <div style={{
-          maxWidth: '1400px',
-          margin: '0 auto',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '12px',
-        }}>
-          {/* Logo row */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '12px',
-          }}>
-            <h1 style={{ fontSize: '20px', fontWeight: '700', margin: 0, color: '#1a1a1a' }}>
-              🚨 Hantavirus Updates
-            </h1>
-            <span style={{ fontSize: '11px', color: '#999', whiteSpace: 'nowrap' }}>
-              {timeElapsed}
-            </span>
-          </div>
+        <span>{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
+        <span>{timeElapsed}</span>
+      </div>
 
-          {/* Search row */}
+      {/* MASTHEAD */}
+      <div style={{
+        textAlign: 'center',
+        padding: '40px 16px 20px',
+        borderBottom: '2px solid #000',
+      }}>
+        <p style={{ fontSize: '12px', letterSpacing: '4px', margin: '0 0 10px 0', color: '#666' }}>
+          HANTAVIRUS UPDATES
+        </p>
+        <h1 style={{
+          fontSize: '52px',
+          fontWeight: '900',
+          margin: '0 0 10px 0',
+          letterSpacing: '2px',
+        }}>
+          OUTBREAK
+        </h1>
+        <p style={{ fontSize: '13px', color: '#666', margin: 0 }}>
+          Breaking news & comprehensive analysis
+        </p>
+      </div>
+
+      {/* NAV MENU */}
+      <nav style={{
+        display: 'flex',
+        gap: '0',
+        borderBottom: '1px solid #000',
+        overflow: 'auto',
+        padding: '0 16px',
+      }}>
+        <a href="#" style={{
+          padding: '12px 16px',
+          fontSize: '12px',
+          fontWeight: '600',
+          textDecoration: 'none',
+          color: '#000',
+          borderBottom: '3px solid #000',
+          textTransform: 'uppercase',
+          letterSpacing: '1px',
+        }}>
+          Home
+        </a>
+        <a href="#" style={{
+          padding: '12px 16px',
+          fontSize: '12px',
+          fontWeight: '500',
+          textDecoration: 'none',
+          color: '#666',
+          borderBottom: '3px solid transparent',
+          textTransform: 'uppercase',
+          letterSpacing: '1px',
+        }}>
+          Health
+        </a>
+        <a href="#" style={{
+          padding: '12px 16px',
+          fontSize: '12px',
+          fontWeight: '500',
+          textDecoration: 'none',
+          color: '#666',
+          borderBottom: '3px solid transparent',
+          textTransform: 'uppercase',
+          letterSpacing: '1px',
+        }}>
+          Prevention
+        </a>
+        <a href="#" style={{
+          padding: '12px 16px',
+          fontSize: '12px',
+          fontWeight: '500',
+          textDecoration: 'none',
+          color: '#666',
+          borderBottom: '3px solid transparent',
+          textTransform: 'uppercase',
+          letterSpacing: '1px',
+        }}>
+          Travel
+        </a>
+      </nav>
+
+      {/* FEATURED ARTICLES GRID */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr',
+        gap: '20px',
+        padding: '30px 16px',
+        borderBottom: '2px solid #000',
+      }}
+      className="featured-grid"
+      >
+        {['HEALTH', 'PREVENTION', 'TRAVEL'].map((cat, idx) => {
+          const catItems = filteredFeed.filter(item => 
+            (item.type === 'article' ? item.category : item.source).toUpperCase() === cat.toUpperCase()
+          ).slice(0, 1);
+
+          return catItems.length > 0 && (
+            <div key={cat} style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr',
+              gap: '12px',
+              paddingBottom: idx < 2 ? '20px' : '0',
+              borderBottom: idx < 2 ? '1px solid #e0e0e0' : 'none',
+            }}>
+              <h3 style={{
+                fontSize: '11px',
+                fontWeight: '700',
+                textTransform: 'uppercase',
+                letterSpacing: '2px',
+                margin: 0,
+                color: '#666',
+              }}>
+                {cat}
+              </h3>
+              <a href={catItems[0].type === 'article' ? `/articles/${catItems[0].slug}` : catItems[0].sourceUrl} target={catItems[0].type === 'news' ? '_blank' : undefined} rel={catItems[0].type === 'news' ? 'noopener noreferrer' : undefined} style={{
+                textDecoration: 'none',
+                color: '#000',
+              }}>
+                <h2 style={{
+                  fontSize: '18px',
+                  fontWeight: '700',
+                  margin: 0,
+                  lineHeight: '1.2',
+                }}>
+                  {catItems[0].type === 'article' ? catItems[0].title : catItems[0].headline}
+                </h2>
+              </a>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* MAIN LAYOUT - BREAKING NEWS + DAILY FEED */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr',
+        gap: '30px',
+        padding: '30px 16px',
+        maxWidth: '1200px',
+        margin: '0 auto',
+      }}
+      className="main-grid"
+      >
+        {/* LEFT: BREAKING NEWS */}
+        {breakingItem && (
+          <section style={{ borderBottom: '2px solid #000', paddingBottom: '30px' }}>
+            <h2 style={{
+              fontSize: '22px',
+              fontWeight: '700',
+              margin: '0 0 20px 0',
+              textTransform: 'uppercase',
+              letterSpacing: '2px',
+            }}>
+              Breaking News
+            </h2>
+
+            <a
+              href={breakingItem.type === 'article' ? `/articles/${breakingItem.slug}` : breakingItem.sourceUrl}
+              target={breakingItem.type === 'news' ? '_blank' : undefined}
+              rel={breakingItem.type === 'news' ? 'noopener noreferrer' : undefined}
+              style={{
+                textDecoration: 'none',
+                color: '#000',
+                display: 'grid',
+                gridTemplateColumns: '1fr',
+                gap: '16px',
+              }}
+            >
+              {/* Image */}
+              {(breakingItem.type === 'article' 
+                ? articleImages[breakingItem.slug] 
+                : breakingItem.imageUrl) && (
+                <div style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '280px',
+                }}>
+                  <Image
+                    src={breakingItem.type === 'article' 
+                      ? articleImages[breakingItem.slug] 
+                      : breakingItem.imageUrl}
+                    alt={breakingItem.type === 'article' ? breakingItem.title : breakingItem.headline}
+                    fill
+                    unoptimized
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+              )}
+
+              {/* Content */}
+              <div>
+                <h3 style={{
+                  fontSize: '28px',
+                  fontWeight: '700',
+                  margin: '0 0 12px 0',
+                  lineHeight: '1.2',
+                }}>
+                  {breakingItem.type === 'article' ? breakingItem.title : breakingItem.headline}
+                </h3>
+                <p style={{
+                  fontSize: '15px',
+                  margin: '0 0 12px 0',
+                  lineHeight: '1.6',
+                  color: '#333',
+                }}>
+                  {breakingItem.type === 'article' ? breakingItem.excerpt : breakingItem.summary}
+                </p>
+                <span style={{
+                  fontSize: '12px',
+                  fontWeight: '700',
+                  textTransform: 'uppercase',
+                  letterSpacing: '1px',
+                  color: '#c0392b',
+                }}>
+                  {breakingItem.type === 'article' ? 'Read article →' : `Read at ${breakingItem.source} →`}
+                </span>
+              </div>
+            </a>
+          </section>
+        )}
+
+        {/* RIGHT: DAILY FEED */}
+        <section>
+          <h2 style={{
+            fontSize: '22px',
+            fontWeight: '700',
+            margin: '0 0 20px 0',
+            textTransform: 'uppercase',
+            letterSpacing: '2px',
+          }}>
+            Daily Feed
+          </h2>
+
+          {/* Search */}
           <input
             type="text"
             placeholder="Search news..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{
-              padding: '8px 12px',
-              border: '1px solid #ddd',
-              borderRadius: '6px',
-              background: '#f9f9f9',
-              color: '#333',
-              fontFamily: 'inherit',
-              fontSize: '14px',
               width: '100%',
+              padding: '10px 12px',
+              border: '1px solid #e0e0e0',
+              fontSize: '13px',
+              marginBottom: '20px',
+              fontFamily: 'inherit',
             }}
           />
-        </div>
-      </header>
 
-      {/* MAIN CONTENT */}
-      <div style={{
-        maxWidth: '1400px',
-        margin: '0 auto',
-        padding: '16px',
-      }}>
-        {/* BREAKING NEWS HERO */}
-        {hasBreaking && (
-          <a
-            href={breakingLink}
-            target={isBreakingExternal ? '_blank' : undefined}
-            rel={isBreakingExternal ? 'noopener noreferrer' : undefined}
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr',
-              gap: 0,
-              marginBottom: '24px',
-              borderRadius: '8px',
-              overflow: 'hidden',
-              textDecoration: 'none',
-              background: '#fff',
-              border: '2px solid #c0392b',
-              cursor: 'pointer',
-            }}
-          >
-            {/* Image */}
-            {breakingImage && (
-              <div style={{
-                position: 'relative',
-                width: '100%',
-                height: '240px',
-              }}>
-                <Image
-                  src={breakingImage}
-                  alt={breakingTitle}
-                  fill
-                  unoptimized
-                  style={{ objectFit: 'cover' }}
-                />
-              </div>
-            )}
-
-            {/* Content */}
-            <div style={{ padding: '20px', background: '#fff' }}>
-              <div style={{
-                display: 'flex',
-                gap: '8px',
-                alignItems: 'center',
-                marginBottom: '10px',
-              }}>
-                <span style={{
-                  background: '#c0392b',
-                  color: 'white',
-                  padding: '4px 10px',
-                  borderRadius: '4px',
+          {/* Categories */}
+          <div style={{ display: 'grid', gap: '30px' }}>
+            {Object.entries(categorized).map(([category, items]) => (
+              <div key={category}>
+                <h3 style={{
                   fontSize: '11px',
                   fontWeight: '700',
                   textTransform: 'uppercase',
+                  letterSpacing: '2px',
+                  margin: '0 0 16px 0',
+                  color: '#666',
                 }}>
-                  ⚡ Breaking News
-                </span>
+                  {category}
+                </h3>
+
+                <div style={{ display: 'grid', gap: '16px' }}>
+                  {items.slice(0, 3).map(item => {
+                    const title = item.type === 'article' ? item.title : item.headline;
+                    const summary = item.type === 'article' ? item.excerpt : item.summary;
+                    const link = item.type === 'article' ? `/articles/${item.slug}` : item.sourceUrl;
+                    const isExternal = item.type === 'news';
+
+                    return (
+                      <a
+                        key={item.feedId}
+                        href={link}
+                        target={isExternal ? '_blank' : undefined}
+                        rel={isExternal ? 'noopener noreferrer' : undefined}
+                        style={{
+                          textDecoration: 'none',
+                          color: '#000',
+                          paddingBottom: '16px',
+                          borderBottom: '1px solid #e0e0e0',
+                        }}
+                      >
+                        <h4 style={{
+                          fontSize: '14px',
+                          fontWeight: '700',
+                          margin: '0 0 6px 0',
+                          lineHeight: '1.3',
+                        }}>
+                          {title}
+                        </h4>
+                        <p style={{
+                          fontSize: '12px',
+                          color: '#666',
+                          margin: '0',
+                          lineHeight: '1.5',
+                        }}>
+                          {summary.length > 100 ? summary.substring(0, 100) + '...' : summary}
+                        </p>
+                      </a>
+                    );
+                  })}
+                </div>
               </div>
-              <h2 style={{
-                fontSize: '18px',
-                fontWeight: '700',
-                margin: '0 0 8px 0',
-                lineHeight: '1.3',
-                color: '#1a1a1a',
-              }}>
-                {breakingTitle}
-              </h2>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      {/* SIDEBAR - BOTTOM ON MOBILE */}
+      <div style={{
+        borderTop: '2px solid #000',
+        padding: '30px 16px',
+        maxWidth: '1200px',
+        margin: '0 auto',
+        display: 'grid',
+        gridTemplateColumns: '1fr',
+        gap: '30px',
+      }}
+      className="sidebar-grid"
+      >
+        {/* Outbreak Status */}
+        <div>
+          <h3 style={{
+            fontSize: '11px',
+            fontWeight: '700',
+            textTransform: 'uppercase',
+            letterSpacing: '2px',
+            margin: '0 0 16px 0',
+          }}>
+            Current Status
+          </h3>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div>
+              <p style={{ fontSize: '11px', color: '#666', margin: '0 0 4px 0', textTransform: 'uppercase' }}>Cases</p>
+              <p style={{ fontSize: '20px', fontWeight: '700', margin: 0, color: '#c0392b' }}>{outbreakStats.cases}</p>
             </div>
-          </a>
-        )}
-
-        {/* GRID LAYOUT - MOBILE FIRST */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr',
-          gap: '16px',
-          marginBottom: '24px',
-        }}
-        className="feed-grid"
-        >
-          {nonBreakingFeed.length === 0 ? (
-            <div style={{
-              background: 'white',
-              borderRadius: '8px',
-              padding: '40px 20px',
-              textAlign: 'center',
-              gridColumn: '1 / -1',
-            }}>
-              <p style={{ fontSize: '14px', color: '#999', margin: 0 }}>
-                No results for "{searchTerm}"
-              </p>
+            <div>
+              <p style={{ fontSize: '11px', color: '#666', margin: '0 0 4px 0', textTransform: 'uppercase' }}>Deaths</p>
+              <p style={{ fontSize: '20px', fontWeight: '700', margin: 0, color: '#c0392b' }}>{outbreakStats.deaths}</p>
             </div>
-          ) : (
-            nonBreakingFeed.map((item) => {
-              const isArticle = item.type === 'article';
-              const imageUrl = isArticle ? articleImages[item.slug] : item.imageUrl;
-              const title = isArticle ? item.title : item.headline;
-              const body = isArticle ? item.excerpt : item.summary;
-              const label = isArticle ? item.category : item.source;
-              const link = isArticle ? `/articles/${item.slug}` : item.sourceUrl;
-              const isExternal = !isArticle;
-
-              return (
-                <a
-                  key={item.feedId}
-                  href={link}
-                  target={isExternal ? '_blank' : undefined}
-                  rel={isExternal ? 'noopener noreferrer' : undefined}
-                  style={{
-                    background: 'white',
-                    borderRadius: '8px',
-                    overflow: 'hidden',
-                    textDecoration: 'none',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-                    transition: 'box-shadow 0.2s',
-                    cursor: 'pointer',
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 12px rgba(0,0,0,0.12)';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 3px rgba(0,0,0,0.08)';
-                  }}
-                >
-                  {/* Image */}
-                  {imageUrl && (
-                    <div style={{
-                      position: 'relative',
-                      width: '100%',
-                      height: '180px',
-                      background: '#f0f0f0',
-                    }}>
-                      <Image
-                        src={imageUrl}
-                        alt={title}
-                        fill
-                        unoptimized
-                        style={{ objectFit: 'cover' }}
-                      />
-                    </div>
-                  )}
-
-                  {/* Content */}
-                  <div style={{ padding: '14px', display: 'flex', flexDirection: 'column', gap: '8px', flex: 1 }}>
-                    {/* Label */}
-                    <div style={{
-                      display: 'flex',
-                      gap: '6px',
-                      alignItems: 'center',
-                    }}>
-                      <span style={{
-                        background: isArticle ? '#f0f0f0' : '#e3f2fd',
-                        color: isArticle ? '#555' : '#1976d2',
-                        padding: '2px 6px',
-                        borderRadius: '3px',
-                        fontSize: '10px',
-                        fontWeight: '600',
-                        textTransform: 'uppercase',
-                      }}>
-                        {label}
-                      </span>
-                      <span style={{ fontSize: '10px', color: '#999' }}>
-                        {new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                      </span>
-                    </div>
-
-                    {/* Title */}
-                    <h3 style={{
-                      fontSize: '14px',
-                      fontWeight: '600',
-                      margin: 0,
-                      lineHeight: '1.3',
-                      color: '#1a1a1a',
-                    }}>
-                      {title}
-                    </h3>
-
-                    {/* Summary */}
-                    <p style={{
-                      fontSize: '12px',
-                      color: '#666',
-                      margin: 0,
-                      lineHeight: '1.4',
-                      flex: 1,
-                    }}>
-                      {body}
-                    </p>
-
-                    {/* CTA */}
-                    <span style={{
-                      fontSize: '11px',
-                      fontWeight: '600',
-                      color: '#1976d2',
-                      marginTop: '4px',
-                    }}>
-                      {isArticle ? 'Read article' : 'Read source'} →
-                    </span>
-                  </div>
-                </a>
-              );
-            })
-          )}
+            <div>
+              <p style={{ fontSize: '11px', color: '#666', margin: '0 0 4px 0', textTransform: 'uppercase' }}>Countries</p>
+              <p style={{ fontSize: '20px', fontWeight: '700', margin: 0 }}>{outbreakStats.countries}</p>
+            </div>
+            <div>
+              <p style={{ fontSize: '11px', color: '#666', margin: '0 0 4px 0', textTransform: 'uppercase' }}>Mortality</p>
+              <p style={{ fontSize: '20px', fontWeight: '700', margin: 0 }}>{outbreakStats.mortality}</p>
+            </div>
+          </div>
         </div>
 
-        {/* 2-COLUMN LAYOUT FOR DESKTOP */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr',
-          gap: '24px',
-        }}
-        className="sidebar-layout"
-        >
-          {/* Sidebar */}
-          <aside>
-            {/* Disclaimer */}
-            <div style={{
-              background: '#fff9e6',
-              border: '1px solid #ffe8cc',
-              borderRadius: '6px',
-              padding: '12px',
-              marginBottom: '12px',
-            }}>
-              <h3 style={{ fontSize: '12px', fontWeight: '700', marginBottom: '6px', color: '#1a1a1a', margin: 0 }}>
-                ⚠️ Medical Disclaimer
-              </h3>
-              <p style={{ fontSize: '11px', color: '#666', lineHeight: '1.4', margin: '6px 0 0 0' }}>
-                Not medical advice. Contact your healthcare provider for urgent concerns.
-              </p>
-            </div>
+        {/* Medical Disclaimer */}
+        <div>
+          <h3 style={{
+            fontSize: '11px',
+            fontWeight: '700',
+            textTransform: 'uppercase',
+            letterSpacing: '2px',
+            margin: '0 0 12px 0',
+          }}>
+            ⚠️ Medical Disclaimer
+          </h3>
+          <p style={{
+            fontSize: '12px',
+            lineHeight: '1.5',
+            color: '#666',
+            margin: 0,
+          }}>
+            This content is for informational purposes only and is not a substitute for professional medical advice. Contact your healthcare provider for urgent concerns.
+          </p>
+        </div>
 
-            {/* Outbreak Status */}
-            <div style={{
-              background: 'white',
-              borderRadius: '6px',
-              padding: '14px',
-              marginBottom: '12px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+        {/* Essential Reading */}
+        <div>
+          <h3 style={{
+            fontSize: '11px',
+            fontWeight: '700',
+            textTransform: 'uppercase',
+            letterSpacing: '2px',
+            margin: '0 0 12px 0',
+          }}>
+            Essential Reading
+          </h3>
+          <div style={{ display: 'grid', gap: '8px' }}>
+            <a href="/articles/what-is-hantavirus" style={{
+              fontSize: '12px',
+              color: '#666',
+              textDecoration: 'none',
             }}>
-              <h3 style={{ fontSize: '13px', fontWeight: '700', marginBottom: '12px', color: '#1a1a1a', margin: 0 }}>
-                Current Status
-              </h3>
-              <div style={{ display: 'grid', gap: '10px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '10px', borderBottom: '1px solid #e0e0e0' }}>
-                  <span style={{ fontSize: '11px', color: '#666' }}>Cases</span>
-                  <strong style={{ fontSize: '14px', color: '#c0392b' }}>{outbreakStats.cases}</strong>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '10px', borderBottom: '1px solid #e0e0e0' }}>
-                  <span style={{ fontSize: '11px', color: '#666' }}>Deaths</span>
-                  <strong style={{ fontSize: '14px', color: '#c0392b' }}>{outbreakStats.deaths}</strong>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '10px', borderBottom: '1px solid #e0e0e0' }}>
-                  <span style={{ fontSize: '11px', color: '#666' }}>Countries</span>
-                  <strong style={{ fontSize: '14px', color: '#2d2d2d' }}>{outbreakStats.countries}</strong>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '11px', color: '#666' }}>Mortality</span>
-                  <strong style={{ fontSize: '14px', color: '#2d2d2d' }}>{outbreakStats.mortality}</strong>
-                </div>
-              </div>
-            </div>
+              → What is Hantavirus?
+            </a>
+            <a href="/articles/hantavirus-symptoms-warning-signs" style={{
+              fontSize: '12px',
+              color: '#666',
+              textDecoration: 'none',
+            }}>
+              → Symptoms & Warning Signs
+            </a>
+            <a href="/articles/hantavirus-prevention-guide" style={{
+              fontSize: '12px',
+              color: '#666',
+              textDecoration: 'none',
+            }}>
+              → Prevention Guide
+            </a>
+          </div>
+        </div>
 
-            {/* Essential Reading */}
-            <div style={{
-              background: 'white',
-              borderRadius: '6px',
-              padding: '14px',
-              marginBottom: '12px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+        {/* Official Sources */}
+        <div>
+          <h3 style={{
+            fontSize: '11px',
+            fontWeight: '700',
+            textTransform: 'uppercase',
+            letterSpacing: '2px',
+            margin: '0 0 12px 0',
+          }}>
+            Official Sources
+          </h3>
+          <div style={{ display: 'grid', gap: '8px' }}>
+            <a href="https://www.who.int" target="_blank" rel="noopener noreferrer" style={{
+              fontSize: '12px',
+              color: '#666',
+              textDecoration: 'none',
             }}>
-              <h3 style={{ fontSize: '13px', fontWeight: '700', marginBottom: '10px', color: '#1a1a1a', margin: 0 }}>
-                Essential Reading
-              </h3>
-              <div style={{ display: 'grid', gap: '8px' }}>
-                <a href="/articles/what-is-hantavirus" style={{
-                  fontSize: '12px',
-                  color: '#1976d2',
-                  textDecoration: 'none',
-                  fontWeight: '500',
-                  padding: '6px 0',
-                  borderBottom: '1px solid #f0f0f0',
-                }}>
-                  → What is Hantavirus?
-                </a>
-                <a href="/articles/hantavirus-symptoms-warning-signs" style={{
-                  fontSize: '12px',
-                  color: '#1976d2',
-                  textDecoration: 'none',
-                  fontWeight: '500',
-                  padding: '6px 0',
-                  borderBottom: '1px solid #f0f0f0',
-                }}>
-                  → Symptoms & Warning Signs
-                </a>
-                <a href="/articles/hantavirus-prevention-guide" style={{
-                  fontSize: '12px',
-                  color: '#1976d2',
-                  textDecoration: 'none',
-                  fontWeight: '500',
-                  padding: '6px 0',
-                }}>
-                  → Prevention Guide
-                </a>
-              </div>
-            </div>
-
-            {/* Official Sources */}
-            <div style={{
-              background: 'white',
-              borderRadius: '6px',
-              padding: '14px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+              World Health Organization
+            </a>
+            <a href="https://www.cdc.gov" target="_blank" rel="noopener noreferrer" style={{
+              fontSize: '12px',
+              color: '#666',
+              textDecoration: 'none',
             }}>
-              <h4 style={{ fontSize: '11px', fontWeight: '700', marginBottom: '10px', color: '#1a1a1a', textTransform: 'uppercase', margin: 0 }}>
-                Official Sources
-              </h4>
-              <div style={{ display: 'grid', gap: '8px' }}>
-                <a href="https://www.who.int" target="_blank" rel="noopener noreferrer" style={{
-                  fontSize: '11px',
-                  color: '#1976d2',
-                  textDecoration: 'none',
-                }}>
-                  World Health Organization
-                </a>
-                <a href="https://www.cdc.gov" target="_blank" rel="noopener noreferrer" style={{
-                  fontSize: '11px',
-                  color: '#1976d2',
-                  textDecoration: 'none',
-                }}>
-                  CDC (United States)
-                </a>
-              </div>
-            </div>
-          </aside>
+              CDC (United States)
+            </a>
+          </div>
         </div>
       </div>
 
       {/* RESPONSIVE CSS */}
       <style>{`
         @media (min-width: 768px) {
-          .feed-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
+          .featured-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
           }
-          .sidebar-layout {
-            grid-template-columns: 1fr 280px !important;
+          .main-grid {
+            grid-template-columns: 2fr 1fr !important;
+            gap: 40px !important;
+          }
+          .sidebar-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
           }
         }
         @media (min-width: 1024px) {
-          .feed-grid {
-            grid-template-columns: repeat(3, 1fr) !important;
+          .sidebar-grid {
+            grid-template-columns: repeat(4, 1fr) !important;
           }
         }
       `}</style>
