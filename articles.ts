@@ -90,98 +90,151 @@ Hantavirus symptoms can escalate from mild flu-like illness to critical respirat
     category: "Symptoms & Signs",
     isBreaking: false,
     author: "Hantavirus Monitor",
-    content: `Understanding hantavirus symptoms is critical because early recognition can mean the difference between life and death. The disease progresses rapidly, often within days.
+    content: `Hantavirus Pulmonary Syndrome (HPS) is a rare but serious respiratory illness caused by infection with hantavirus. While uncommon, the disease carries significant mortality risk, making early recognition of symptoms critical for survival. This guide will help you understand what to watch for, how the disease progresses, and when to seek emergency medical care.
 
-## Phase 1: Febrile Phase (Days 1-4)
+## Understanding Hantavirus Disease Progression
 
-This initial phase resembles flu and is often misdiagnosed.
+Hantavirus does not spread between humans. Instead, infection occurs through exposure to contaminated rodent droppings, urine, or saliva—typically through inhalation of aerosolized particles. Once infected, the virus incubates in your body for approximately 1 to 5 weeks before symptoms appear. Understanding this timeline is important: you may not realize you've been exposed until symptoms begin.
 
-**Symptoms:**
-- High fever (101-104°F)
-- Severe muscle aches
-- Fatigue and weakness
-- Headache
-- Dizziness
-- Chills
-- Nausea and vomiting
-- Abdominal pain
+The progression of hantavirus illness follows a predictable pattern. The early phase mimics common viral illnesses, making diagnosis challenging in the first week. However, the disease can escalate rapidly, requiring immediate medical intervention.
 
-**Duration:** Usually 3-4 days
+## Early Warning Signs (Days 1-7)
 
-**Why it's dangerous:** These symptoms are vague and resemble common flu, so people often don't seek medical care immediately.
+The initial symptoms of hantavirus are non-specific and often misdiagnosed as flu, allergies, or common respiratory infections. These early signs include:
 
-## Phase 2: Critical Phase (Days 4-10)
+### Common Initial Symptoms:
 
-This is when the disease becomes life-threatening. Respiratory symptoms develop rapidly.
+- **Fever** (often high, ranging from 101°F to 104°F or higher)
+- **Severe muscle aches** (myalgia), particularly in the thighs, hips, and back
+- **Headaches** (often severe and persistent)
+- **Chills and fatigue** (profound weakness and exhaustion)
+- **Dizziness or lightheadedness**
+- **Shortness of breath** (mild at first, may worsen gradually)
+- **Cough** (usually mild and non-productive in early stages)
+- **Nausea, vomiting, and diarrhea** (gastrointestinal symptoms present in about 50% of cases)
+- **Abdominal pain or cramping**
+- **Sore throat** (less common but possible)
 
-**Symptoms:**
-- Shortness of breath (most critical)
-- Cough (usually dry)
-- Chest pain or tightness
-- Rapid breathing
-- Rapid heart rate
-- Severe fatigue
-- Difficulty lying flat
+### Why Early Recognition Matters
 
-**What's happening:** The virus attacks the lungs, causing them to fill with fluid (pulmonary edema). This is why early hospitalization is critical.
+Many people with these symptoms assume they have the flu and stay home. This delay in medical attention can be dangerous. The key difference between hantavirus and influenza is the **severity of muscle aches and shortness of breath**—hantavirus typically causes more pronounced myalgia and earlier respiratory symptoms.
 
-## Phase 3: Recovery Phase (if survived)
+If you have fever, severe muscle aches, and **any** shortness of breath, especially after potential rodent exposure, seek medical evaluation immediately. Don't wait.
 
-Survivors begin to improve after day 10, but recovery is slow.
+## The Critical Phase (Days 5-10): When Symptoms Worsen
 
-**Symptoms:**
-- Gradual improvement in breathing
-- Decreased fever
-- Continued weakness for weeks
+After 3 to 5 days of initial symptoms, hantavirus enters a more dangerous phase. This is when hospitalization becomes necessary. Symptoms during this phase include:
 
-## CRITICAL WARNING SIGNS - SEEK EMERGENCY CARE IMMEDIATELY
+### Respiratory Deterioration:
 
-**Call 911 or go to ER if you experience:**
+- **Increased shortness of breath** at rest or with minimal activity
+- **Coughing** becomes more frequent and produces frothy sputum
+- **Chest tightness or pain** when breathing
+- **Rapid breathing** (tachypnea—more than 20 breaths per minute)
+- **Rapid heart rate** (tachycardia—more than 120 beats per minute)
 
-1. **Severe shortness of breath** - This is THE most important warning sign
-2. **Chest pain or pressure**
-3. **Rapid heartbeat (>100 beats per minute)**
-4. **Confusion or difficulty thinking clearly**
-5. **Severe fatigue preventing any activity**
-6. **Coughing up blood or blood-tinged sputum**
-7. **Blue lips or fingertips** (cyanosis)
-8. **Loss of consciousness or fainting**
-9. **Severe vomiting preventing fluid intake**
+### Cardiovascular Changes:
 
-## Why Speed Matters
+- **Sudden drop in blood pressure** (hypotension)
+- **Difficulty maintaining oxygen saturation** despite normal air
+- **Fluid buildup in the lungs** (pulmonary edema), causing pink, frothy fluid to be coughed up
 
-The mortality rate of 38-39% is largely due to DELAYED diagnosis. By the time people realize it's serious, they're already in respiratory failure.
+### Systemic Symptoms:
 
-**The difference:**
-- **Diagnosed on day 2-3:** Higher chance of survival with immediate ICU support
-- **Diagnosed on day 8-10:** Often too late - lungs already severely damaged
+- **Severe fatigue** progressing to confusion or altered mental status
+- **Continued high fever**
+- **Severe headache** (may indicate increased intracranial pressure)
+- **Abdominal pain worsening**
 
-## High-Risk Groups
+**This is the phase where many deaths occur.** The virus causes capillary leakage, allowing fluid to escape from blood vessels into lung tissue. This flooding of the lungs impairs oxygen exchange, making breathing increasingly difficult and requiring mechanical ventilation.
 
-- Healthcare workers exposed to infected patients
-- People in endemic areas (rural US, South America)
-- Construction/farm workers
-- Military personnel
-- People handling grain or hay
+## Late-Stage Complications (Days 10+)
 
-## What to Do if You Suspect Hantavirus
+If the patient survives the critical phase and receives appropriate medical care, recovery becomes possible, though slow. Late-stage complications may include:
 
-1. **Seek medical care immediately** - Don't wait
-2. **Tell your doctor about rodent exposure** - This is crucial for diagnosis
-3. **Ask for hantavirus testing** - Serology (blood test) or PCR
-4. **Insist on hospitalization** if symptoms are worsening
-5. **Request ICU if you have respiratory symptoms**
+- **Respiratory failure** requiring mechanical ventilation
+- **Acute kidney injury** (from fluid overload or direct viral effects)
+- **Cardiac arrhythmias** (irregular heartbeat)
+- **Sepsis** (if secondary bacterial infection develops)
+- **Disseminated intravascular coagulation** (a life-threatening clotting disorder)
 
-## Testing
+## Red Flags: When to Go to the Emergency Room
 
-Hantavirus is diagnosed through:
-- **Serology:** IgM antibody test (positive early in disease)
-- **PCR:** Detects virus in blood
-- **Chest X-ray:** Shows characteristic patterns
+**Do not delay.** Seek immediate emergency care if you experience:
 
-## Remember
+1. **Fever combined with shortness of breath** (the hallmark of serious hantavirus disease)
+2. **Difficulty breathing at rest** or with minimal exertion
+3. **Chest pain or tightness** when breathing
+4. **Confusion or difficulty concentrating**
+5. **Severe dizziness or fainting**
+6. **Rapid heart rate** that doesn't respond to rest
+7. **Cough producing pink or frothy sputum** (sign of pulmonary edema)
+8. **Blood pressure drops significantly** (you feel dizzy when standing)
 
-Early medical attention saves lives. If you have flu-like symptoms followed by ANY respiratory symptoms, seek care immediately and mention possible rodent exposure.`
+### Mention Rodent Exposure
+
+When seeking care, **tell your doctor about any possible exposure to rodents or rodent-contaminated areas** in the past 1-5 weeks. This information is critical for diagnosis. Many cases are initially misdiagnosed as pneumonia or acute respiratory distress syndrome. Mentioning potential rodent exposure will help doctors test for hantavirus specifically.
+
+## Variations in Symptom Presentation
+
+Not all cases follow the exact timeline described above. Some people experience:
+
+- **More severe gastrointestinal symptoms** with vomiting and diarrhea dominating the early phase
+- **Rapid progression** from mild symptoms to critical illness within 24-48 hours
+- **Slower progression** with a longer period between early and critical phases (though this is less common)
+- **Atypical presentations** without significant cough (rare, but possible)
+
+The **Andes strain** virus, currently causing the 2026 outbreak, has shown variable presentations. Some patients progress more rapidly than others, suggesting individual differences in immune response or viral load.
+
+## Risk Factors for Severe Disease
+
+While anyone infected with hantavirus can become seriously ill, certain factors increase the risk of severe outcomes:
+
+- **Older age** (over 60 years)
+- **Male gender** (men appear to have higher mortality rates)
+- **Delayed medical care** (the more time passes before hospitalization, the worse the prognosis)
+- **Underlying lung disease** (asthma, COPD, or previous pneumonia)
+- **Compromised immune system** (HIV, medications, or chronic illness)
+- **Pregnancy** (may experience more severe complications)
+
+If you fall into any high-risk category and have fever with respiratory symptoms, be even more vigilant about seeking care.
+
+## What to Expect at the Hospital
+
+If hospitalized with suspected hantavirus, doctors will:
+
+1. **Test for hantavirus** using blood tests (serology, PCR, or immunohistochemistry)
+2. **Perform chest X-rays or CT scans** to assess lung involvement
+3. **Monitor blood oxygen levels** continuously with pulse oximetry
+4. **Check kidney function** and electrolytes
+5. **Place you on supplemental oxygen** if saturation drops below 94%
+6. **Monitor blood pressure and heart rate** closely
+7. **Potentially place you on mechanical ventilation** if breathing becomes too difficult
+
+There is **no antiviral drug that cures hantavirus disease.** Treatment is supportive—doctors manage your symptoms, maintain oxygen levels, support your kidneys, and prevent complications while your immune system fights the virus.
+
+## Recovery Timeline
+
+If you survive the critical phase:
+
+- **Week 2-3:** Gradual improvement in breathing, though fatigue remains severe
+- **Week 3-4:** Continued slow recovery, discharge from hospital possible
+- **Weeks 4-12:** Ongoing convalescence at home; extreme fatigue can persist for weeks
+- **Months 2-6:** Full recovery, though some patients report lingering weakness
+
+**Full recovery is possible,** but it requires time and patience. Some survivors report fatigue and shortness of breath during exercise for months after infection.
+
+## The Mortality Reality
+
+Approximately 38-40% of people hospitalized with hantavirus pulmonary syndrome die, even with excellent medical care. However, **early hospitalization and intensive supportive care significantly improve survival odds.** The difference between those who survive and those who don't often comes down to how quickly they sought medical attention.
+
+This is why recognizing symptoms early—even when they seem mild—is literally lifesaving.
+
+## When Symptoms Appear, Act
+
+The most important takeaway: **fever plus shortness of breath is a medical emergency.** If you've had possible rodent exposure in the past month and develop these symptoms, don't hesitate. Seek medical care immediately, and mention the potential exposure.
+
+Your life may depend on how quickly you recognize these warning signs and reach a hospital equipped to provide intensive supportive care.`
   },
   {
     id: "3",
@@ -191,140 +244,300 @@ Early medical attention saves lives. If you have flu-like symptoms followed by A
     category: "Prevention Tips",
     isBreaking: false,
     author: "Hantavirus Monitor",
-    content: `Hantavirus prevention is 100% about rodent avoidance and environmental control. There is no vaccine, so prevention is your only defense.
+    content: `Hantavirus is preventable. Unlike many infectious diseases that spread person-to-person, hantavirus transmission depends entirely on direct or indirect contact with infected rodents. By understanding how infection occurs and taking practical steps to eliminate rodent exposure, you can effectively protect yourself and your family from this serious threat.
 
-## Rodent-Proofing Your Home
+## How Hantavirus Spreads: Understanding Transmission Routes
 
-### Seal Entry Points
-- Inspect exterior for gaps and cracks
-- Seal holes larger than 1/4 inch (6mm)
-- Use steel wool, caulk, or hardware cloth
-- Check around pipes, vents, and foundation
+Hantavirus is carried by certain rodent species, particularly deer mice, but also cotton rats and rice rats depending on geographic location. The virus is found in their saliva, urine, and feces. Infection occurs when you breathe in aerosolized virus particles—not through direct rodent contact.
 
-### Common Entry Points
-- Gaps around doors and windows
-- Holes in roof/attic
-- Cracks in foundation
-- Spaces around utility pipes
-- Damaged vents
-- Gaps in siding
+### Primary Transmission Routes:
 
-### Remove Food Sources
-- Store food in sealed containers
+1. **Inhalation of aerosolized particles** from dried rodent droppings when sweeping or vacuuming contaminated areas
+2. **Inhalation during cleanup** of rodent-infested spaces without proper respiratory protection
+3. **Indirect contact** when touching contaminated surfaces then touching your face
+4. **Rare: Direct exposure** to fresh urine or saliva (such as a bite or handling a dead rodent)
+5. **Environmental exposure** in enclosed spaces with high rodent populations (abandoned buildings, storage areas, attics)
+
+**What does NOT spread hantavirus:**
+- Person-to-person contact (except in rare cases of Andes virus)
+- Food or water
+- Insect bites
+- Contact with infected animals' fur (as long as skin is intact)
+- Being in the same room with someone who has hantavirus
+
+Understanding these routes clarifies prevention: the goal is to eliminate rodents from your living space and avoid aerosolizing their waste.
+
+## Step 1: Eliminate Rodents from Your Home
+
+The most effective prevention is preventing rodent entry and eliminating existing populations.
+
+### Identifying Rodent Infestations:
+
+Look for these signs of active rodent presence:
+
+- **Fresh droppings** (1/4 inch long, dark, shaped like rice grains)
+- **Gnaw marks** on food packaging, wires, or wood
+- **Nesting material** (shredded paper, fabric, plant material in corners or enclosed spaces)
+- **Rub marks** along walls (from rodent fur)
+- **Musty odor** (stronger in enclosed areas)
+- **Scratching sounds** in walls, especially at night
+- **Rodent tracks** visible in dusty areas
+
+### Rodent-Proofing Your Home:
+
+**Seal entry points immediately:**
+
+- **Cracks and crevices** in foundation—use steel wool and caulk
+- **Gaps around pipes and utility lines**—seal with expanding foam or caulk
+- **Holes in exterior walls**—patch with steel mesh or concrete
+- **Door gaps**—install weather stripping
+- **Chimney openings**—install chimney caps
+- **Attic vents**—screen with 1/4-inch mesh
+- **Garage door edges**—ensure tight seal when closed
+
+Rodents can squeeze through openings as small as 1/4 inch. Be thorough.
+
+**Remove food sources:**
+
+- Store pantry items in airtight containers (not cardboard)
+- Keep kitchen clean—wipe counters, sweep regularly
 - Don't leave pet food out overnight
-- Clean up spills immediately
-- Remove fallen fruit from trees
-- Secure garbage in sealed containers
+- Use garbage cans with tight-fitting lids
+- Compost only plant-based materials, never meat or dairy
+- Remove birdseed from feeders at dusk (attracts rodents)
 
-### Eliminate Nesting Sites
-- Remove clutter and stored items
-- Clean out attics and basements
-- Remove piles of wood or debris
-- Trim tree branches away from roof
-- Remove tall grass and weeds
+**Eliminate harborage:**
 
-## Safe Cleanup of Rodent-Contaminated Areas
+- Remove clutter, especially in storage areas
+- Keep woodpiles at least 100 feet from home
+- Trim tree branches away from roof (rodents use as highways)
+- Store items off ground in sheds/garages
+- Remove cardboard boxes and replace with plastic storage containers
+- Eliminate dense vegetation near home foundation
 
-### CRITICAL: Never Sweep or Vacuum
+### Effective Rodent Removal:
 
-Sweeping and vacuuming aerosolize virus particles - creating deadly invisible clouds. This is how most people get infected.
+If rodents are already present:
 
-### Proper Cleanup Procedure
+1. **Call professional pest control** (safest option)
+2. **Use snap traps** (more effective than glue traps; more humane)
+3. **Place traps** along walls where rodents travel, baited with peanut butter
+4. **Check traps daily**
+5. **Dispose of dead rodents safely** (see cleanup section below)
 
-**What you need:**
-- N95 or NIOSH-approved respirator (not a cloth mask)
-- Gloves (nitrile or rubber)
-- Eye protection
-- Disposable gown or old clothes to discard
-- Bleach solution (1 part bleach to 10 parts water)
-- Damp rags or mop
-- Plastic bags for disposal
+**Avoid:**
+- Releasing rodents elsewhere (inhumane and spreads the problem)
+- Live traps without immediate relocation
+- Poison (leaves dead rodents in walls, creating cleanup hazards)
 
-**Steps:**
-1. Put on all PPE first
-2. Ventilate the area thoroughly (open windows)
-3. Spray contaminated area with bleach solution - let it sit 5 minutes
-4. Wipe up with damp rags (don't sweep)
-5. Place rags and contaminated items in plastic bags
-6. Seal bags and dispose as regular trash
-7. Clean mop/rags with bleach solution
-8. Remove gloves carefully by peeling from wrist
-9. Remove respirator last
-10. Wash hands thoroughly
+## Step 2: Safe Cleanup of Rodent-Contaminated Areas
 
-**For large contaminated areas:** Call a professional cleanup company trained in hantavirus
+This is where transmission risk is highest. Improper cleanup can create dangerous aerosolized virus exposure.
 
-## Environmental Control
+### Before You Start: Gather Supplies
 
-### Rodent Trapping
-- Use snap traps or electronic traps
-- Place along walls where rodents travel
-- Check traps daily
-- Dispose of dead rodents in sealed bags
-- Wear gloves when handling
+You will need:
+- **N95 or higher respirator mask** (not cloth; not surgical mask)
+- **Disposable gloves** (latex or nitrile)
+- **Eye protection** (safety glasses or goggles)
+- **Disinfectant** (bleach solution: 1 part bleach to 10 parts water, or commercial disinfectant)
+- **Paper towels** or disposable cloths
+- **Plastic bags** for waste disposal
+- **Damp cloth or mop** for cleaning
 
-### Prevention in Work Areas
-- Keep work areas clean and organized
-- Seal food containers
-- Don't eat in work areas
-- Wash hands before eating
-- Wear gloves when handling materials
+### Step-by-Step Cleanup Protocol:
 
-## Geographic Prevention
+**1. Ventilation is critical**
+- Open all windows and doors
+- Leave space ventilating for at least 30 minutes before starting
+- Use fans to increase air circulation (point outward)
+- Wear your N95 mask throughout cleanup
 
-### If You Live in Endemic Area (Southwest US, South America):
-- Seal your home thoroughly
-- Never enter abandoned buildings
-- Avoid disturbing rodent nests or droppings
-- Wear gloves when gardening
-- Seal storage areas
+**2. Never sweep or vacuum dry droppings**
+- Sweeping and vacuuming aerosolizes virus particles
+- This is a common cause of infection
 
-### If You're Traveling:
-- Research endemic areas before traveling
-- Avoid camping in high-risk areas
-- Check accommodations for rodent droppings
-- Don't enter old buildings or caves
-- Use proper accommodation with sealed rooms
+**3. Wet cleanup method (proper technique)**
+- Spray contaminated areas with disinfectant until wet
+- Let sit for 5 minutes
+- Wipe up with paper towels or cloth
+- Place waste in plastic bags for disposal
+- Spray again after wiping
+- Let dry
 
-## Occupational Prevention
+**4. Dispose of waste properly**
+- Place all contaminated materials in labeled plastic bags
+- Seal bags and place in trash
+- Don't compact waste
+- In rural areas, contact local health department for guidance on burial
 
-### Farmers and Agricultural Workers:
-- Avoid barn work during peak rodent season
-- Use proper ventilation when moving grain
-- Wear N95 respirator when handling grain
-- Keep work areas clean
+**5. After cleanup**
+- Remove outer gloves carefully (turning them inside-out)
+- Remove mask after leaving contaminated area
+- Wash hands thoroughly with soap and water
+- Wash any clothing that was worn during cleanup
 
-### Military and Construction:
-- Inspect buildings before entering
-- Use respirators in potentially contaminated areas
-- Minimize dust generation
-- Proper waste disposal
+### Specific Areas Requiring Special Attention:
 
-### Pest Control Professionals:
-- Full PPE required
-- Proper disposal training
-- Regular health monitoring
+**Attics and crawl spaces:**
+- Often heavily contaminated
+- Require full protective equipment
+- Consider professional remediation
 
-## What NOT to Do
+**Under porches and decks:**
+- Seal access after cleanup to prevent re-infestation
 
-❌ Don't sweep rodent droppings  
-❌ Don't vacuum contaminated areas  
-❌ Don't work alone in contaminated spaces  
-❌ Don't use cloth masks instead of N95  
-❌ Don't shake or disturb contaminated materials  
-❌ Don't enter rodent-infested buildings without PPE  
+**Sheds and garages:**
+- Don't let contamination persist
+- Clean immediately upon discovery
 
-## If You've Been Exposed
+**Vehicle interiors:**
+- If rodents nested inside, clean cabin filters first
+- Replace air filters before using vehicle again
 
-1. **Wash immediately** with soap and water
-2. **Monitor for symptoms** for 45 days
-3. **Seek medical attention** if fever or symptoms develop
-4. **Tell your doctor about the exposure**
-5. **Get tested if symptoms appear**
+## Step 3: Preventing Occupational Exposure
 
-## Remember
+If your work involves environments where hantavirus might be present, take extra precautions.
 
-Prevention = No Exposure = No Infection. There is no cure, so prevention is everything.`
+### High-Risk Occupations:
+
+- Farm workers
+- Pest control professionals
+- Exterminators
+- Chimney sweeps
+- Construction workers in old buildings
+- Wildlife biologists
+- Park rangers
+- Military personnel in endemic areas
+- Utility workers accessing crawl spaces
+
+### Workplace Prevention:
+
+- **Wear N95 masks** when working in potentially contaminated areas
+- **Ventilate spaces** before occupying them
+- **Use wet cleanup methods** for any rodent droppings
+- **Report rodent infestations** to management immediately
+- **Receive hantavirus awareness training**
+- **Know symptoms** and seek medical care promptly if exposed
+
+## Step 4: Outdoor Activities and Camping Safety
+
+If you camp, hike, or spend time in areas with wild rodent populations, take precautions.
+
+### Camping and Hiking Prevention:
+
+**Before departure:**
+- Check sleeping area and tent for rodent nests or droppings
+- Don't use cabins with rodent evidence
+
+**During your stay:**
+- Store all food in bear canisters or sealed containers
+- Never leave food or trash outside
+- Don't handle rodents or dead animals
+- Avoid caves (high rodent populations)
+- Don't touch or sit on rodent droppings
+
+**Sleeping safely:**
+- Use tents or structures, not open air
+- Keep distance from rodent-infested areas
+- Elevate sleeping bags off ground
+
+**After camping:**
+- Inspect and air out gear before storage
+- If you find droppings in gear, clean with disinfectant before storing
+
+## Step 5: Recognizing High-Risk Environments
+
+Some locations carry higher hantavirus risk. Understand your local risk level.
+
+### Highest-Risk Environments:
+
+- **Abandoned or rarely-used buildings** in hantavirus-endemic areas
+- **Crawl spaces and attics** with visible rodent activity
+- **Old barns or agricultural buildings**
+- **Storage facilities** with signs of rodent infestation
+- **Caves and mines** in endemic regions
+
+### Moderate-Risk Environments:
+
+- **Older homes** with visible rodent signs
+- **Garages or sheds** used seasonally
+- **Basements** in homes with previous rodent problems
+
+**If you must enter high-risk spaces:**
+- Wear N95 masks and gloves
+- Ventilate thoroughly first
+- Clean with wet methods
+- Don't postpone medical care if you develop symptoms
+
+## Step 6: Geographic Awareness
+
+Hantavirus risk varies by region. Know your local risk.
+
+### Endemic Areas (United States):
+- **Southwest:** New Mexico, Arizona, Nevada, Utah, Colorado (highest risk)
+- **Great Plains:** North and South Dakota, Nebraska, Kansas, Oklahoma
+- **West:** California, Oregon, Washington, Idaho
+- **Southeast:** Sporadic cases in Arkansas, Louisiana, Mississippi, North Carolina
+- **Northeast:** Connecticut, New York (rare)
+
+If you live in or travel to these areas, maintain higher vigilance.
+
+### International Risk:
+- **South America:** Andes virus (more severe, can spread person-to-person rarely)
+- **Europe:** Very rare, but hantavirus present in some regions
+- **Asia:** Various hantavirus species
+
+## Step 7: If You're Exposed (Suspected Exposure)
+
+You don't need to panic, but you should take action.
+
+### Immediately After Suspected Exposure:
+
+1. **Leave the contaminated area**
+2. **Avoid further disturbance** of potentially contaminated materials
+3. **Shower and change clothes** (wash in hot water separately)
+4. **Wash hands thoroughly**
+5. **Dispose of contaminated items** (sealed in plastic)
+
+### In the Following Weeks:
+
+- **Monitor for symptoms** (fever, muscle aches, shortness of breath)
+- **Seek medical care immediately if symptoms develop**
+- **Tell your doctor about the exposure** (critical for diagnosis)
+- **Don't delay seeking care**—early hospitalization improves survival
+
+## Special Populations: Additional Precautions
+
+**Pregnant women:**
+- Avoid all rodent-contaminated areas
+- Have others handle cleanup
+- Seek medical care for any symptoms immediately
+
+**Immunocompromised individuals:**
+- Heighten precautions
+- Consider having others handle cleanup
+- Report exposures to your doctor proactively
+
+**Elderly individuals (over 60):**
+- Higher mortality risk if infected
+- Avoid high-risk areas
+- Be especially vigilant about symptoms
+
+**Children:**
+- Teach them never to touch rodents or droppings
+- Supervise outdoor play in high-risk areas
+- Keep vaccine updated if available
+
+## The Bottom Line: Prevention Works
+
+Hantavirus is serious, but entirely preventable through:
+- Eliminating rodents from your home
+- Using proper protective equipment during cleanup
+- Understanding transmission routes
+- Seeking immediate medical care if exposed or symptomatic
+
+You have the power to protect yourself. Take these steps seriously, and hantavirus risk becomes minimal. Complacence is the real danger—vigilance is your best defense.`
   },
   {
     id: "4",
