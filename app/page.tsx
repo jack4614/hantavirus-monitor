@@ -44,7 +44,7 @@ type NewsItem = {
 
 type FeedItem = OriginalArticle | NewsItem;
 
-// News items array - with reliable image URLs
+// News items array - using microlink API to fetch og:image from source URLs
 const newsItems: NewsItem[] = [
   {
     feedId: 'news-001',
@@ -56,7 +56,7 @@ const newsItems: NewsItem[] = [
     headline: 'MV Hondius Cruise Ship: Passengers to Evacuate at Canary Islands',
     summary: 'WHO implements comprehensive screening and contact tracing protocols as cruise ship prepares for evacuation operations. Medical teams stationed at evacuation points to manage suspected cases.',
     isBreaking: true,
-    imageUrl: 'https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?w=800&h=600&fit=crop',
+    imageUrl: 'https://images.microlink.io?url=https://www.ndtv.com/health/hantavirus-cruise-ship-passengers-to-evacuate-at-canary-islands-soon-who-shares-screening-contact-tracing-plans-11470796&screenshot=true&embed=screenshot.url',
   },
   {
     feedId: 'news-002',
@@ -68,7 +68,7 @@ const newsItems: NewsItem[] = [
     headline: 'Hantavirus: American CDC Says Risk to Public "Very Low"',
     summary: 'Live update on CDC monitoring, medical evacuations, and public health risk assessment. CDC officials stress low transmission risk to general population.',
     isBreaking: false,
-    imageUrl: 'https://images.pexels.com/photos/8474393/pexels-photo-8474393.jpeg?w=800&h=600&fit=crop',
+    imageUrl: 'https://images.microlink.io?url=https://www.dw.com/en/hantavirus-american-cdc-says-risk-to-public-very-low/live-77063670&screenshot=true&embed=screenshot.url',
   },
   {
     feedId: 'news-003',
@@ -80,7 +80,7 @@ const newsItems: NewsItem[] = [
     headline: 'Hantavirus-Hit Cruise Ship on Way to Canary Islands After Three Evacuated',
     summary: 'Update on the cruise ship route change and medical evacuation of three confirmed cases to Spanish ports. Authorities coordinate international response.',
     isBreaking: false,
-    imageUrl: 'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=800&h=600&fit=crop',
+    imageUrl: 'https://images.microlink.io?url=https://www.bbc.com/news/articles/c5y093d5n9ko&screenshot=true&embed=screenshot.url',
   },
 ];
 
