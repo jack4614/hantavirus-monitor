@@ -44,7 +44,7 @@ type NewsItem = {
 
 type FeedItem = OriginalArticle | NewsItem;
 
-// News items array - using microlink API to fetch og:image from source URLs
+// News items array
 const newsItems: NewsItem[] = [
   {
     feedId: 'news-001',
@@ -56,7 +56,7 @@ const newsItems: NewsItem[] = [
     headline: 'MV Hondius Cruise Ship: Passengers to Evacuate at Canary Islands',
     summary: 'WHO implements comprehensive screening and contact tracing protocols as cruise ship prepares for evacuation operations. Medical teams stationed at evacuation points to manage suspected cases.',
     isBreaking: true,
-    imageUrl: 'https://images.microlink.io?url=https://www.ndtv.com/health/hantavirus-cruise-ship-passengers-to-evacuate-at-canary-islands-soon-who-shares-screening-contact-tracing-plans-11470796&screenshot=true&embed=screenshot.url',
+    imageUrl: 'https://thumbsnap.com/snap?url=https://www.ndtv.com/health/hantavirus-cruise-ship-passengers-to-evacuate-at-canary-islands-soon-who-shares-screening-contact-tracing-plans-11470796&size=800x600',
   },
   {
     feedId: 'news-002',
@@ -68,7 +68,7 @@ const newsItems: NewsItem[] = [
     headline: 'Hantavirus: American CDC Says Risk to Public "Very Low"',
     summary: 'Live update on CDC monitoring, medical evacuations, and public health risk assessment. CDC officials stress low transmission risk to general population.',
     isBreaking: false,
-    imageUrl: 'https://images.microlink.io?url=https://www.dw.com/en/hantavirus-american-cdc-says-risk-to-public-very-low/live-77063670&screenshot=true&embed=screenshot.url',
+    imageUrl: 'https://thumbsnap.com/snap?url=https://www.dw.com/en/hantavirus-american-cdc-says-risk-to-public-very-low/live-77063670&size=800x600',
   },
   {
     feedId: 'news-003',
@@ -80,7 +80,7 @@ const newsItems: NewsItem[] = [
     headline: 'Hantavirus-Hit Cruise Ship on Way to Canary Islands After Three Evacuated',
     summary: 'Update on the cruise ship route change and medical evacuation of three confirmed cases to Spanish ports. Authorities coordinate international response.',
     isBreaking: false,
-    imageUrl: 'https://images.microlink.io?url=https://www.bbc.com/news/articles/c5y093d5n9ko&screenshot=true&embed=screenshot.url',
+    imageUrl: 'https://thumbsnap.com/snap?url=https://www.bbc.com/news/articles/c5y093d5n9ko&size=800x600',
   },
 ];
 
@@ -132,11 +132,8 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  // Get breaking items from unified feed (not separate lists)
   const breakingItems = unifiedFeed.filter(item => item.isBreaking);
   const hasBreaking = breakingItems.length > 0;
-
-  // Get breaking item for banner - first one in chronological order
   const breakingItem = breakingItems.length > 0 ? breakingItems[0] : null;
   const breakingTitle = breakingItem?.type === 'article' ? breakingItem.title : breakingItem?.type === 'news' ? breakingItem.headline : '';
   const breakingLink = breakingItem?.type === 'article' ? `/articles/${breakingItem.slug}` : breakingItem?.type === 'news' ? breakingItem.sourceUrl : '#';
@@ -152,7 +149,7 @@ export default function Home() {
       });
 
   return (
-    <div style={{ minHeight: '100vh', background: '#ffffff' }}>
+    <div style={{ minHeight: '100vh', background: '#ffffff', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
       {/* BREAKING NEWS BANNER */}
       {hasBreaking && (
         <a 
@@ -167,23 +164,21 @@ export default function Home() {
             zIndex: 50,
             background: '#c0392b',
             color: 'white',
-            padding: '12px 32px',
+            padding: '10px 16px',
             boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
             textDecoration: 'none',
             display: 'block',
             cursor: 'pointer',
           }}>
           <div style={{
-            maxWidth: '1400px',
-            margin: '0 auto',
             display: 'flex',
-            gap: '12px',
+            gap: '10px',
             alignItems: 'center',
-            fontSize: '14px',
+            fontSize: '13px',
           }}>
             <div style={{
-              width: '24px',
-              height: '24px',
+              width: '20px',
+              height: '20px',
               background: 'white',
               borderRadius: '50%',
               display: 'flex',
@@ -192,12 +187,12 @@ export default function Home() {
               fontWeight: 'bold',
               color: '#c0392b',
               flexShrink: 0,
-              fontSize: '16px',
+              fontSize: '14px',
             }}>
               !
             </div>
-            <strong>{breakingTitle}</strong>
-            <span style={{ marginLeft: 'auto', opacity: 0.9, fontSize: '12px' }}>
+            <strong style={{ flex: 1 }}>{breakingTitle}</strong>
+            <span style={{ opacity: 0.9, fontSize: '11px', whiteSpace: 'nowrap' }}>
               {timeElapsed}
             </span>
           </div>
@@ -208,84 +203,87 @@ export default function Home() {
       <header style={{
         background: '#ffffff',
         borderBottom: '1px solid #e0e0e0',
-        padding: '24px 32px',
+        padding: hasBreaking ? '10px 16px 16px' : '16px',
         marginTop: hasBreaking ? '50px' : '0',
         position: 'sticky',
         top: hasBreaking ? '50px' : '0',
         zIndex: 40,
       }}>
         <div style={{
-          maxWidth: '1400px',
+          maxWidth: '1200px',
           margin: '0 auto',
           display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: '20px',
+          gap: '12px',
+          alignItems: 'flex-start',
+          flexDirection: 'column',
         }}>
           <div>
-            <h1 style={{ fontSize: '28px', fontWeight: '700', margin: 0, color: '#1a1a1a' }}>
+            <h1 style={{ fontSize: '24px', fontWeight: '700', margin: 0, color: '#1a1a1a' }}>
               🚨 Hantavirus Updates
             </h1>
-            <p style={{ fontSize: '13px', color: '#999', margin: '4px 0 0 0' }}>
-              Breaking news & professional analysis
+            <p style={{ fontSize: '12px', color: '#999', margin: '4px 0 0 0' }}>
+              Breaking news & analysis
             </p>
           </div>
           <input
             type="text"
-            placeholder="Search news & guides..."
+            placeholder="Search..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{
-              padding: '10px 14px',
+              padding: '8px 12px',
               border: '1px solid #ddd',
               borderRadius: '6px',
               background: '#f9f9f9',
               color: '#333',
               fontFamily: 'inherit',
               fontSize: '14px',
-              width: '250px',
+              width: '100%',
+              maxWidth: '300px',
             }}
           />
         </div>
       </header>
 
-      {/* MAIN LAYOUT */}
+      {/* MAIN LAYOUT - MOBILE FIRST */}
       <div style={{
-        maxWidth: '1400px',
+        maxWidth: '1200px',
         margin: '0 auto',
-        padding: '32px',
+        padding: '16px',
         display: 'grid',
-        gridTemplateColumns: '1fr 320px',
-        gap: '32px',
-      }}>
+        gridTemplateColumns: '1fr',
+        gap: '20px',
+      }}
+      className="responsive-grid"
+      >
         {/* UNIFIED FEED */}
         <main>
           <div style={{ marginBottom: '12px' }}>
-            <h2 style={{ fontSize: '20px', fontWeight: '700', marginBottom: '8px', color: '#1a1a1a' }}>
+            <h2 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '4px', color: '#1a1a1a' }}>
               Latest Updates
             </h2>
-            <p style={{ fontSize: '14px', color: '#666', margin: 0 }}>
-              All news and analysis sorted by date (latest first)
+            <p style={{ fontSize: '13px', color: '#666', margin: 0 }}>
+              Sorted by date (latest first)
             </p>
           </div>
 
-          <div style={{ display: 'grid', gap: '24px', marginTop: '24px' }}>
+          <div style={{ display: 'grid', gap: '16px', marginTop: '16px' }}>
             {filteredFeed.length === 0 ? (
               <div style={{
                 background: 'white',
                 border: '1px solid #e0e0e0',
                 borderRadius: '6px',
-                padding: '40px',
+                padding: '30px 16px',
                 textAlign: 'center',
               }}>
-                <p style={{ fontSize: '15px', color: '#999', margin: 0 }}>
-                  No results matching "{searchTerm}"
+                <p style={{ fontSize: '14px', color: '#999', margin: 0 }}>
+                  No results for "{searchTerm}"
                 </p>
               </div>
             ) : (
               filteredFeed.map((item) => {
                 const isArticle = item.type === 'article';
-                const imageUrl = isArticle ? articleImages[item.slug] : item.type === 'news' ? item.imageUrl : undefined;
+                const imageUrl = isArticle ? articleImages[item.slug] : item.imageUrl;
                 const title = isArticle ? item.title : item.headline;
                 const body = isArticle ? item.excerpt : item.summary;
                 const label = isArticle ? item.category : item.source;
@@ -298,25 +296,23 @@ export default function Home() {
                     border: `1px solid ${isArticle ? '#e0e0e0' : '#e8e8e8'}`,
                     borderRadius: '6px',
                     overflow: 'hidden',
-                    display: 'grid',
-                    gridTemplateColumns: '280px 1fr',
-                    gap: 0,
+                    display: 'flex',
+                    flexDirection: 'column',
                   }}>
                     {/* IMAGE */}
-                    <a 
-                      href={link} 
-                      target={isExternal ? '_blank' : undefined}
-                      rel={isExternal ? 'noopener noreferrer' : undefined}
-                      style={{
-                        position: 'relative',
-                        width: '280px',
-                        height: '280px',
-                        background: '#f0f0f0',
-                        flexShrink: 0,
-                        textDecoration: 'none',
-                        display: 'block',
-                      }}>
-                      {imageUrl ? (
+                    {imageUrl && (
+                      <a 
+                        href={link} 
+                        target={isExternal ? '_blank' : undefined}
+                        rel={isExternal ? 'noopener noreferrer' : undefined}
+                        style={{
+                          position: 'relative',
+                          width: '100%',
+                          height: '200px',
+                          background: '#f0f0f0',
+                          textDecoration: 'none',
+                          display: 'block',
+                        }}>
                         <Image
                           src={imageUrl}
                           alt={title}
@@ -324,79 +320,56 @@ export default function Home() {
                           unoptimized
                           style={{ objectFit: 'cover' }}
                         />
-                      ) : (
-                        <div style={{
-                          width: '100%',
-                          height: '100%',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: '#ccc',
-                          fontSize: '14px',
-                          background: '#f5f5f5',
-                        }}>
-                          Image
-                        </div>
-                      )}
-                    </a>
+                      </a>
+                    )}
 
                     {/* CONTENT */}
-                    <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                      <div>
-                        {/* HEADER INFO */}
-                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap' }}>
-                          <div style={{
-                            display: 'inline-block',
-                            background: isArticle ? '#f5f5f5' : '#e8f4f8',
-                            color: isArticle ? '#555' : '#0066cc',
-                            padding: '4px 10px',
-                            borderRadius: '4px',
-                            fontSize: '11px',
-                            fontWeight: '600',
-                            textTransform: 'uppercase',
-                          }}>
-                            {label}
-                          </div>
-                          <span style={{ fontSize: '12px', color: '#999' }}>
-                            {new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                          </span>
-                          {item.isBreaking && <span style={{ fontSize: '12px', color: '#c0392b', fontWeight: '700' }}>⚡ Breaking</span>}
-                        </div>
-
-                        {/* HEADLINE - CLICKABLE */}
-                        <a 
-                          href={link} 
-                          target={isExternal ? '_blank' : undefined}
-                          rel={isExternal ? 'noopener noreferrer' : undefined}
-                          style={{
-                            fontSize: '18px',
-                            fontWeight: '700',
-                            margin: '12px 0',
-                            lineHeight: '1.3',
-                            color: '#1a1a1a',
-                            textDecoration: 'none',
-                            display: 'block',
-                            cursor: 'pointer',
-                          }}
-                          onMouseEnter={(e) => {
-                            (e.target as HTMLElement).style.color = '#0066cc';
-                          }}
-                          onMouseLeave={(e) => {
-                            (e.target as HTMLElement).style.color = '#1a1a1a';
-                          }}>
-                          {title}
-                        </a>
-
-                        {/* SUMMARY */}
-                        <p style={{
-                          fontSize: '14px',
-                          color: '#666',
-                          margin: '12px 0',
-                          lineHeight: '1.6',
+                    <div style={{ padding: '14px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '8px' }}>
+                      {/* HEADER INFO */}
+                      <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+                        <div style={{
+                          display: 'inline-block',
+                          background: isArticle ? '#f5f5f5' : '#e8f4f8',
+                          color: isArticle ? '#555' : '#0066cc',
+                          padding: '3px 8px',
+                          borderRadius: '3px',
+                          fontSize: '10px',
+                          fontWeight: '600',
+                          textTransform: 'uppercase',
                         }}>
-                          {body}
-                        </p>
+                          {label}
+                        </div>
+                        <span style={{ fontSize: '11px', color: '#999' }}>
+                          {new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        </span>
+                        {item.isBreaking && <span style={{ fontSize: '11px', color: '#c0392b', fontWeight: '700' }}>⚡</span>}
                       </div>
+
+                      {/* HEADLINE - CLICKABLE */}
+                      <a 
+                        href={link} 
+                        target={isExternal ? '_blank' : undefined}
+                        rel={isExternal ? 'noopener noreferrer' : undefined}
+                        style={{
+                          fontSize: '15px',
+                          fontWeight: '700',
+                          lineHeight: '1.3',
+                          color: '#1a1a1a',
+                          textDecoration: 'none',
+                          cursor: 'pointer',
+                        }}>
+                        {title}
+                      </a>
+
+                      {/* SUMMARY */}
+                      <p style={{
+                        fontSize: '13px',
+                        color: '#666',
+                        margin: 0,
+                        lineHeight: '1.5',
+                      }}>
+                        {body}
+                      </p>
 
                       {/* CTA */}
                       <a 
@@ -407,11 +380,11 @@ export default function Home() {
                           display: 'inline-block',
                           color: '#2d2d2d',
                           fontWeight: '600',
-                          fontSize: '14px',
+                          fontSize: '12px',
                           textDecoration: 'none',
-                          marginTop: '16px',
+                          marginTop: '4px',
                         }}>
-                        {isArticle ? 'Read full article →' : `Read at ${item.source} →`}
+                        {isArticle ? 'Read article →' : `Read at ${item.source} →`}
                       </a>
                     </div>
                   </div>
@@ -421,22 +394,22 @@ export default function Home() {
           </div>
         </main>
 
-        {/* SIDEBAR - ALWAYS VISIBLE */}
-        <aside style={{ position: 'sticky', top: hasBreaking ? '146px' : '96px', height: 'fit-content' }}>
+        {/* SIDEBAR - BELOW ON MOBILE */}
+        <aside>
           {/* DISCLAIMER */}
           <div style={{
             background: '#fff9e6',
             border: '1px solid #ffe8cc',
             borderRadius: '6px',
-            padding: '16px',
-            marginBottom: '20px',
+            padding: '12px',
+            marginBottom: '12px',
           }}>
-            <div style={{ fontSize: '18px', marginBottom: '8px' }}>⚠️</div>
-            <h3 style={{ fontSize: '13px', fontWeight: '700', marginBottom: '8px', color: '#1a1a1a' }}>
+            <div style={{ fontSize: '16px', marginBottom: '6px' }}>⚠️</div>
+            <h3 style={{ fontSize: '12px', fontWeight: '700', marginBottom: '6px', color: '#1a1a1a' }}>
               Medical Disclaimer
             </h3>
-            <p style={{ fontSize: '12px', color: '#666', lineHeight: '1.5', margin: 0 }}>
-              Not medical advice. For urgent health concerns, contact your healthcare provider or local health authority.
+            <p style={{ fontSize: '11px', color: '#666', lineHeight: '1.4', margin: 0 }}>
+              Not medical advice. Contact your healthcare provider for urgent concerns.
             </p>
           </div>
 
@@ -445,33 +418,30 @@ export default function Home() {
             background: 'white',
             border: '1px solid #e0e0e0',
             borderRadius: '6px',
-            padding: '20px',
-            marginBottom: '20px',
+            padding: '14px',
+            marginBottom: '12px',
           }}>
-            <h3 style={{ fontSize: '14px', fontWeight: '700', marginBottom: '16px', color: '#1a1a1a' }}>
+            <h3 style={{ fontSize: '13px', fontWeight: '700', marginBottom: '10px', color: '#1a1a1a' }}>
               Outbreak Status
             </h3>
-            <div style={{ display: 'grid', gap: '12px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '12px', borderBottom: '1px solid #e0e0e0' }}>
-                <span style={{ fontSize: '12px', color: '#666' }}>Cases</span>
-                <strong style={{ fontSize: '18px', color: '#c0392b' }}>{outbreakStats.cases}</strong>
+            <div style={{ display: 'grid', gap: '8px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '8px', borderBottom: '1px solid #e0e0e0' }}>
+                <span style={{ fontSize: '11px', color: '#666' }}>Cases</span>
+                <strong style={{ fontSize: '14px', color: '#c0392b' }}>{outbreakStats.cases}</strong>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '12px', borderBottom: '1px solid #e0e0e0' }}>
-                <span style={{ fontSize: '12px', color: '#666' }}>Deaths</span>
-                <strong style={{ fontSize: '18px', color: '#c0392b' }}>{outbreakStats.deaths}</strong>
+              <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '8px', borderBottom: '1px solid #e0e0e0' }}>
+                <span style={{ fontSize: '11px', color: '#666' }}>Deaths</span>
+                <strong style={{ fontSize: '14px', color: '#c0392b' }}>{outbreakStats.deaths}</strong>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '12px', borderBottom: '1px solid #e0e0e0' }}>
-                <span style={{ fontSize: '12px', color: '#666' }}>Countries</span>
-                <strong style={{ fontSize: '18px', color: '#2d2d2d' }}>{outbreakStats.countries}</strong>
+              <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '8px', borderBottom: '1px solid #e0e0e0' }}>
+                <span style={{ fontSize: '11px', color: '#666' }}>Countries</span>
+                <strong style={{ fontSize: '14px', color: '#2d2d2d' }}>{outbreakStats.countries}</strong>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '12px', color: '#666' }}>Mortality</span>
-                <strong style={{ fontSize: '18px', color: '#2d2d2d' }}>{outbreakStats.mortality}</strong>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: '11px', color: '#666' }}>Mortality</span>
+                <strong style={{ fontSize: '14px', color: '#2d2d2d' }}>{outbreakStats.mortality}</strong>
               </div>
             </div>
-            <p style={{ fontSize: '11px', color: '#999', marginTop: '12px', marginBottom: 0 }}>
-              {outbreakStats.lastUpdated}
-            </p>
           </div>
 
           {/* ESSENTIAL READING */}
@@ -479,42 +449,39 @@ export default function Home() {
             background: 'white',
             border: '1px solid #e0e0e0',
             borderRadius: '6px',
-            padding: '20px',
-            marginBottom: '20px',
+            padding: '14px',
+            marginBottom: '12px',
           }}>
-            <h3 style={{ fontSize: '14px', fontWeight: '700', marginBottom: '12px', color: '#1a1a1a' }}>
+            <h3 style={{ fontSize: '13px', fontWeight: '700', marginBottom: '10px', color: '#1a1a1a' }}>
               Essential Reading
             </h3>
-            <div style={{ display: 'grid', gap: '10px' }}>
+            <div style={{ display: 'grid', gap: '8px' }}>
               <a href="/articles/what-is-hantavirus" style={{
-                display: 'block',
-                fontSize: '13px',
+                fontSize: '12px',
                 color: '#2d2d2d',
                 textDecoration: 'none',
                 fontWeight: '500',
-                padding: '8px 0',
+                padding: '6px 0',
                 borderBottom: '1px solid #f0f0f0',
               }}>
                 → What is Hantavirus?
               </a>
               <a href="/articles/hantavirus-symptoms-warning-signs" style={{
-                display: 'block',
-                fontSize: '13px',
+                fontSize: '12px',
                 color: '#2d2d2d',
                 textDecoration: 'none',
                 fontWeight: '500',
-                padding: '8px 0',
+                padding: '6px 0',
                 borderBottom: '1px solid #f0f0f0',
               }}>
                 → Symptoms & Warning Signs
               </a>
               <a href="/articles/hantavirus-prevention-guide" style={{
-                display: 'block',
-                fontSize: '13px',
+                fontSize: '12px',
                 color: '#2d2d2d',
                 textDecoration: 'none',
                 fontWeight: '500',
-                padding: '8px 0',
+                padding: '6px 0',
               }}>
                 → Prevention Guide
               </a>
@@ -525,30 +492,41 @@ export default function Home() {
           <div style={{
             background: '#f9f9f9',
             borderRadius: '6px',
-            padding: '16px',
+            padding: '12px',
           }}>
-            <h4 style={{ fontSize: '12px', fontWeight: '700', marginBottom: '12px', color: '#1a1a1a', textTransform: 'uppercase' }}>
+            <h4 style={{ fontSize: '11px', fontWeight: '700', marginBottom: '8px', color: '#1a1a1a', textTransform: 'uppercase' }}>
               Official Sources
             </h4>
-            <div style={{ display: 'grid', gap: '10px' }}>
+            <div style={{ display: 'grid', gap: '8px' }}>
               <a href="https://www.who.int" target="_blank" rel="noopener noreferrer" style={{
-                fontSize: '12px',
+                fontSize: '11px',
                 color: '#2d2d2d',
                 textDecoration: 'none',
               }}>
-                World Health Organization
+                WHO
               </a>
               <a href="https://www.cdc.gov" target="_blank" rel="noopener noreferrer" style={{
-                fontSize: '12px',
+                fontSize: '11px',
                 color: '#2d2d2d',
                 textDecoration: 'none',
               }}>
-                CDC (United States)
+                CDC
               </a>
             </div>
           </div>
         </aside>
       </div>
+
+      {/* RESPONSIVE CSS */}
+      <style>{`
+        @media (min-width: 768px) {
+          .responsive-grid {
+            grid-template-columns: 1fr 280px !important;
+            gap: 24px !important;
+            padding: 24px !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
