@@ -44,7 +44,7 @@ type NewsItem = {
 
 type FeedItem = OriginalArticle | NewsItem;
 
-// News items array - with real image URLs
+// News items array - with reliable image URLs
 const newsItems: NewsItem[] = [
   {
     feedId: 'news-001',
@@ -56,7 +56,7 @@ const newsItems: NewsItem[] = [
     headline: 'MV Hondius Cruise Ship: Passengers to Evacuate at Canary Islands',
     summary: 'WHO implements comprehensive screening and contact tracing protocols as cruise ship prepares for evacuation operations. Medical teams stationed at evacuation points to manage suspected cases.',
     isBreaking: true,
-    imageUrl: 'https://images.unsplash.com/photo-1557804506-669714d2e9d8?w=800&h=450&fit=crop',
+    imageUrl: 'https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?w=800&h=600&fit=crop',
   },
   {
     feedId: 'news-002',
@@ -68,7 +68,7 @@ const newsItems: NewsItem[] = [
     headline: 'Hantavirus: American CDC Says Risk to Public "Very Low"',
     summary: 'Live update on CDC monitoring, medical evacuations, and public health risk assessment. CDC officials stress low transmission risk to general population.',
     isBreaking: false,
-    imageUrl: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=450&fit=crop',
+    imageUrl: 'https://images.pexels.com/photos/8474393/pexels-photo-8474393.jpeg?w=800&h=600&fit=crop',
   },
   {
     feedId: 'news-003',
@@ -80,7 +80,7 @@ const newsItems: NewsItem[] = [
     headline: 'Hantavirus-Hit Cruise Ship on Way to Canary Islands After Three Evacuated',
     summary: 'Update on the cruise ship route change and medical evacuation of three confirmed cases to Spanish ports. Authorities coordinate international response.',
     isBreaking: false,
-    imageUrl: 'https://images.unsplash.com/photo-1559606063-bdf1b2c72f97?w=800&h=450&fit=crop',
+    imageUrl: 'https://images.pexels.com/photos/3962286/pexels-photo-3962286.jpeg?w=800&h=600&fit=crop',
   },
 ];
 
@@ -177,11 +177,25 @@ export default function Home() {
             maxWidth: '1400px',
             margin: '0 auto',
             display: 'flex',
-            gap: '16px',
+            gap: '12px',
             alignItems: 'center',
             fontSize: '14px',
           }}>
-            <div style={{ fontSize: '16px' }}>🚨</div>
+            <div style={{
+              width: '24px',
+              height: '24px',
+              background: 'white',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontWeight: 'bold',
+              color: '#c0392b',
+              flexShrink: 0,
+              fontSize: '16px',
+            }}>
+              !
+            </div>
             <strong>{breakingTitle}</strong>
             <span style={{ marginLeft: 'auto', opacity: 0.9, fontSize: '12px' }}>
               {timeElapsed}
@@ -307,6 +321,7 @@ export default function Home() {
                           src={imageUrl}
                           alt={title}
                           fill
+                          unoptimized
                           style={{ objectFit: 'cover' }}
                         />
                       ) : (
