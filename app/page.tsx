@@ -283,24 +283,33 @@ export default function Home() {
             className="breaking-featured"
           >
             {/* Image */}
-            {(breakingItem.type === 'article' 
-              ? articleImages[breakingItem.slug] 
-              : 'https://via.placeholder.com/600x340/1a1a1a/888888?text=Breaking+News') && (
-              <div style={{
-                position: 'relative',
-                height: '340px',
-              }}>
+            <div style={{
+              position: 'relative',
+              height: '340px',
+              background: '#333',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              {breakingItem.type === 'article' && articleImages[breakingItem.slug] ? (
                 <Image
-                  src={breakingItem.type === 'article' 
-                    ? articleImages[breakingItem.slug] 
-                    : 'https://via.placeholder.com/600x340/1a1a1a/888888?text=Breaking+News'}
-                  alt={breakingItem.type === 'article' ? breakingItem.title : breakingItem.headline}
+                  src={articleImages[breakingItem.slug]}
+                  alt={breakingItem.title}
                   fill
                   unoptimized
                   style={{ objectFit: 'cover' }}
                 />
-              </div>
-            )}
+              ) : (
+                <div style={{
+                  textAlign: 'center',
+                  color: '#888',
+                  fontSize: '14px',
+                }}>
+                  <div style={{ fontSize: '28px', marginBottom: '8px' }}>📰</div>
+                  <div>Breaking News Image</div>
+                </div>
+              )}
+            </div>
 
             {/* Content */}
             <div style={{ padding: '28px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
