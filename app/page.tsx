@@ -141,7 +141,6 @@ export default function Home() {
         return itemTitle.toLowerCase().includes(searchLower) || itemBody.toLowerCase().includes(searchLower);
       });
 
-  // Group articles by category
   const groupByCategory = (items: FeedItem[]) => {
     const groups: { [key: string]: FeedItem[] } = {};
     items.forEach(item => {
@@ -155,16 +154,18 @@ export default function Home() {
   const categorized = groupByCategory(filteredFeed);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#ffffff', fontFamily: 'Georgia, "Times New Roman", serif', color: '#1a1a1a' }}>
+    <div style={{ minHeight: '100vh', background: '#faf9f6', color: '#2d2d2d' }}>
       {/* TOP NAV */}
       <div style={{
-        borderBottom: '1px solid #e0e0e0',
-        padding: '12px 16px',
+        borderBottom: '1px solid #e8e6e1',
+        padding: '14px 20px',
         fontSize: '12px',
-        color: '#666',
+        color: '#888',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        background: '#fff',
       }}>
         <span>{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
         <span>{timeElapsed}</span>
@@ -173,21 +174,23 @@ export default function Home() {
       {/* MASTHEAD */}
       <div style={{
         textAlign: 'center',
-        padding: '40px 16px 20px',
-        borderBottom: '2px solid #000',
+        padding: '50px 20px 30px',
+        borderBottom: '1px solid #e8e6e1',
+        background: '#fff',
       }}>
-        <p style={{ fontSize: '12px', letterSpacing: '4px', margin: '0 0 10px 0', color: '#666' }}>
+        <p style={{ fontSize: '11px', letterSpacing: '3px', margin: '0 0 12px 0', color: '#999', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', fontWeight: '500' }}>
           HANTAVIRUS UPDATES
         </p>
         <h1 style={{
-          fontSize: '52px',
+          fontSize: '56px',
           fontWeight: '900',
-          margin: '0 0 10px 0',
-          letterSpacing: '2px',
+          margin: '0 0 12px 0',
+          letterSpacing: '1px',
+          fontFamily: 'Georgia, "Times New Roman", serif',
         }}>
           OUTBREAK
         </h1>
-        <p style={{ fontSize: '13px', color: '#666', margin: 0 }}>
+        <p style={{ fontSize: '14px', color: '#888', margin: 0, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
           Breaking news & comprehensive analysis
         </p>
       </div>
@@ -196,19 +199,21 @@ export default function Home() {
       <nav style={{
         display: 'flex',
         gap: '0',
-        borderBottom: '1px solid #000',
+        borderBottom: '1px solid #e8e6e1',
         overflow: 'auto',
-        padding: '0 16px',
+        padding: '0 20px',
+        background: '#fff',
       }}>
         <a href="#" style={{
           padding: '12px 16px',
           fontSize: '12px',
           fontWeight: '600',
           textDecoration: 'none',
-          color: '#000',
-          borderBottom: '3px solid #000',
+          color: '#2d2d2d',
+          borderBottom: '2px solid #c0392b',
           textTransform: 'uppercase',
           letterSpacing: '1px',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
         }}>
           Home
         </a>
@@ -217,10 +222,11 @@ export default function Home() {
           fontSize: '12px',
           fontWeight: '500',
           textDecoration: 'none',
-          color: '#666',
-          borderBottom: '3px solid transparent',
+          color: '#999',
+          borderBottom: '2px solid transparent',
           textTransform: 'uppercase',
           letterSpacing: '1px',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
         }}>
           Health
         </a>
@@ -229,10 +235,11 @@ export default function Home() {
           fontSize: '12px',
           fontWeight: '500',
           textDecoration: 'none',
-          color: '#666',
-          borderBottom: '3px solid transparent',
+          color: '#999',
+          borderBottom: '2px solid transparent',
           textTransform: 'uppercase',
           letterSpacing: '1px',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
         }}>
           Prevention
         </a>
@@ -241,10 +248,11 @@ export default function Home() {
           fontSize: '12px',
           fontWeight: '500',
           textDecoration: 'none',
-          color: '#666',
-          borderBottom: '3px solid transparent',
+          color: '#999',
+          borderBottom: '2px solid transparent',
           textTransform: 'uppercase',
           letterSpacing: '1px',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
         }}>
           Travel
         </a>
@@ -254,9 +262,10 @@ export default function Home() {
       <div style={{
         display: 'grid',
         gridTemplateColumns: '1fr',
-        gap: '20px',
-        padding: '30px 16px',
-        borderBottom: '2px solid #000',
+        gap: '0',
+        padding: '30px 20px',
+        background: '#fff',
+        borderBottom: '1px solid #e8e6e1',
       }}
       className="featured-grid"
       >
@@ -270,28 +279,30 @@ export default function Home() {
               display: 'grid',
               gridTemplateColumns: '1fr',
               gap: '12px',
-              paddingBottom: idx < 2 ? '20px' : '0',
-              borderBottom: idx < 2 ? '1px solid #e0e0e0' : 'none',
+              paddingBottom: idx < 2 ? '24px' : '0',
+              borderBottom: idx < 2 ? '1px solid #e8e6e1' : 'none',
             }}>
               <h3 style={{
-                fontSize: '11px',
+                fontSize: '10px',
                 fontWeight: '700',
                 textTransform: 'uppercase',
                 letterSpacing: '2px',
                 margin: 0,
-                color: '#666',
+                color: '#c0392b',
+                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
               }}>
                 {cat}
               </h3>
               <a href={catItems[0].type === 'article' ? `/articles/${catItems[0].slug}` : catItems[0].sourceUrl} target={catItems[0].type === 'news' ? '_blank' : undefined} rel={catItems[0].type === 'news' ? 'noopener noreferrer' : undefined} style={{
                 textDecoration: 'none',
-                color: '#000',
+                color: '#2d2d2d',
               }}>
                 <h2 style={{
                   fontSize: '18px',
                   fontWeight: '700',
                   margin: 0,
                   lineHeight: '1.2',
+                  fontFamily: 'Georgia, "Times New Roman", serif',
                 }}>
                   {catItems[0].type === 'article' ? catItems[0].title : catItems[0].headline}
                 </h2>
@@ -301,12 +312,12 @@ export default function Home() {
         })}
       </div>
 
-      {/* MAIN LAYOUT - BREAKING NEWS + DAILY FEED */}
+      {/* MAIN LAYOUT */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: '1fr',
         gap: '30px',
-        padding: '30px 16px',
+        padding: '30px 20px',
         maxWidth: '1200px',
         margin: '0 auto',
       }}
@@ -314,13 +325,15 @@ export default function Home() {
       >
         {/* LEFT: BREAKING NEWS */}
         {breakingItem && (
-          <section style={{ borderBottom: '2px solid #000', paddingBottom: '30px' }}>
+          <section style={{ paddingBottom: '30px', borderBottom: '1px solid #e8e6e1' }}>
             <h2 style={{
-              fontSize: '22px',
+              fontSize: '20px',
               fontWeight: '700',
               margin: '0 0 20px 0',
               textTransform: 'uppercase',
               letterSpacing: '2px',
+              fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+              color: '#2d2d2d',
             }}>
               Breaking News
             </h2>
@@ -331,10 +344,14 @@ export default function Home() {
               rel={breakingItem.type === 'news' ? 'noopener noreferrer' : undefined}
               style={{
                 textDecoration: 'none',
-                color: '#000',
+                color: '#2d2d2d',
                 display: 'grid',
                 gridTemplateColumns: '1fr',
-                gap: '16px',
+                gap: '18px',
+                background: '#fff',
+                padding: '20px',
+                borderRadius: '4px',
+                border: '1px solid #e8e6e1',
               }}
             >
               {/* Image */}
@@ -345,6 +362,8 @@ export default function Home() {
                   position: 'relative',
                   width: '100%',
                   height: '280px',
+                  borderRadius: '3px',
+                  overflow: 'hidden',
                 }}>
                   <Image
                     src={breakingItem.type === 'article' 
@@ -360,19 +379,35 @@ export default function Home() {
 
               {/* Content */}
               <div>
+                <span style={{
+                  display: 'inline-block',
+                  background: '#c0392b',
+                  color: 'white',
+                  padding: '4px 10px',
+                  fontSize: '10px',
+                  fontWeight: '700',
+                  textTransform: 'uppercase',
+                  borderRadius: '2px',
+                  marginBottom: '12px',
+                  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                }}>
+                  ⚡ Breaking
+                </span>
                 <h3 style={{
                   fontSize: '28px',
                   fontWeight: '700',
-                  margin: '0 0 12px 0',
+                  margin: '12px 0',
                   lineHeight: '1.2',
+                  fontFamily: 'Georgia, "Times New Roman", serif',
                 }}>
                   {breakingItem.type === 'article' ? breakingItem.title : breakingItem.headline}
                 </h3>
                 <p style={{
                   fontSize: '15px',
-                  margin: '0 0 12px 0',
+                  margin: '12px 0',
                   lineHeight: '1.6',
-                  color: '#333',
+                  color: '#666',
+                  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
                 }}>
                   {breakingItem.type === 'article' ? breakingItem.excerpt : breakingItem.summary}
                 </p>
@@ -382,6 +417,7 @@ export default function Home() {
                   textTransform: 'uppercase',
                   letterSpacing: '1px',
                   color: '#c0392b',
+                  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
                 }}>
                   {breakingItem.type === 'article' ? 'Read article →' : `Read at ${breakingItem.source} →`}
                 </span>
@@ -393,11 +429,13 @@ export default function Home() {
         {/* RIGHT: DAILY FEED */}
         <section>
           <h2 style={{
-            fontSize: '22px',
+            fontSize: '20px',
             fontWeight: '700',
             margin: '0 0 20px 0',
             textTransform: 'uppercase',
             letterSpacing: '2px',
+            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            color: '#2d2d2d',
           }}>
             Daily Feed
           </h2>
@@ -405,30 +443,35 @@ export default function Home() {
           {/* Search */}
           <input
             type="text"
-            placeholder="Search news..."
+            placeholder="Search articles..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{
               width: '100%',
-              padding: '10px 12px',
-              border: '1px solid #e0e0e0',
+              padding: '11px 14px',
+              border: '1px solid #e8e6e1',
               fontSize: '13px',
-              marginBottom: '20px',
-              fontFamily: 'inherit',
+              marginBottom: '24px',
+              fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+              background: '#fff',
+              borderRadius: '3px',
+              boxSizing: 'border-box',
+              color: '#2d2d2d',
             }}
           />
 
           {/* Categories */}
-          <div style={{ display: 'grid', gap: '30px' }}>
+          <div style={{ display: 'grid', gap: '28px' }}>
             {Object.entries(categorized).map(([category, items]) => (
               <div key={category}>
                 <h3 style={{
-                  fontSize: '11px',
+                  fontSize: '10px',
                   fontWeight: '700',
                   textTransform: 'uppercase',
                   letterSpacing: '2px',
                   margin: '0 0 16px 0',
-                  color: '#666',
+                  color: '#c0392b',
+                  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
                 }}>
                   {category}
                 </h3>
@@ -448,9 +491,21 @@ export default function Home() {
                         rel={isExternal ? 'noopener noreferrer' : undefined}
                         style={{
                           textDecoration: 'none',
-                          color: '#000',
-                          paddingBottom: '16px',
-                          borderBottom: '1px solid #e0e0e0',
+                          color: '#2d2d2d',
+                          padding: '14px',
+                          background: '#fff',
+                          border: '1px solid #e8e6e1',
+                          borderRadius: '3px',
+                          display: 'block',
+                          transition: 'all 0.2s ease',
+                        }}
+                        onMouseEnter={(e) => {
+                          (e.currentTarget as HTMLElement).style.borderColor = '#c0392b';
+                          (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 6px rgba(192, 57, 43, 0.1)';
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.currentTarget as HTMLElement).style.borderColor = '#e8e6e1';
+                          (e.currentTarget as HTMLElement).style.boxShadow = 'none';
                         }}
                       >
                         <h4 style={{
@@ -458,16 +513,18 @@ export default function Home() {
                           fontWeight: '700',
                           margin: '0 0 6px 0',
                           lineHeight: '1.3',
+                          fontFamily: 'Georgia, "Times New Roman", serif',
                         }}>
                           {title}
                         </h4>
                         <p style={{
                           fontSize: '12px',
-                          color: '#666',
+                          color: '#888',
                           margin: '0',
                           lineHeight: '1.5',
+                          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
                         }}>
-                          {summary.length > 100 ? summary.substring(0, 100) + '...' : summary}
+                          {summary.length > 90 ? summary.substring(0, 90) + '...' : summary}
                         </p>
                       </a>
                     );
@@ -479,129 +536,135 @@ export default function Home() {
         </section>
       </div>
 
-      {/* SIDEBAR - BOTTOM ON MOBILE */}
+      {/* SIDEBAR */}
       <div style={{
-        borderTop: '2px solid #000',
-        padding: '30px 16px',
+        borderTop: '1px solid #e8e6e1',
+        padding: '30px 20px',
         maxWidth: '1200px',
         margin: '0 auto',
         display: 'grid',
         gridTemplateColumns: '1fr',
-        gap: '30px',
+        gap: '28px',
+        background: '#fff',
       }}
       className="sidebar-grid"
       >
         {/* Outbreak Status */}
         <div>
           <h3 style={{
-            fontSize: '11px',
+            fontSize: '10px',
             fontWeight: '700',
             textTransform: 'uppercase',
             letterSpacing: '2px',
             margin: '0 0 16px 0',
+            color: '#c0392b',
+            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
           }}>
             Current Status
           </h3>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-            <div>
-              <p style={{ fontSize: '11px', color: '#666', margin: '0 0 4px 0', textTransform: 'uppercase' }}>Cases</p>
-              <p style={{ fontSize: '20px', fontWeight: '700', margin: 0, color: '#c0392b' }}>{outbreakStats.cases}</p>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+            <div style={{ padding: '14px', background: '#faf9f6', borderRadius: '3px' }}>
+              <p style={{ fontSize: '10px', color: '#999', margin: '0 0 6px 0', textTransform: 'uppercase', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', fontWeight: '600' }}>Cases</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', margin: 0, color: '#c0392b', fontFamily: 'Georgia, "Times New Roman", serif' }}>{outbreakStats.cases}</p>
             </div>
-            <div>
-              <p style={{ fontSize: '11px', color: '#666', margin: '0 0 4px 0', textTransform: 'uppercase' }}>Deaths</p>
-              <p style={{ fontSize: '20px', fontWeight: '700', margin: 0, color: '#c0392b' }}>{outbreakStats.deaths}</p>
+            <div style={{ padding: '14px', background: '#faf9f6', borderRadius: '3px' }}>
+              <p style={{ fontSize: '10px', color: '#999', margin: '0 0 6px 0', textTransform: 'uppercase', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', fontWeight: '600' }}>Deaths</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', margin: 0, color: '#c0392b', fontFamily: 'Georgia, "Times New Roman", serif' }}>{outbreakStats.deaths}</p>
             </div>
-            <div>
-              <p style={{ fontSize: '11px', color: '#666', margin: '0 0 4px 0', textTransform: 'uppercase' }}>Countries</p>
-              <p style={{ fontSize: '20px', fontWeight: '700', margin: 0 }}>{outbreakStats.countries}</p>
+            <div style={{ padding: '14px', background: '#faf9f6', borderRadius: '3px' }}>
+              <p style={{ fontSize: '10px', color: '#999', margin: '0 0 6px 0', textTransform: 'uppercase', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', fontWeight: '600' }}>Countries</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', margin: 0, fontFamily: 'Georgia, "Times New Roman", serif' }}>{outbreakStats.countries}</p>
             </div>
-            <div>
-              <p style={{ fontSize: '11px', color: '#666', margin: '0 0 4px 0', textTransform: 'uppercase' }}>Mortality</p>
-              <p style={{ fontSize: '20px', fontWeight: '700', margin: 0 }}>{outbreakStats.mortality}</p>
+            <div style={{ padding: '14px', background: '#faf9f6', borderRadius: '3px' }}>
+              <p style={{ fontSize: '10px', color: '#999', margin: '0 0 6px 0', textTransform: 'uppercase', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', fontWeight: '600' }}>Mortality</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', margin: 0, fontFamily: 'Georgia, "Times New Roman", serif' }}>{outbreakStats.mortality}</p>
             </div>
           </div>
         </div>
 
         {/* Medical Disclaimer */}
-        <div>
+        <div style={{ padding: '16px', background: '#fff8e6', borderLeft: '4px solid #c0392b', borderRadius: '2px' }}>
           <h3 style={{
-            fontSize: '11px',
+            fontSize: '10px',
             fontWeight: '700',
             textTransform: 'uppercase',
             letterSpacing: '2px',
-            margin: '0 0 12px 0',
+            margin: '0 0 8px 0',
+            color: '#c0392b',
+            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
           }}>
             ⚠️ Medical Disclaimer
           </h3>
           <p style={{
             fontSize: '12px',
             lineHeight: '1.5',
-            color: '#666',
+            color: '#888',
             margin: 0,
+            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
           }}>
-            This content is for informational purposes only and is not a substitute for professional medical advice. Contact your healthcare provider for urgent concerns.
+            Not medical advice. Contact your healthcare provider for urgent concerns.
           </p>
         </div>
 
         {/* Essential Reading */}
         <div>
           <h3 style={{
-            fontSize: '11px',
+            fontSize: '10px',
             fontWeight: '700',
             textTransform: 'uppercase',
             letterSpacing: '2px',
             margin: '0 0 12px 0',
+            color: '#c0392b',
+            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
           }}>
             Essential Reading
           </h3>
           <div style={{ display: 'grid', gap: '8px' }}>
-            <a href="/articles/what-is-hantavirus" style={{
-              fontSize: '12px',
-              color: '#666',
-              textDecoration: 'none',
-            }}>
-              → What is Hantavirus?
-            </a>
-            <a href="/articles/hantavirus-symptoms-warning-signs" style={{
-              fontSize: '12px',
-              color: '#666',
-              textDecoration: 'none',
-            }}>
-              → Symptoms & Warning Signs
-            </a>
-            <a href="/articles/hantavirus-prevention-guide" style={{
-              fontSize: '12px',
-              color: '#666',
-              textDecoration: 'none',
-            }}>
-              → Prevention Guide
-            </a>
+            {[
+              { href: '/articles/what-is-hantavirus', label: 'What is Hantavirus?' },
+              { href: '/articles/hantavirus-symptoms-warning-signs', label: 'Symptoms & Warning Signs' },
+              { href: '/articles/hantavirus-prevention-guide', label: 'Prevention Guide' },
+            ].map(link => (
+              <a key={link.href} href={link.href} style={{
+                fontSize: '12px',
+                color: '#c0392b',
+                textDecoration: 'none',
+                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                fontWeight: '500',
+              }}>
+                → {link.label}
+              </a>
+            ))}
           </div>
         </div>
 
         {/* Official Sources */}
         <div>
           <h3 style={{
-            fontSize: '11px',
+            fontSize: '10px',
             fontWeight: '700',
             textTransform: 'uppercase',
             letterSpacing: '2px',
             margin: '0 0 12px 0',
+            color: '#c0392b',
+            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
           }}>
             Official Sources
           </h3>
           <div style={{ display: 'grid', gap: '8px' }}>
             <a href="https://www.who.int" target="_blank" rel="noopener noreferrer" style={{
               fontSize: '12px',
-              color: '#666',
+              color: '#888',
               textDecoration: 'none',
+              fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
             }}>
               World Health Organization
             </a>
             <a href="https://www.cdc.gov" target="_blank" rel="noopener noreferrer" style={{
               fontSize: '12px',
-              color: '#666',
+              color: '#888',
               textDecoration: 'none',
+              fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
             }}>
               CDC (United States)
             </a>
@@ -614,6 +677,7 @@ export default function Home() {
         @media (min-width: 768px) {
           .featured-grid {
             grid-template-columns: repeat(3, 1fr) !important;
+            gap: 24px !important;
           }
           .main-grid {
             grid-template-columns: 2fr 1fr !important;
