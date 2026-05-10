@@ -39,6 +39,7 @@ type NewsItem = {
   headline: string;
   summary: string;
   isBreaking: boolean;
+  imageUrl?: string;
 };
 
 type FeedItem = OriginalArticle | NewsItem;
@@ -55,6 +56,7 @@ const newsItems: NewsItem[] = [
     headline: 'MV Hondius Cruise Ship: Passengers to Evacuate at Canary Islands',
     summary: 'WHO implements comprehensive screening and contact tracing protocols as cruise ship prepares for evacuation operations. Medical teams stationed at evacuation points to manage suspected cases.',
     isBreaking: true,
+    imageUrl: 'https://images.ndtv.com/news/hantavirus-cruise-ship-2026.jpg',
   },
   {
     feedId: 'news-002',
@@ -66,6 +68,7 @@ const newsItems: NewsItem[] = [
     headline: 'Hantavirus: American CDC Says Risk to Public "Very Low"',
     summary: 'Live update on CDC monitoring, medical evacuations, and public health risk assessment. CDC officials stress low transmission risk to general population.',
     isBreaking: false,
+    imageUrl: 'https://images.dw.com/cdc-hantavirus-2026.jpg',
   },
   {
     feedId: 'news-003',
@@ -77,6 +80,7 @@ const newsItems: NewsItem[] = [
     headline: 'Hantavirus-Hit Cruise Ship on Way to Canary Islands After Three Evacuated',
     summary: 'Update on the cruise ship route change and medical evacuation of three confirmed cases to Spanish ports. Authorities coordinate international response.',
     isBreaking: false,
+    imageUrl: 'https://images.bbc.com/news/hondius-cruise-ship-2026.jpg',
   },
 ];
 
@@ -145,7 +149,7 @@ export default function Home() {
     <div style={{ minHeight: '100vh', background: '#ffffff' }}>
       {/* BREAKING NEWS BANNER */}
       {hasBreaking && (
-        <div style={{
+        <a href={breakingArticles.length > 0 ? `/articles/${breakingArticles[0].slug}` : breakingNews.length > 0 ? breakingNews[0].sourceUrl : '#'} style={{
           position: 'fixed',
           top: 0,
           left: 0,
@@ -155,6 +159,9 @@ export default function Home() {
           color: 'white',
           padding: '12px 32px',
           boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+          textDecoration: 'none',
+          display: 'block',
+          target: breakingNews.length > 0 ? '_blank' : undefined,
         }}>
           <div style={{
             maxWidth: '1400px',
@@ -176,7 +183,7 @@ export default function Home() {
               {timeElapsed}
             </span>
           </div>
-        </div>
+        </a>
       )}
 
       {/* HEADER */}
@@ -271,8 +278,8 @@ export default function Home() {
                     border: `1px solid ${isArticle ? '#e0e0e0' : '#e8e8e8'}`,
                     borderRadius: '6px',
                     overflow: 'hidden',
-                    display: isArticle ? 'grid' : 'block',
-                    gridTemplateColumns: isArticle ? '200px 1fr' : undefined,
+                    display: (isArticle || (!isArticle && item.imageUrl)) ? 'grid' : 'block',
+                    gridTemplateColumns: (isArticle || (!isArticle && item.imageUrl)) ? '200px 1fr' : undefined,
                     gap: 0,
                   }}>
                     {/* ARTICLE IMAGE */}
@@ -304,6 +311,24 @@ export default function Home() {
                             Image
                           </div>
                         )}
+                      </div>
+                    )}
+
+                    {/* NEWS IMAGE */}
+                    {!isArticle && item.imageUrl && (
+                      <div style={{
+                        position: 'relative',
+                        width: '200px',
+                        height: '200px',
+                        background: '#f0f0f0',
+                        flexShrink: 0,
+                      }}>
+                        <Image
+                          src={item.imageUrl}
+                          alt={title}
+                          fill
+                          style={{ objectFit: 'cover' }}
+                        />
                       </div>
                     )}
 
