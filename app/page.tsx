@@ -39,11 +39,12 @@ type NewsItem = {
   headline: string;
   summary: string;
   isBreaking: boolean;
+  imageUrl: string;
 };
 
 type FeedItem = OriginalArticle | NewsItem;
 
-// News items array
+// News items array - with real image URLs
 const newsItems: NewsItem[] = [
   {
     feedId: 'news-001',
@@ -55,6 +56,7 @@ const newsItems: NewsItem[] = [
     headline: 'MV Hondius Cruise Ship: Passengers to Evacuate at Canary Islands',
     summary: 'WHO implements comprehensive screening and contact tracing protocols as cruise ship prepares for evacuation operations. Medical teams stationed at evacuation points to manage suspected cases.',
     isBreaking: true,
+    imageUrl: 'https://images.unsplash.com/photo-1557804506-669714d2e9d8?w=800&h=450&fit=crop',
   },
   {
     feedId: 'news-002',
@@ -66,6 +68,7 @@ const newsItems: NewsItem[] = [
     headline: 'Hantavirus: American CDC Says Risk to Public "Very Low"',
     summary: 'Live update on CDC monitoring, medical evacuations, and public health risk assessment. CDC officials stress low transmission risk to general population.',
     isBreaking: false,
+    imageUrl: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=450&fit=crop',
   },
   {
     feedId: 'news-003',
@@ -77,6 +80,7 @@ const newsItems: NewsItem[] = [
     headline: 'Hantavirus-Hit Cruise Ship on Way to Canary Islands After Three Evacuated',
     summary: 'Update on the cruise ship route change and medical evacuation of three confirmed cases to Spanish ports. Authorities coordinate international response.',
     isBreaking: false,
+    imageUrl: 'https://images.unsplash.com/photo-1559606063-bdf1b2c72f97?w=800&h=450&fit=crop',
   },
 ];
 
@@ -128,9 +132,15 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  const breakingArticles = articles.filter(a => a.isBreaking);
-  const breakingNews = newsItems.filter(n => n.isBreaking);
-  const hasBreaking = breakingArticles.length > 0 || breakingNews.length > 0;
+  // Get breaking items from unified feed (not separate lists)
+  const breakingItems = unifiedFeed.filter(item => item.isBreaking);
+  const hasBreaking = breakingItems.length > 0;
+
+  // Get breaking item for banner - first one in chronological order
+  const breakingItem = breakingItems.length > 0 ? breakingItems[0] : null;
+  const breakingTitle = breakingItem?.type === 'article' ? breakingItem.title : breakingItem?.type === 'news' ? breakingItem.headline : '';
+  const breakingLink = breakingItem?.type === 'article' ? `/articles/${breakingItem.slug}` : breakingItem?.type === 'news' ? breakingItem.sourceUrl : '#';
+  const isBreakingExternal = breakingItem?.type === 'news';
 
   const filteredFeed = searchTerm.trim() === ''
     ? unifiedFeed
@@ -146,9 +156,9 @@ export default function Home() {
       {/* BREAKING NEWS BANNER */}
       {hasBreaking && (
         <a 
-          href={breakingArticles.length > 0 ? `/articles/${breakingArticles[0].slug}` : breakingNews.length > 0 ? breakingNews[0].sourceUrl : '#'} 
-          target={breakingNews.length > 0 ? '_blank' : undefined}
-          rel={breakingNews.length > 0 ? 'noopener noreferrer' : undefined}
+          href={breakingLink} 
+          target={isBreakingExternal ? '_blank' : undefined}
+          rel={isBreakingExternal ? 'noopener noreferrer' : undefined}
           style={{
             position: 'fixed',
             top: 0,
@@ -172,13 +182,7 @@ export default function Home() {
             fontSize: '14px',
           }}>
             <div style={{ fontSize: '16px' }}>🚨</div>
-            <strong>
-              {breakingArticles.length > 0 
-                ? breakingArticles[0].title 
-                : breakingNews.length > 0 
-                ? breakingNews[0].headline 
-                : ''}
-            </strong>
+            <strong>{breakingTitle}</strong>
             <span style={{ marginLeft: 'auto', opacity: 0.9, fontSize: '12px' }}>
               {timeElapsed}
             </span>
@@ -267,10 +271,12 @@ export default function Home() {
             ) : (
               filteredFeed.map((item) => {
                 const isArticle = item.type === 'article';
-                const imageUrl = isArticle ? articleImages[item.slug] : undefined;
+                const imageUrl = isArticle ? articleImages[item.slug] : item.type === 'news' ? item.imageUrl : undefined;
                 const title = isArticle ? item.title : item.headline;
                 const body = isArticle ? item.excerpt : item.summary;
                 const label = isArticle ? item.category : item.source;
+                const link = isArticle ? `/articles/${item.slug}` : item.sourceUrl;
+                const isExternal = !isArticle;
 
                 return (
                   <div key={item.feedId} style={{
@@ -278,47 +284,52 @@ export default function Home() {
                     border: `1px solid ${isArticle ? '#e0e0e0' : '#e8e8e8'}`,
                     borderRadius: '6px',
                     overflow: 'hidden',
-                    display: isArticle ? 'grid' : 'block',
-                    gridTemplateColumns: isArticle ? '200px 1fr' : undefined,
+                    display: 'grid',
+                    gridTemplateColumns: '280px 1fr',
                     gap: 0,
                   }}>
-                    {/* ARTICLE IMAGE */}
-                    {isArticle && (
-                      <div style={{
+                    {/* IMAGE */}
+                    <a 
+                      href={link} 
+                      target={isExternal ? '_blank' : undefined}
+                      rel={isExternal ? 'noopener noreferrer' : undefined}
+                      style={{
                         position: 'relative',
-                        width: '200px',
-                        height: '200px',
+                        width: '280px',
+                        height: '280px',
                         background: '#f0f0f0',
                         flexShrink: 0,
+                        textDecoration: 'none',
+                        display: 'block',
                       }}>
-                        {imageUrl ? (
-                          <Image
-                            src={imageUrl}
-                            alt={title}
-                            fill
-                            style={{ objectFit: 'cover' }}
-                          />
-                        ) : (
-                          <div style={{
-                            width: '100%',
-                            height: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            color: '#ccc',
-                            fontSize: '12px',
-                          }}>
-                            Image
-                          </div>
-                        )}
-                      </div>
-                    )}
+                      {imageUrl ? (
+                        <Image
+                          src={imageUrl}
+                          alt={title}
+                          fill
+                          style={{ objectFit: 'cover' }}
+                        />
+                      ) : (
+                        <div style={{
+                          width: '100%',
+                          height: '100%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#ccc',
+                          fontSize: '14px',
+                          background: '#f5f5f5',
+                        }}>
+                          Image
+                        </div>
+                      )}
+                    </a>
 
                     {/* CONTENT */}
-                    <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                       <div>
                         {/* HEADER INFO */}
-                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '10px' }}>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap' }}>
                           <div style={{
                             display: 'inline-block',
                             background: isArticle ? '#f5f5f5' : '#e8f4f8',
@@ -337,52 +348,56 @@ export default function Home() {
                           {item.isBreaking && <span style={{ fontSize: '12px', color: '#c0392b', fontWeight: '700' }}>⚡ Breaking</span>}
                         </div>
 
-                        {/* HEADLINE */}
-                        <h3 style={{
-                          fontSize: '16px',
-                          fontWeight: '700',
-                          margin: '8px 0',
-                          lineHeight: '1.3',
-                          color: '#1a1a1a',
-                        }}>
+                        {/* HEADLINE - CLICKABLE */}
+                        <a 
+                          href={link} 
+                          target={isExternal ? '_blank' : undefined}
+                          rel={isExternal ? 'noopener noreferrer' : undefined}
+                          style={{
+                            fontSize: '18px',
+                            fontWeight: '700',
+                            margin: '12px 0',
+                            lineHeight: '1.3',
+                            color: '#1a1a1a',
+                            textDecoration: 'none',
+                            display: 'block',
+                            cursor: 'pointer',
+                          }}
+                          onMouseEnter={(e) => {
+                            (e.target as HTMLElement).style.color = '#0066cc';
+                          }}
+                          onMouseLeave={(e) => {
+                            (e.target as HTMLElement).style.color = '#1a1a1a';
+                          }}>
                           {title}
-                        </h3>
+                        </a>
 
                         {/* SUMMARY */}
                         <p style={{
-                          fontSize: '13px',
+                          fontSize: '14px',
                           color: '#666',
-                          margin: '8px 0',
-                          lineHeight: '1.5',
+                          margin: '12px 0',
+                          lineHeight: '1.6',
                         }}>
                           {body}
                         </p>
                       </div>
 
                       {/* CTA */}
-                      {isArticle ? (
-                        <a href={`/articles/${item.slug}`} style={{
+                      <a 
+                        href={link} 
+                        target={isExternal ? '_blank' : undefined}
+                        rel={isExternal ? 'noopener noreferrer' : undefined}
+                        style={{
                           display: 'inline-block',
                           color: '#2d2d2d',
                           fontWeight: '600',
-                          fontSize: '13px',
+                          fontSize: '14px',
                           textDecoration: 'none',
-                          marginTop: '12px',
+                          marginTop: '16px',
                         }}>
-                          Read full article →
-                        </a>
-                      ) : (
-                        <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer" style={{
-                          display: 'inline-block',
-                          color: '#2d2d2d',
-                          fontWeight: '600',
-                          fontSize: '13px',
-                          textDecoration: 'none',
-                          marginTop: '12px',
-                        }}>
-                          Read at {item.source} →
-                        </a>
-                      )}
+                        {isArticle ? 'Read full article →' : `Read at ${item.source} →`}
+                      </a>
                     </div>
                   </div>
                 );
