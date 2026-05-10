@@ -285,7 +285,7 @@ export default function Home() {
             {/* Image */}
             {(breakingItem.type === 'article' 
               ? articleImages[breakingItem.slug] 
-              : breakingItem.imageUrl) && (
+              : 'https://via.placeholder.com/600x340/1a1a1a/888888?text=Breaking+News') && (
               <div style={{
                 position: 'relative',
                 height: '340px',
@@ -293,7 +293,7 @@ export default function Home() {
                 <Image
                   src={breakingItem.type === 'article' 
                     ? articleImages[breakingItem.slug] 
-                    : breakingItem.imageUrl}
+                    : 'https://via.placeholder.com/600x340/1a1a1a/888888?text=Breaking+News'}
                   alt={breakingItem.type === 'article' ? breakingItem.title : breakingItem.headline}
                   fill
                   unoptimized
@@ -342,77 +342,101 @@ export default function Home() {
               fontSize: '12px',
               fontWeight: '700',
               letterSpacing: '1px',
-              margin: '0 0 20px 0',
+              margin: '0 0 24px 0',
               color: '#c0392b',
               textTransform: 'uppercase',
             }}>
               Daily Feed
             </h3>
 
-            <div style={{ display: 'grid', gap: '20px' }}>
+            <div style={{ display: 'grid', gap: '28px' }}>
               {filteredFeed.length === 0 ? (
                 <p style={{ color: '#888', fontSize: '13px' }}>No results for "{searchTerm}"</p>
               ) : (
-                Object.entries(categorized).map(([category, items]) => (
-                  <div key={category}>
-                    <p style={{
-                      fontSize: '10px',
-                      letterSpacing: '1px',
-                      color: '#888',
-                      textTransform: 'uppercase',
-                      margin: '0 0 12px 0',
-                      fontWeight: '700',
-                    }}>
-                      {category}
-                    </p>
-                    <div style={{ display: 'grid', gap: '16px', paddingBottom: '20px', borderBottom: '1px solid #333' }}>
-                      {items.slice(0, 2).map(item => {
-                        const title = item.type === 'article' ? item.title : item.headline;
-                        const summary = item.type === 'article' ? item.excerpt : item.summary;
-                        const link = item.type === 'article' ? `/articles/${item.slug}` : item.sourceUrl;
-                        const isExternal = item.type === 'news';
+                Object.entries(categorized).map(([category, items], categoryIdx) => {
+                  const categoryColors = [
+                    { border: '#0066cc', bg: 'rgba(0, 102, 204, 0.1)' },
+                    { border: '#00aa66', bg: 'rgba(0, 170, 102, 0.1)' },
+                    { border: '#cc7700', bg: 'rgba(204, 119, 0, 0.1)' },
+                    { border: '#aa00cc', bg: 'rgba(170, 0, 204, 0.1)' },
+                  ];
+                  const colors = categoryColors[categoryIdx % categoryColors.length];
 
-                        return (
-                          <a
-                            key={item.feedId}
-                            href={link}
-                            target={isExternal ? '_blank' : undefined}
-                            rel={isExternal ? 'noopener noreferrer' : undefined}
-                            style={{
-                              textDecoration: 'none',
-                              color: '#f0f0f0',
-                              transition: 'all 0.2s',
-                            }}
-                            onMouseEnter={(e) => {
-                              (e.currentTarget as HTMLElement).style.color = '#c0392b';
-                            }}
-                            onMouseLeave={(e) => {
-                              (e.currentTarget as HTMLElement).style.color = '#f0f0f0';
-                            }}
-                          >
-                            <h4 style={{
-                              margin: '0 0 6px 0',
-                              fontSize: '15px',
-                              fontWeight: '600',
-                              lineHeight: '1.3',
-                              fontFamily: 'Georgia, "Times New Roman", serif',
-                            }}>
-                              {title}
-                            </h4>
-                            <p style={{
-                              margin: '0',
-                              fontSize: '12px',
-                              color: '#999',
-                              lineHeight: '1.5',
-                            }}>
-                              {summary.length > 90 ? summary.substring(0, 90) + '...' : summary}
-                            </p>
-                          </a>
-                        );
-                      })}
+                  return (
+                    <div key={category}>
+                      <p style={{
+                        fontSize: '10px',
+                        letterSpacing: '2px',
+                        color: colors.border,
+                        textTransform: 'uppercase',
+                        margin: '0 0 16px 0',
+                        fontWeight: '700',
+                      }}>
+                        {category}
+                      </p>
+                      <div style={{ display: 'grid', gap: '18px' }}>
+                        {items.slice(0, 2).map(item => {
+                          const title = item.type === 'article' ? item.title : item.headline;
+                          const summary = item.type === 'article' ? item.excerpt : item.summary;
+                          const link = item.type === 'article' ? `/articles/${item.slug}` : item.sourceUrl;
+                          const isExternal = item.type === 'news';
+
+                          return (
+                            <a
+                              key={item.feedId}
+                              href={link}
+                              target={isExternal ? '_blank' : undefined}
+                              rel={isExternal ? 'noopener noreferrer' : undefined}
+                              style={{
+                                textDecoration: 'none',
+                                color: '#f0f0f0',
+                                transition: 'all 0.2s',
+                                borderLeft: `3px solid ${colors.border}`,
+                                paddingLeft: '16px',
+                                display: 'block',
+                              }}
+                              onMouseEnter={(e) => {
+                                (e.currentTarget as HTMLElement).style.color = colors.border;
+                                (e.currentTarget as HTMLElement).style.paddingLeft = '20px';
+                              }}
+                              onMouseLeave={(e) => {
+                                (e.currentTarget as HTMLElement).style.color = '#f0f0f0';
+                                (e.currentTarget as HTMLElement).style.paddingLeft = '16px';
+                              }}
+                            >
+                              <h4 style={{
+                                margin: '0 0 8px 0',
+                                fontSize: '15px',
+                                fontWeight: '600',
+                                lineHeight: '1.3',
+                                fontFamily: 'Georgia, "Times New Roman", serif',
+                              }}>
+                                {title}
+                              </h4>
+                              <p style={{
+                                margin: '0',
+                                fontSize: '12px',
+                                color: '#999',
+                                lineHeight: '1.6',
+                              }}>
+                                {summary.length > 100 ? summary.substring(0, 100) + '...' : summary}
+                              </p>
+                              <span style={{
+                                fontSize: '10px',
+                                color: colors.border,
+                                fontWeight: '600',
+                                marginTop: '8px',
+                                display: 'inline-block',
+                              }}>
+                                {isExternal ? `Read at ${(item as NewsItem).source} →` : 'Read article →'}
+                              </span>
+                            </a>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                ))
+                  );
+                })
               )}
             </div>
           </div>
