@@ -3,6 +3,7 @@
 import { articles } from '@/articles';
 import Image from 'next/image';
 import { notFound, useParams } from 'next/navigation';
+import { Metadata } from 'next';
 
 const articleImages: { [key: string]: string } = {
   'what-is-hantavirus': '/images/what-is-hantavirus.jpg',
@@ -12,6 +13,33 @@ const articleImages: { [key: string]: string } = {
   'mv-hondius-outbreak': '/images/mv-hondius-outbreak.jpg',
   'hantavirus-vs-covid-19': '/images/vs-covid-19.jpg',
 };
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const article = articles.find(a => a.slug === params.slug);
+  
+  if (!article) {
+    return {
+      title: 'Article Not Found',
+    };
+  }
+
+  return {
+    title: `${article.title} | Hantavirus Updates`,
+    description: article.excerpt,
+    openGraph: {
+      title: article.title,
+      description: article.excerpt,
+      url: `https://www.hantavirus-updates.com/articles/${article.slug}`,
+      type: 'article',
+      siteName: 'Hantavirus Updates',
+    },
+    twitter: {
+      card: 'summary',
+      title: article.title,
+      description: article.excerpt,
+    },
+  };
+}
 
 export default function ArticlePage() {
   const params = useParams();
