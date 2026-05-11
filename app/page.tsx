@@ -106,7 +106,7 @@ export default function Home() {
   const [timeElapsed, setTimeElapsed] = useState('Updated 2 hours ago');
   const [unifiedFeed] = useState(createUnifiedFeed());
   const [tickerIndex, setTickerIndex] = useState(0);
-  const [imageLoadStatus, setImageLoadStatus] = useState<{ [key: string]: boolean }>({});
+  const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const calculateTime = () => {
@@ -166,6 +166,15 @@ export default function Home() {
 
   const categorized = groupByCategory(filteredFeed);
   const currentTickerItem = breakingItems[tickerIndex];
+
+  const getImageSrc = (item: FeedItem): string | null => {
+    if (item.type === 'article') {
+      return articleImages[item.slug] || null;
+    }
+    return (item as NewsItem).imageUrl || null;
+  };
+
+  const showPlaceholder = !breakingItem || !getImageSrc(breakingItem) || (breakingItem.type === 'news' && failedImages.has((breakingItem as NewsItem).imageUrl));
 
   return (
     <div style={{ minHeight: '100vh', background: '#1a1a1a', color: '#f0f0f0', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
@@ -287,34 +296,22 @@ export default function Home() {
               justifyContent: 'center',
               overflow: 'hidden',
             }}>
-              {breakingItem.type === 'article' && articleImages[breakingItem.slug] && (
+              {!showPlaceholder && getImageSrc(breakingItem) && (
                 <Image
-                  src={articleImages[breakingItem.slug]}
-                  alt={breakingItem.title}
-                  fill
-                  priority
-                  unoptimized
-                  style={{ objectFit: 'cover' }}
-                />
-              )}
-              {breakingItem.type === 'news' && (breakingItem as NewsItem).imageUrl && imageLoadStatus[(breakingItem as NewsItem).imageUrl] !== false && (
-                <Image
-                  src={(breakingItem as NewsItem).imageUrl}
-                  alt={(breakingItem as NewsItem).headline}
+                  src={getImageSrc(breakingItem)!}
+                  alt={breakingItem.type === 'article' ? breakingItem.title : breakingItem.headline}
                   fill
                   priority
                   sizes="(max-width: 768px) 100vw, 50vw"
                   style={{ objectFit: 'cover' }}
                   onError={() => {
-                    setImageLoadStatus(prev => ({
-                      ...prev,
-                      [(breakingItem as NewsItem).imageUrl]: false
-                    }));
+                    if (breakingItem.type === 'news') {
+                      setFailedImages(prev => new Set(prev).add((breakingItem as NewsItem).imageUrl));
+                    }
                   }}
                 />
               )}
-              {(!breakingItem.type === 'article' || !articleImages[breakingItem.slug as string]) && 
-               (breakingItem.type !== 'news' || !imageLoadStatus[(breakingItem as NewsItem).imageUrl] === false) && (
+              {showPlaceholder && (
                 <div style={{
                   textAlign: 'center',
                   color: '#888',
