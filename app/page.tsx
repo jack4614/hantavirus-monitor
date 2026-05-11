@@ -54,7 +54,7 @@ const newsItems: NewsItem[] = [
     headline: 'MV Hondius Cruise Ship: Passengers to Evacuate at Canary Islands',
     summary: 'WHO implements comprehensive screening and contact tracing protocols as cruise ship prepares for evacuation operations.',
     isBreaking: true,
-    imageUrl: 'https://images.unsplash.com/photo-1559606063-bdf1b2c72f97?w=800&h=600&fit=crop',
+    imageUrl: 'https://images.unsplash.com/photo-1559606063-bdf1b2c72f97?w=1200&h=630&fit=crop',
   },
   {
     feedId: 'news-002',
@@ -66,7 +66,7 @@ const newsItems: NewsItem[] = [
     headline: 'Hantavirus: American CDC Says Risk to Public "Very Low"',
     summary: 'Live update on CDC monitoring and public health risk assessment.',
     isBreaking: true,
-    imageUrl: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=600&fit=crop',
+    imageUrl: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&h=630&fit=crop',
   },
   {
     feedId: 'news-003',
@@ -78,7 +78,7 @@ const newsItems: NewsItem[] = [
     headline: 'Hantavirus-Hit Cruise Ship on Way to Canary Islands After Three Evacuated',
     summary: 'Update on the cruise ship route change and medical evacuation of confirmed cases.',
     isBreaking: true,
-    imageUrl: 'https://images.unsplash.com/photo-1557804506-669714d2e9d8?w=800&h=600&fit=crop',
+    imageUrl: 'https://images.unsplash.com/photo-1557804506-669714d2e9d8?w=1200&h=630&fit=crop',
   },
 ];
 
@@ -106,6 +106,7 @@ export default function Home() {
   const [timeElapsed, setTimeElapsed] = useState('Updated 2 hours ago');
   const [unifiedFeed] = useState(createUnifiedFeed());
   const [tickerIndex, setTickerIndex] = useState(0);
+  const [imageLoadStatus, setImageLoadStatus] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     const calculateTime = () => {
@@ -130,7 +131,6 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  // Rotate ticker every 6 seconds
   useEffect(() => {
     const breakingItems = unifiedFeed.filter(item => item.isBreaking);
     if (breakingItems.length === 0) return;
@@ -169,7 +169,6 @@ export default function Home() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#1a1a1a', color: '#f0f0f0', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
-      {/* MOVING TICKER - 3 BREAKING NEWS */}
       {breakingItems.length > 0 && (
         <div style={{
           background: '#c0392b',
@@ -211,13 +210,11 @@ export default function Home() {
         </div>
       )}
 
-      {/* MAIN CONTENT */}
       <div style={{
         maxWidth: '1200px',
         margin: '0 auto',
         padding: '30px 20px',
       }}>
-        {/* HEADER */}
         <div style={{
           textAlign: 'center',
           marginBottom: '30px',
@@ -241,7 +238,6 @@ export default function Home() {
           </p>
         </div>
 
-        {/* SEARCH */}
         <div style={{ marginBottom: '30px', display: 'flex', justifyContent: 'center' }}>
           <input
             type="text"
@@ -262,9 +258,8 @@ export default function Home() {
           />
         </div>
 
-        {/* FEATURED BREAKING NEWS */}
         {breakingItem && (
-          <a
+          
             href={breakingItem.type === 'article' ? `/articles/${breakingItem.slug}` : breakingItem.sourceUrl}
             target={breakingItem.type === 'news' ? '_blank' : undefined}
             rel={breakingItem.type === 'news' ? 'noopener noreferrer' : undefined}
@@ -290,24 +285,36 @@ export default function Home() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              overflow: 'hidden',
             }}>
-              {breakingItem.type === 'article' && articleImages[breakingItem.slug] ? (
+              {breakingItem.type === 'article' && articleImages[breakingItem.slug] && (
                 <Image
                   src={articleImages[breakingItem.slug]}
                   alt={breakingItem.title}
                   fill
+                  priority
                   unoptimized
                   style={{ objectFit: 'cover' }}
                 />
-              ) : breakingItem.type === 'news' && (breakingItem as NewsItem).imageUrl ? (
+              )}
+              {breakingItem.type === 'news' && (breakingItem as NewsItem).imageUrl && imageLoadStatus[(breakingItem as NewsItem).imageUrl] !== false && (
                 <Image
                   src={(breakingItem as NewsItem).imageUrl}
                   alt={(breakingItem as NewsItem).headline}
                   fill
-                  unoptimized
+                  priority
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   style={{ objectFit: 'cover' }}
+                  onError={() => {
+                    setImageLoadStatus(prev => ({
+                      ...prev,
+                      [(breakingItem as NewsItem).imageUrl]: false
+                    }));
+                  }}
                 />
-              ) : (
+              )}
+              {(!breakingItem.type === 'article' || !articleImages[breakingItem.slug as string]) && 
+               (breakingItem.type !== 'news' || !imageLoadStatus[(breakingItem as NewsItem).imageUrl] === false) && (
                 <div style={{
                   textAlign: 'center',
                   color: '#888',
@@ -345,7 +352,6 @@ export default function Home() {
           </a>
         )}
 
-        {/* 2-COLUMN MAIN LAYOUT */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: '2fr 1fr',
@@ -353,7 +359,6 @@ export default function Home() {
         }}
         className="main-layout"
         >
-          {/* DAILY FEED */}
           <div>
             <h3 style={{
               fontSize: '12px',
@@ -399,7 +404,7 @@ export default function Home() {
                           const isExternal = item.type === 'news';
 
                           return (
-                            <a
+                            
                               key={item.feedId}
                               href={link}
                               target={isExternal ? '_blank' : undefined}
@@ -458,9 +463,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* SIDEBAR */}
           <div>
-            {/* STATUS */}
             <div style={{ marginBottom: '28px' }}>
               <h3 style={{
                 fontSize: '12px',
@@ -493,7 +496,6 @@ export default function Home() {
               <p style={{ margin: '12px 0 0 0', fontSize: '10px', color: '#666' }}>{timeElapsed}</p>
             </div>
 
-            {/* DISCLAIMER */}
             <div style={{
               background: '#222',
               border: '1px solid #c0392b',
@@ -522,7 +524,6 @@ export default function Home() {
               </p>
             </div>
 
-            {/* ESSENTIAL READING */}
             <div style={{ marginBottom: '20px' }}>
               <h4 style={{
                 fontSize: '10px',
@@ -559,7 +560,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* OFFICIAL SOURCES */}
             <div>
               <h4 style={{
                 fontSize: '10px',
@@ -592,7 +592,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* RESPONSIVE CSS */}
       <style>{`
         @media (max-width: 768px) {
           .main-layout {
