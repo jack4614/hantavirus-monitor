@@ -299,6 +299,14 @@ export default function Home() {
                   unoptimized
                   style={{ objectFit: 'cover' }}
                 />
+              ) : breakingItem.type === 'news' && (breakingItem as NewsItem).imageUrl ? (
+                <Image
+                  src={(breakingItem as NewsItem).imageUrl}
+                  alt={(breakingItem as NewsItem).headline}
+                  fill
+                  unoptimized
+                  style={{ objectFit: 'cover' }}
+                />
               ) : (
                 <div style={{
                   textAlign: 'center',
