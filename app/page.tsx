@@ -101,13 +101,16 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    const allBreaking = [...articles.filter(a => a.isBreaking), ...newsItems];
+    if (allBreaking.length === 0) return;
     const timer = setInterval(() => {
-      setTickerIndex(prev => (prev + 1) % newsItems.length);
+      setTickerIndex(prev => (prev + 1) % allBreaking.length);
     }, 6000);
     return () => clearInterval(timer);
   }, []);
 
-  const currentNews = newsItems[tickerIndex];
+  const allBreaking = [...articles.filter(a => a.isBreaking), ...newsItems];
+  const currentNews = allBreaking[tickerIndex];
   const breakingArticles = articles.filter(a => a.isBreaking);
   const breakingItem = breakingArticles.length > 0 ? breakingArticles[0] : null;
 
@@ -115,19 +118,47 @@ export default function Home() {
     ? articles.filter(a => !a.isBreaking)
     : articles.filter(a => a.title.toLowerCase().includes(searchTerm.toLowerCase()) || a.excerpt.toLowerCase().includes(searchTerm.toLowerCase()));
 
-  const grouped: { [key: string]: typeof articles } = {};
+  const grouped: { [key: string]: any[] } = {};
+  
+  // Add articles
   filtered.forEach(a => {
     if (!grouped[a.category]) grouped[a.category] = [];
-    grouped[a.category].push(a);
+    grouped[a.category].push({
+      feedId: `article-${a.id}`,
+      type: 'article',
+      title: a.title,
+      slug: a.slug,
+      excerpt: a.excerpt,
+      source: a.category,
+      sourceUrl: `/articles/${a.slug}`,
+      isExternal: false,
+    });
+  });
+
+  // Add news items
+  newsItems.forEach(n => {
+    const source = n.source;
+    if (!grouped[source]) grouped[source] = [];
+    grouped[source].push({
+      feedId: n.feedId,
+      type: 'news',
+      title: n.headline,
+      excerpt: n.summary,
+      sourceUrl: n.sourceUrl,
+      source: n.source,
+      isExternal: true,
+    });
   });
 
   return (
     <div style={{ minHeight: '100vh', background: '#1a1a1a', color: '#f0f0f0', fontFamily: 'system-ui' }}>
-      <div style={{ background: '#c0392b', color: 'white', padding: '12px 20px', display: 'flex', gap: '16px', cursor: 'pointer' }} onClick={() => window.location.href = currentNews.sourceUrl}>
-        <span style={{ fontWeight: '700', whiteSpace: 'nowrap' }}>⚡ BREAKING</span>
-        <p style={{ margin: 0, flex: 1 }}>{currentNews.headline}</p>
-        <span style={{ fontSize: '11px' }}>{tickerIndex + 1} of {newsItems.length}</span>
-      </div>
+      {currentNews && (
+        <div style={{ background: '#c0392b', color: 'white', padding: '12px 20px', display: 'flex', gap: '16px', cursor: 'pointer' }} onClick={() => window.location.href = currentNews.sourceUrl}>
+          <span style={{ fontWeight: '700', whiteSpace: 'nowrap' }}>⚡ BREAKING</span>
+          <p style={{ margin: 0, flex: 1 }}>{currentNews.type === 'article' ? currentNews.title : currentNews.headline}</p>
+          <span style={{ fontSize: '11px' }}>{tickerIndex + 1} of {allBreaking.length}</span>
+        </div>
+      )}
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '30px 20px' }}>
         <div style={{ textAlign: 'center', marginBottom: '30px', paddingBottom: '24px', borderBottom: '1px solid #333' }}>
@@ -166,10 +197,11 @@ export default function Home() {
             {Object.entries(grouped).map(([category, items]) => (
               <div key={category} style={{ marginBottom: '28px' }}>
                 <p style={{ fontSize: '10px', fontWeight: '700', margin: '0 0 16px 0', color: '#0066cc', textTransform: 'uppercase' }}>{category}</p>
-                {items.slice(0, 2).map(item => (
-                  <a key={item.slug} href={`/articles/${item.slug}`} style={{ display: 'block', textDecoration: 'none', color: '#f0f0f0', borderLeft: '3px solid #0066cc', paddingLeft: '16px', marginBottom: '18px' }}>
+                {items.slice(0, 3).map(item => (
+                  <a key={item.feedId} href={item.sourceUrl} target={item.isExternal ? '_blank' : undefined} rel={item.isExternal ? 'noopener noreferrer' : undefined} style={{ display: 'block', textDecoration: 'none', color: '#f0f0f0', borderLeft: '3px solid #0066cc', paddingLeft: '16px', marginBottom: '18px' }}>
                     <h4 style={{ margin: '0 0 8px 0', fontSize: '15px', fontWeight: '600', fontFamily: 'Georgia, serif' }}>{item.title}</h4>
                     <p style={{ margin: '0', fontSize: '12px', color: '#999' }}>{item.excerpt.substring(0, 100)}...</p>
+                    <span style={{ fontSize: '10px', color: '#0066cc', display: 'block', marginTop: '4px' }}>{item.isExternal ? `Read at ${item.source} →` : 'Read article →'}</span>
                   </a>
                 ))}
               </div>
