@@ -1,9 +1,7 @@
-'use client';
-
 import { articles } from '@/articles';
 import Image from 'next/image';
-import { notFound, useParams } from 'next/navigation';
-import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 
 const articleImages: { [key: string]: string } = {
   'what-is-hantavirus': '/images/what-is-hantavirus.jpg',
@@ -18,10 +16,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const article = articles.find(a => a.slug === params.slug);
   
   if (!article) {
-    return {
-      title: 'Article Not Found',
-    };
+    return { title: 'Not Found' };
   }
+
+  const imageUrl = articleImages[article.slug] || 'https://www.hantavirus-updates.com/favicon.svg';
 
   return {
     title: `${article.title} | Hantavirus Updates`,
@@ -31,20 +29,19 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       description: article.excerpt,
       url: `https://www.hantavirus-updates.com/articles/${article.slug}`,
       type: 'article',
-      siteName: 'Hantavirus Updates',
+      images: [{ url: imageUrl, width: 1200, height: 630 }],
     },
     twitter: {
-      card: 'summary',
+      card: 'summary_large_image',
       title: article.title,
       description: article.excerpt,
+      images: [imageUrl],
     },
   };
 }
 
-export default function ArticlePage() {
-  const params = useParams();
-  const slug = params?.slug as string;
-  const article = articles.find(a => a.slug === slug);
+export default function ArticlePage({ params }: { params: { slug: string } }) {
+  const article = articles.find(a => a.slug === params.slug);
 
   if (!article) {
     notFound();
