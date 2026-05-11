@@ -2,8 +2,21 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Hantavirus Updates",
-  description: "Breaking news about the 2026 Hantavirus outbreak",
+  title: "Hantavirus Updates | Breaking News & Information",
+  description: "Real-time monitoring of the 2026 Hantavirus outbreak. Breaking news, symptoms, prevention, and outbreak tracking across 7+ countries.",
+  keywords: ["hantavirus", "outbreak", "2026", "breaking news", "health"],
+  openGraph: {
+    title: "Hantavirus Updates | Breaking News & Information",
+    description: "Real-time monitoring of the 2026 Hantavirus outbreak",
+    url: "https://www.hantavirus-updates.com",
+    siteName: "Hantavirus Updates",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Hantavirus Updates",
+    description: "Real-time monitoring of the 2026 Hantavirus outbreak",
+  },
 };
 
 export default function RootLayout({
@@ -15,6 +28,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="en_US" />
       </head>
       <body>{children}</body>
     </html>
