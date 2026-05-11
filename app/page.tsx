@@ -106,7 +106,6 @@ export default function Home() {
   const [timeElapsed, setTimeElapsed] = useState('Updated 2 hours ago');
   const [unifiedFeed] = useState(createUnifiedFeed());
   const [tickerIndex, setTickerIndex] = useState(0);
-  const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const calculateTime = () => {
@@ -167,15 +166,6 @@ export default function Home() {
   const categorized = groupByCategory(filteredFeed);
   const currentTickerItem = breakingItems[tickerIndex];
 
-  const getImageSrc = (item: FeedItem): string | null => {
-    if (item.type === 'article') {
-      return articleImages[item.slug] || null;
-    }
-    return (item as NewsItem).imageUrl || null;
-  };
-
-  const showPlaceholder = !breakingItem || !getImageSrc(breakingItem) || (breakingItem.type === 'news' && failedImages.has((breakingItem as NewsItem).imageUrl));
-
   return (
     <div style={{ minHeight: '100vh', background: '#1a1a1a', color: '#f0f0f0', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
       {breakingItems.length > 0 && (
@@ -195,21 +185,10 @@ export default function Home() {
             : currentTickerItem.sourceUrl;
           window.location.href = link;
         }}
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.background = '#a02d24';
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.background = '#c0392b';
-        }}
         >
           <span style={{ fontSize: '13px', fontWeight: '700', whiteSpace: 'nowrap' }}>⚡ BREAKING</span>
           <div style={{ flex: 1, overflow: 'hidden' }}>
-            <p style={{
-              margin: 0,
-              fontSize: '13px',
-              whiteSpace: 'nowrap',
-              animation: 'scroll 0.3s ease-in',
-            }}>
+            <p style={{ margin: 0, fontSize: '13px', whiteSpace: 'nowrap' }}>
               {currentTickerItem?.type === 'article' 
                 ? currentTickerItem.title 
                 : currentTickerItem?.headline}
@@ -219,32 +198,11 @@ export default function Home() {
         </div>
       )}
 
-      <div style={{
-        maxWidth: '1200px',
-        margin: '0 auto',
-        padding: '30px 20px',
-      }}>
-        <div style={{
-          textAlign: 'center',
-          marginBottom: '30px',
-          paddingBottom: '24px',
-          borderBottom: '1px solid #333',
-        }}>
-          <p style={{ margin: '0 0 8px 0', fontSize: '11px', letterSpacing: '2px', color: '#888', textTransform: 'uppercase' }}>
-            Real-time monitoring
-          </p>
-          <h1 style={{
-            margin: '0 0 8px 0',
-            fontSize: '48px',
-            fontWeight: '700',
-            letterSpacing: '-1px',
-            fontFamily: 'Georgia, "Times New Roman", serif',
-          }}>
-            Hantavirus Updates
-          </h1>
-          <p style={{ margin: 0, fontSize: '13px', color: '#aaa' }}>
-            Breaking news & comprehensive coverage
-          </p>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '30px 20px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '30px', paddingBottom: '24px', borderBottom: '1px solid #333' }}>
+          <p style={{ margin: '0 0 8px 0', fontSize: '11px', letterSpacing: '2px', color: '#888', textTransform: 'uppercase' }}>Real-time monitoring</p>
+          <h1 style={{ margin: '0 0 8px 0', fontSize: '48px', fontWeight: '700', letterSpacing: '-1px', fontFamily: 'Georgia, "Times New Roman", serif' }}>Hantavirus Updates</h1>
+          <p style={{ margin: 0, fontSize: '13px', color: '#aaa' }}>Breaking news & comprehensive coverage</p>
         </div>
 
         <div style={{ marginBottom: '30px', display: 'flex', justifyContent: 'center' }}>
@@ -253,17 +211,7 @@ export default function Home() {
             placeholder="Search articles..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            style={{
-              padding: '10px 14px',
-              border: '1px solid #333',
-              borderRadius: '4px',
-              width: '100%',
-              maxWidth: '380px',
-              fontSize: '13px',
-              background: '#222',
-              color: '#f0f0f0',
-              boxSizing: 'border-box',
-            }}
+            style={{ padding: '10px 14px', border: '1px solid #333', borderRadius: '4px', width: '100%', maxWidth: '380px', fontSize: '13px', background: '#222', color: '#f0f0f0', boxSizing: 'border-box' }}
           />
         </div>
 
@@ -272,127 +220,49 @@ export default function Home() {
             href={breakingItem.type === 'article' ? `/articles/${breakingItem.slug}` : breakingItem.sourceUrl}
             target={breakingItem.type === 'news' ? '_blank' : undefined}
             rel={breakingItem.type === 'news' ? 'noopener noreferrer' : undefined}
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '28px',
-              marginBottom: '40px',
-              border: '1px solid #333',
-              borderRadius: '4px',
-              overflow: 'hidden',
-              background: '#222',
-              textDecoration: 'none',
-              color: '#f0f0f0',
-            }}
+            style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '28px', marginBottom: '40px', border: '1px solid #333', borderRadius: '4px', overflow: 'hidden', background: '#222', textDecoration: 'none', color: '#f0f0f0' }}
             className="breaking-featured"
           >
-            {/* Image */}
-            <div style={{
-              position: 'relative',
-              height: '340px',
-              background: '#333',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              overflow: 'hidden',
-            }}>
-              {!showPlaceholder && getImageSrc(breakingItem) && (
-                <Image
-                  src={getImageSrc(breakingItem)!}
-                  alt={breakingItem.type === 'article' ? breakingItem.title : breakingItem.headline}
-                  fill
-                  priority
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  style={{ objectFit: 'cover' }}
-                  onError={() => {
-                    if (breakingItem.type === 'news') {
-                      setFailedImages(prev => new Set(prev).add((breakingItem as NewsItem).imageUrl));
-                    }
-                  }}
-                />
-              )}
-              {showPlaceholder && (
-                <div style={{
-                  textAlign: 'center',
-                  color: '#888',
-                  fontSize: '14px',
-                }}>
-                  <div style={{ fontSize: '28px', marginBottom: '8px' }}>📰</div>
-                  <div>Breaking News Image</div>
-                </div>
+            <div style={{ position: 'relative', height: '340px', background: '#333', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {breakingItem.type === 'article' && articleImages[breakingItem.slug] ? (
+                <Image src={articleImages[breakingItem.slug]} alt={breakingItem.title} fill priority sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
+              ) : breakingItem.type === 'news' ? (
+                <Image src={(breakingItem as NewsItem).imageUrl} alt={(breakingItem as NewsItem).headline} fill priority sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
+              ) : (
+                <div style={{ textAlign: 'center', color: '#888', fontSize: '14px' }}><div style={{ fontSize: '28px', marginBottom: '8px' }}>📰</div><div>Breaking News Image</div></div>
               )}
             </div>
-
-            {/* Content */}
             <div style={{ padding: '28px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <p style={{ margin: '0 0 10px 0', fontSize: '10px', letterSpacing: '1px', color: '#c0392b', textTransform: 'uppercase', fontWeight: '700' }}>
-                ⚡ Breaking News
-              </p>
-              <h2 style={{
-                margin: '0 0 14px 0',
-                fontSize: '28px',
-                fontWeight: '700',
-                lineHeight: '1.2',
-                fontFamily: 'Georgia, "Times New Roman", serif',
-              }}>
+              <p style={{ margin: '0 0 10px 0', fontSize: '10px', letterSpacing: '1px', color: '#c0392b', textTransform: 'uppercase', fontWeight: '700' }}>⚡ Breaking News</p>
+              <h2 style={{ margin: '0 0 14px 0', fontSize: '28px', fontWeight: '700', lineHeight: '1.2', fontFamily: 'Georgia, "Times New Roman", serif' }}>
                 {breakingItem.type === 'article' ? breakingItem.title : breakingItem.headline}
               </h2>
-              <p style={{
-                margin: '0',
-                fontSize: '14px',
-                color: '#bbb',
-                lineHeight: '1.6',
-              }}>
+              <p style={{ margin: '0', fontSize: '14px', color: '#bbb', lineHeight: '1.6' }}>
                 {breakingItem.type === 'article' ? breakingItem.excerpt : breakingItem.summary}
               </p>
             </div>
           </a>
         )}
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '2fr 1fr',
-          gap: '30px',
-        }}
-        className="main-layout"
-        >
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '30px' }} className="main-layout">
           <div>
-            <h3 style={{
-              fontSize: '12px',
-              fontWeight: '700',
-              letterSpacing: '1px',
-              margin: '0 0 24px 0',
-              color: '#c0392b',
-              textTransform: 'uppercase',
-            }}>
-              Daily Feed
-            </h3>
-
+            <h3 style={{ fontSize: '12px', fontWeight: '700', letterSpacing: '1px', margin: '0 0 24px 0', color: '#c0392b', textTransform: 'uppercase' }}>Daily Feed</h3>
             <div style={{ display: 'grid', gap: '28px' }}>
               {filteredFeed.length === 0 ? (
                 <p style={{ color: '#888', fontSize: '13px' }}>No results for "{searchTerm}"</p>
               ) : (
                 Object.entries(categorized).map(([category, items], categoryIdx) => {
                   const categoryColors = [
-                    { border: '#0066cc', bg: 'rgba(0, 102, 204, 0.1)' },
-                    { border: '#00aa66', bg: 'rgba(0, 170, 102, 0.1)' },
-                    { border: '#cc7700', bg: 'rgba(204, 119, 0, 0.1)' },
-                    { border: '#aa00cc', bg: 'rgba(170, 0, 204, 0.1)' },
+                    { border: '#0066cc' },
+                    { border: '#00aa66' },
+                    { border: '#cc7700' },
+                    { border: '#aa00cc' },
                   ];
                   const colors = categoryColors[categoryIdx % categoryColors.length];
 
                   return (
                     <div key={category}>
-                      <p style={{
-                        fontSize: '10px',
-                        letterSpacing: '2px',
-                        color: colors.border,
-                        textTransform: 'uppercase',
-                        margin: '0 0 16px 0',
-                        fontWeight: '700',
-                      }}>
-                        {category}
-                      </p>
+                      <p style={{ fontSize: '10px', letterSpacing: '2px', color: colors.border, textTransform: 'uppercase', margin: '0 0 16px 0', fontWeight: '700' }}>{category}</p>
                       <div style={{ display: 'grid', gap: '18px' }}>
                         {items.slice(0, 2).map(item => {
                           const title = item.type === 'article' ? item.title : item.headline;
@@ -406,49 +276,11 @@ export default function Home() {
                               href={link}
                               target={isExternal ? '_blank' : undefined}
                               rel={isExternal ? 'noopener noreferrer' : undefined}
-                              style={{
-                                textDecoration: 'none',
-                                color: '#f0f0f0',
-                                transition: 'all 0.2s',
-                                borderLeft: `3px solid ${colors.border}`,
-                                paddingLeft: '16px',
-                                display: 'block',
-                              }}
-                              onMouseEnter={(e) => {
-                                (e.currentTarget as HTMLElement).style.color = colors.border;
-                                (e.currentTarget as HTMLElement).style.paddingLeft = '20px';
-                              }}
-                              onMouseLeave={(e) => {
-                                (e.currentTarget as HTMLElement).style.color = '#f0f0f0';
-                                (e.currentTarget as HTMLElement).style.paddingLeft = '16px';
-                              }}
+                              style={{ textDecoration: 'none', color: '#f0f0f0', borderLeft: `3px solid ${colors.border}`, paddingLeft: '16px', display: 'block' }}
                             >
-                              <h4 style={{
-                                margin: '0 0 8px 0',
-                                fontSize: '15px',
-                                fontWeight: '600',
-                                lineHeight: '1.3',
-                                fontFamily: 'Georgia, "Times New Roman", serif',
-                              }}>
-                                {title}
-                              </h4>
-                              <p style={{
-                                margin: '0',
-                                fontSize: '12px',
-                                color: '#999',
-                                lineHeight: '1.6',
-                              }}>
-                                {summary.length > 100 ? summary.substring(0, 100) + '...' : summary}
-                              </p>
-                              <span style={{
-                                fontSize: '10px',
-                                color: colors.border,
-                                fontWeight: '600',
-                                marginTop: '8px',
-                                display: 'inline-block',
-                              }}>
-                                {isExternal ? `Read at ${(item as NewsItem).source} →` : 'Read article →'}
-                              </span>
+                              <h4 style={{ margin: '0 0 8px 0', fontSize: '15px', fontWeight: '600', lineHeight: '1.3', fontFamily: 'Georgia, "Times New Roman", serif' }}>{title}</h4>
+                              <p style={{ margin: '0', fontSize: '12px', color: '#999', lineHeight: '1.6' }}>{summary.length > 100 ? summary.substring(0, 100) + '...' : summary}</p>
+                              <span style={{ fontSize: '10px', color: colors.border, fontWeight: '600', marginTop: '8px', display: 'inline-block' }}>{isExternal ? `Read at ${(item as NewsItem).source} →` : 'Read article →'}</span>
                             </a>
                           );
                         })}
@@ -462,16 +294,7 @@ export default function Home() {
 
           <div>
             <div style={{ marginBottom: '28px' }}>
-              <h3 style={{
-                fontSize: '12px',
-                fontWeight: '700',
-                letterSpacing: '1px',
-                margin: '0 0 16px 0',
-                color: '#c0392b',
-                textTransform: 'uppercase',
-              }}>
-                Current Status
-              </h3>
+              <h3 style={{ fontSize: '12px', fontWeight: '700', letterSpacing: '1px', margin: '0 0 16px 0', color: '#c0392b', textTransform: 'uppercase' }}>Current Status</h3>
               <div style={{ display: 'grid', gap: '12px' }}>
                 <div style={{ background: '#222', border: '1px solid #333', borderRadius: '4px', padding: '14px' }}>
                   <p style={{ margin: '0 0 6px 0', fontSize: '10px', color: '#888', textTransform: 'uppercase', fontWeight: '700' }}>Confirmed Cases</p>
@@ -493,96 +316,25 @@ export default function Home() {
               <p style={{ margin: '12px 0 0 0', fontSize: '10px', color: '#666' }}>{timeElapsed}</p>
             </div>
 
-            <div style={{
-              background: '#222',
-              border: '1px solid #c0392b',
-              borderLeft: '3px solid #c0392b',
-              borderRadius: '4px',
-              padding: '14px',
-              marginBottom: '20px',
-            }}>
-              <h4 style={{
-                fontSize: '10px',
-                fontWeight: '700',
-                letterSpacing: '1px',
-                margin: '0 0 8px 0',
-                color: '#c0392b',
-                textTransform: 'uppercase',
-              }}>
-                Medical Disclaimer
-              </h4>
-              <p style={{
-                margin: 0,
-                fontSize: '12px',
-                color: '#999',
-                lineHeight: '1.5',
-              }}>
-                Not medical advice. Contact your healthcare provider for urgent concerns.
-              </p>
+            <div style={{ background: '#222', border: '1px solid #c0392b', borderLeft: '3px solid #c0392b', borderRadius: '4px', padding: '14px', marginBottom: '20px' }}>
+              <h4 style={{ fontSize: '10px', fontWeight: '700', letterSpacing: '1px', margin: '0 0 8px 0', color: '#c0392b', textTransform: 'uppercase' }}>Medical Disclaimer</h4>
+              <p style={{ margin: 0, fontSize: '12px', color: '#999', lineHeight: '1.5' }}>Not medical advice. Contact your healthcare provider for urgent concerns.</p>
             </div>
 
             <div style={{ marginBottom: '20px' }}>
-              <h4 style={{
-                fontSize: '10px',
-                fontWeight: '700',
-                letterSpacing: '1px',
-                margin: '0 0 12px 0',
-                color: '#c0392b',
-                textTransform: 'uppercase',
-              }}>
-                Essential Reading
-              </h4>
+              <h4 style={{ fontSize: '10px', fontWeight: '700', letterSpacing: '1px', margin: '0 0 12px 0', color: '#c0392b', textTransform: 'uppercase' }}>Essential Reading</h4>
               <div style={{ display: 'grid', gap: '8px' }}>
-                <a href="/articles/what-is-hantavirus" style={{
-                  fontSize: '12px',
-                  color: '#bbb',
-                  textDecoration: 'none',
-                }}>
-                  → What is Hantavirus?
-                </a>
-                <a href="/articles/hantavirus-symptoms-warning-signs" style={{
-                  fontSize: '12px',
-                  color: '#bbb',
-                  textDecoration: 'none',
-                }}>
-                  → Symptoms & Warning Signs
-                </a>
-                <a href="/articles/hantavirus-prevention-guide" style={{
-                  fontSize: '12px',
-                  color: '#bbb',
-                  textDecoration: 'none',
-                }}>
-                  → Prevention Guide
-                </a>
+                <a href="/articles/what-is-hantavirus" style={{ fontSize: '12px', color: '#bbb', textDecoration: 'none' }}>→ What is Hantavirus?</a>
+                <a href="/articles/hantavirus-symptoms-warning-signs" style={{ fontSize: '12px', color: '#bbb', textDecoration: 'none' }}>→ Symptoms & Warning Signs</a>
+                <a href="/articles/hantavirus-prevention-guide" style={{ fontSize: '12px', color: '#bbb', textDecoration: 'none' }}>→ Prevention Guide</a>
               </div>
             </div>
 
             <div>
-              <h4 style={{
-                fontSize: '10px',
-                fontWeight: '700',
-                letterSpacing: '1px',
-                margin: '0 0 12px 0',
-                color: '#c0392b',
-                textTransform: 'uppercase',
-              }}>
-                Official Sources
-              </h4>
+              <h4 style={{ fontSize: '10px', fontWeight: '700', letterSpacing: '1px', margin: '0 0 12px 0', color: '#c0392b', textTransform: 'uppercase' }}>Official Sources</h4>
               <div style={{ display: 'grid', gap: '8px' }}>
-                <a href="https://www.who.int" target="_blank" rel="noopener noreferrer" style={{
-                  fontSize: '12px',
-                  color: '#bbb',
-                  textDecoration: 'none',
-                }}>
-                  WHO
-                </a>
-                <a href="https://www.cdc.gov" target="_blank" rel="noopener noreferrer" style={{
-                  fontSize: '12px',
-                  color: '#bbb',
-                  textDecoration: 'none',
-                }}>
-                  CDC
-                </a>
+                <a href="https://www.who.int" target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#bbb', textDecoration: 'none' }}>WHO</a>
+                <a href="https://www.cdc.gov" target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#bbb', textDecoration: 'none' }}>CDC</a>
               </div>
             </div>
           </div>
@@ -591,12 +343,8 @@ export default function Home() {
 
       <style>{`
         @media (max-width: 768px) {
-          .main-layout {
-            grid-template-columns: 1fr !important;
-          }
-          .breaking-featured {
-            grid-template-columns: 1fr !important;
-          }
+          .main-layout { grid-template-columns: 1fr !important; }
+          .breaking-featured { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </div>
