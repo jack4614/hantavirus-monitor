@@ -89,6 +89,18 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
           {article.excerpt}
         </div>
 
+        {/* FULL CONTENT */}
+        <div style={{
+          fontSize: '15px',
+          lineHeight: '1.8',
+          color: '#ccc',
+          marginBottom: '40px',
+          whiteSpace: 'pre-wrap',
+          wordWrap: 'break-word',
+        }}>
+          {article.content}
+        </div>
+
         {/* AUTHOR & DATE */}
         <div style={{
           padding: '20px',
