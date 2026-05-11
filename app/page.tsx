@@ -14,39 +14,9 @@ const articleImages: { [key: string]: string } = {
   'hantavirus-vs-covid-19': '/images/vs-covid-19.jpg',
 };
 
-type OriginalArticle = {
-  feedId: string;
-  type: 'article';
-  id: string | number;
-  title: string;
-  slug: string;
-  excerpt: string;
-  category: string;
-  isBreaking: boolean;
-  author: string;
-  content: string;
-  date: Date;
-};
-
-type NewsItem = {
-  feedId: string;
-  type: 'news';
-  id: string;
-  source: string;
-  sourceUrl: string;
-  date: Date;
-  headline: string;
-  summary: string;
-  isBreaking: boolean;
-  imageUrl: string;
-};
-
-type FeedItem = OriginalArticle | NewsItem;
-
-const newsItems: NewsItem[] = [
+const newsItems = [
   {
     feedId: 'news-001',
-    id: 'news-001',
     type: 'news',
     source: 'NDTV Health',
     sourceUrl: 'https://www.ndtv.com/health/hantavirus-cruise-ship-passengers-to-evacuate-at-canary-islands-soon-who-shares-screening-contact-tracing-plans-11470796',
@@ -58,7 +28,6 @@ const newsItems: NewsItem[] = [
   },
   {
     feedId: 'news-002',
-    id: 'news-002',
     type: 'news',
     source: 'Deutsche Welle',
     sourceUrl: 'https://www.dw.com/en/hantavirus-american-cdc-says-risk-to-public-very-low/live-77063670',
@@ -70,7 +39,6 @@ const newsItems: NewsItem[] = [
   },
   {
     feedId: 'news-003',
-    id: 'news-003',
     type: 'news',
     source: 'BBC News',
     sourceUrl: 'https://www.bbc.com/news/articles/c5y093d5n9ko',
@@ -82,29 +50,9 @@ const newsItems: NewsItem[] = [
   },
 ];
 
-const createUnifiedFeed = (): FeedItem[] => {
-  const originalArticles: OriginalArticle[] = articles.map(article => ({
-    feedId: `article-${article.id}`,
-    type: 'article',
-    id: article.id,
-    title: article.title,
-    slug: article.slug,
-    excerpt: article.excerpt,
-    category: article.category,
-    isBreaking: article.isBreaking,
-    author: article.author,
-    content: article.content,
-    date: new Date('2026-05-09'),
-  }));
-
-  const combined: FeedItem[] = [...originalArticles, ...newsItems];
-  return combined.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-};
-
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
   const [timeElapsed, setTimeElapsed] = useState('Updated 2 hours ago');
-  const [unifiedFeed] = useState(createUnifiedFeed());
   const [tickerIndex, setTickerIndex] = useState(0);
 
   useEffect(() => {
@@ -118,9 +66,9 @@ export default function Home() {
 
       let time = 'Just now';
       if (diffMins < 1) time = 'Just now';
-      else if (diffMins < 60) time = `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
-      else if (diffHours < 24) time = `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
-      else time = `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+      else if (diffMins < 60) time = `${diffMins}m ago`;
+      else if (diffHours < 24) time = `${diffHours}h ago`;
+      else time = `${diffDays}d ago`;
 
       setTimeElapsed(`Updated ${time}`);
     };
@@ -131,77 +79,37 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const breakingItems = unifiedFeed.filter(item => item.isBreaking);
-    if (breakingItems.length === 0) return;
-
     const timer = setInterval(() => {
-      setTickerIndex(prev => (prev + 1) % breakingItems.length);
+      setTickerIndex(prev => (prev + 1) % newsItems.length);
     }, 6000);
-
     return () => clearInterval(timer);
-  }, [unifiedFeed]);
+  }, []);
 
-  const breakingItems = unifiedFeed.filter(item => item.isBreaking);
-  const breakingItem = breakingItems.length > 0 ? breakingItems[0] : null;
+  const currentNews = newsItems[tickerIndex];
+  const breakingArticles = articles.filter(a => a.isBreaking);
+  const breakingItem = breakingArticles.length > 0 ? breakingArticles[0] : null;
 
-  const filteredFeed = searchTerm.trim() === ''
-    ? unifiedFeed.filter(item => !item.isBreaking)
-    : unifiedFeed.filter(item => {
-        const searchLower = searchTerm.toLowerCase();
-        const itemTitle = item.type === 'article' ? item.title : item.headline;
-        const itemBody = item.type === 'article' ? item.excerpt : item.summary;
-        return itemTitle.toLowerCase().includes(searchLower) || itemBody.toLowerCase().includes(searchLower);
-      });
+  const filtered = searchTerm.trim() === ''
+    ? articles.filter(a => !a.isBreaking)
+    : articles.filter(a => a.title.toLowerCase().includes(searchTerm.toLowerCase()) || a.excerpt.toLowerCase().includes(searchTerm.toLowerCase()));
 
-  const groupByCategory = (items: FeedItem[]) => {
-    const groups: { [key: string]: FeedItem[] } = {};
-    items.forEach(item => {
-      const category = item.type === 'article' ? item.category : item.source;
-      if (!groups[category]) groups[category] = [];
-      groups[category].push(item);
-    });
-    return groups;
-  };
-
-  const categorized = groupByCategory(filteredFeed);
-  const currentTickerItem = breakingItems[tickerIndex];
+  const grouped: { [key: string]: typeof articles } = {};
+  filtered.forEach(a => {
+    if (!grouped[a.category]) grouped[a.category] = [];
+    grouped[a.category].push(a);
+  });
 
   return (
-    <div style={{ minHeight: '100vh', background: '#1a1a1a', color: '#f0f0f0', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
-      {breakingItems.length > 0 && (
-        <div style={{
-          background: '#c0392b',
-          color: 'white',
-          padding: '12px 20px',
-          display: 'flex',
-          gap: '16px',
-          alignItems: 'center',
-          overflow: 'hidden',
-          cursor: 'pointer',
-        }}
-        onClick={() => {
-          const link = currentTickerItem.type === 'article' 
-            ? `/articles/${currentTickerItem.slug}` 
-            : currentTickerItem.sourceUrl;
-          window.location.href = link;
-        }}
-        >
-          <span style={{ fontSize: '13px', fontWeight: '700', whiteSpace: 'nowrap' }}>⚡ BREAKING</span>
-          <div style={{ flex: 1, overflow: 'hidden' }}>
-            <p style={{ margin: 0, fontSize: '13px', whiteSpace: 'nowrap' }}>
-              {currentTickerItem?.type === 'article' 
-                ? currentTickerItem.title 
-                : currentTickerItem?.headline}
-            </p>
-          </div>
-          <span style={{ fontSize: '11px', opacity: 0.9 }}>{tickerIndex + 1} of {breakingItems.length}</span>
-        </div>
-      )}
+    <div style={{ minHeight: '100vh', background: '#1a1a1a', color: '#f0f0f0', fontFamily: 'system-ui' }}>
+      <div style={{ background: '#c0392b', color: 'white', padding: '12px 20px', display: 'flex', gap: '16px', cursor: 'pointer' }} onClick={() => window.location.href = currentNews.sourceUrl}>
+        <span style={{ fontWeight: '700', whiteSpace: 'nowrap' }}>⚡ BREAKING</span>
+        <p style={{ margin: 0, flex: 1 }}>{currentNews.headline}</p>
+        <span style={{ fontSize: '11px' }}>{tickerIndex + 1} of {newsItems.length}</span>
+      </div>
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '30px 20px' }}>
         <div style={{ textAlign: 'center', marginBottom: '30px', paddingBottom: '24px', borderBottom: '1px solid #333' }}>
-          <p style={{ margin: '0 0 8px 0', fontSize: '11px', letterSpacing: '2px', color: '#888', textTransform: 'uppercase' }}>Real-time monitoring</p>
-          <h1 style={{ margin: '0 0 8px 0', fontSize: '48px', fontWeight: '700', letterSpacing: '-1px', fontFamily: 'Georgia, "Times New Roman", serif' }}>Hantavirus Updates</h1>
+          <h1 style={{ margin: '0 0 8px 0', fontSize: '48px', fontWeight: '700', fontFamily: 'Georgia, serif' }}>Hantavirus Updates</h1>
           <p style={{ margin: 0, fontSize: '13px', color: '#aaa' }}>Breaking news & comprehensive coverage</p>
         </div>
 
@@ -211,105 +119,59 @@ export default function Home() {
             placeholder="Search articles..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            style={{ padding: '10px 14px', border: '1px solid #333', borderRadius: '4px', width: '100%', maxWidth: '380px', fontSize: '13px', background: '#222', color: '#f0f0f0', boxSizing: 'border-box' }}
+            style={{ padding: '10px 14px', border: '1px solid #333', borderRadius: '4px', width: '100%', maxWidth: '380px', fontSize: '13px', background: '#222', color: '#f0f0f0' }}
           />
         </div>
 
         {breakingItem && (
-          
-            href={breakingItem.type === 'article' ? `/articles/${breakingItem.slug}` : breakingItem.sourceUrl}
-            target={breakingItem.type === 'news' ? '_blank' : undefined}
-            rel={breakingItem.type === 'news' ? 'noopener noreferrer' : undefined}
-            style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '28px', marginBottom: '40px', border: '1px solid #333', borderRadius: '4px', overflow: 'hidden', background: '#222', textDecoration: 'none', color: '#f0f0f0' }}
-            className="breaking-featured"
-          >
-            <div style={{ position: 'relative', height: '340px', background: '#333', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              {breakingItem.type === 'article' && articleImages[breakingItem.slug] ? (
-                <Image src={articleImages[breakingItem.slug]} alt={breakingItem.title} fill priority sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
-              ) : breakingItem.type === 'news' ? (
-                <Image src={(breakingItem as NewsItem).imageUrl} alt={(breakingItem as NewsItem).headline} fill priority sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
-              ) : (
-                <div style={{ textAlign: 'center', color: '#888', fontSize: '14px' }}><div style={{ fontSize: '28px', marginBottom: '8px' }}>📰</div><div>Breaking News Image</div></div>
+          <a href={`/articles/${breakingItem.slug}`} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '28px', marginBottom: '40px', border: '1px solid #333', borderRadius: '4px', background: '#222', textDecoration: 'none', color: '#f0f0f0', overflow: 'hidden' }}>
+            <div style={{ position: 'relative', height: '340px', background: '#333' }}>
+              {articleImages[breakingItem.slug] && (
+                <Image src={articleImages[breakingItem.slug]} alt={breakingItem.title} fill priority style={{ objectFit: 'cover' }} />
               )}
             </div>
             <div style={{ padding: '28px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <p style={{ margin: '0 0 10px 0', fontSize: '10px', letterSpacing: '1px', color: '#c0392b', textTransform: 'uppercase', fontWeight: '700' }}>⚡ Breaking News</p>
-              <h2 style={{ margin: '0 0 14px 0', fontSize: '28px', fontWeight: '700', lineHeight: '1.2', fontFamily: 'Georgia, "Times New Roman", serif' }}>
-                {breakingItem.type === 'article' ? breakingItem.title : breakingItem.headline}
-              </h2>
-              <p style={{ margin: '0', fontSize: '14px', color: '#bbb', lineHeight: '1.6' }}>
-                {breakingItem.type === 'article' ? breakingItem.excerpt : breakingItem.summary}
-              </p>
+              <p style={{ margin: '0 0 10px 0', fontSize: '10px', color: '#c0392b', fontWeight: '700' }}>⚡ Breaking News</p>
+              <h2 style={{ margin: '0 0 14px 0', fontSize: '28px', fontWeight: '700', lineHeight: '1.2', fontFamily: 'Georgia, serif' }}>{breakingItem.title}</h2>
+              <p style={{ margin: '0', fontSize: '14px', color: '#bbb', lineHeight: '1.6' }}>{breakingItem.excerpt}</p>
             </div>
           </a>
         )}
 
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '30px' }} className="main-layout">
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '30px' }}>
           <div>
-            <h3 style={{ fontSize: '12px', fontWeight: '700', letterSpacing: '1px', margin: '0 0 24px 0', color: '#c0392b', textTransform: 'uppercase' }}>Daily Feed</h3>
-            <div style={{ display: 'grid', gap: '28px' }}>
-              {filteredFeed.length === 0 ? (
-                <p style={{ color: '#888', fontSize: '13px' }}>No results for "{searchTerm}"</p>
-              ) : (
-                Object.entries(categorized).map(([category, items], categoryIdx) => {
-                  const categoryColors = [
-                    { border: '#0066cc' },
-                    { border: '#00aa66' },
-                    { border: '#cc7700' },
-                    { border: '#aa00cc' },
-                  ];
-                  const colors = categoryColors[categoryIdx % categoryColors.length];
-
-                  return (
-                    <div key={category}>
-                      <p style={{ fontSize: '10px', letterSpacing: '2px', color: colors.border, textTransform: 'uppercase', margin: '0 0 16px 0', fontWeight: '700' }}>{category}</p>
-                      <div style={{ display: 'grid', gap: '18px' }}>
-                        {items.slice(0, 2).map(item => {
-                          const title = item.type === 'article' ? item.title : item.headline;
-                          const summary = item.type === 'article' ? item.excerpt : item.summary;
-                          const link = item.type === 'article' ? `/articles/${item.slug}` : item.sourceUrl;
-                          const isExternal = item.type === 'news';
-
-                          return (
-                            
-                              key={item.feedId}
-                              href={link}
-                              target={isExternal ? '_blank' : undefined}
-                              rel={isExternal ? 'noopener noreferrer' : undefined}
-                              style={{ textDecoration: 'none', color: '#f0f0f0', borderLeft: `3px solid ${colors.border}`, paddingLeft: '16px', display: 'block' }}
-                            >
-                              <h4 style={{ margin: '0 0 8px 0', fontSize: '15px', fontWeight: '600', lineHeight: '1.3', fontFamily: 'Georgia, "Times New Roman", serif' }}>{title}</h4>
-                              <p style={{ margin: '0', fontSize: '12px', color: '#999', lineHeight: '1.6' }}>{summary.length > 100 ? summary.substring(0, 100) + '...' : summary}</p>
-                              <span style={{ fontSize: '10px', color: colors.border, fontWeight: '600', marginTop: '8px', display: 'inline-block' }}>{isExternal ? `Read at ${(item as NewsItem).source} →` : 'Read article →'}</span>
-                            </a>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })
-              )}
-            </div>
+            <h3 style={{ fontSize: '12px', fontWeight: '700', margin: '0 0 24px 0', color: '#c0392b', textTransform: 'uppercase' }}>Daily Feed</h3>
+            {Object.entries(grouped).map(([category, items]) => (
+              <div key={category} style={{ marginBottom: '28px' }}>
+                <p style={{ fontSize: '10px', fontWeight: '700', margin: '0 0 16px 0', color: '#0066cc', textTransform: 'uppercase' }}>{category}</p>
+                {items.slice(0, 2).map(item => (
+                  <a key={item.slug} href={`/articles/${item.slug}`} style={{ display: 'block', textDecoration: 'none', color: '#f0f0f0', borderLeft: '3px solid #0066cc', paddingLeft: '16px', marginBottom: '18px' }}>
+                    <h4 style={{ margin: '0 0 8px 0', fontSize: '15px', fontWeight: '600', fontFamily: 'Georgia, serif' }}>{item.title}</h4>
+                    <p style={{ margin: '0', fontSize: '12px', color: '#999' }}>{item.excerpt.substring(0, 100)}...</p>
+                  </a>
+                ))}
+              </div>
+            ))}
           </div>
 
           <div>
             <div style={{ marginBottom: '28px' }}>
-              <h3 style={{ fontSize: '12px', fontWeight: '700', letterSpacing: '1px', margin: '0 0 16px 0', color: '#c0392b', textTransform: 'uppercase' }}>Current Status</h3>
+              <h3 style={{ fontSize: '12px', fontWeight: '700', margin: '0 0 16px 0', color: '#c0392b', textTransform: 'uppercase' }}>Status</h3>
               <div style={{ display: 'grid', gap: '12px' }}>
                 <div style={{ background: '#222', border: '1px solid #333', borderRadius: '4px', padding: '14px' }}>
-                  <p style={{ margin: '0 0 6px 0', fontSize: '10px', color: '#888', textTransform: 'uppercase', fontWeight: '700' }}>Confirmed Cases</p>
+                  <p style={{ margin: '0 0 6px 0', fontSize: '10px', color: '#888' }}>Confirmed Cases</p>
                   <p style={{ margin: 0, fontSize: '24px', fontWeight: '700', color: '#c0392b' }}>{outbreakStats.cases}</p>
                 </div>
                 <div style={{ background: '#222', border: '1px solid #333', borderRadius: '4px', padding: '14px' }}>
-                  <p style={{ margin: '0 0 6px 0', fontSize: '10px', color: '#888', textTransform: 'uppercase', fontWeight: '700' }}>Deaths</p>
+                  <p style={{ margin: '0 0 6px 0', fontSize: '10px', color: '#888' }}>Deaths</p>
                   <p style={{ margin: 0, fontSize: '24px', fontWeight: '700', color: '#c0392b' }}>{outbreakStats.deaths}</p>
                 </div>
                 <div style={{ background: '#222', border: '1px solid #333', borderRadius: '4px', padding: '14px' }}>
-                  <p style={{ margin: '0 0 6px 0', fontSize: '10px', color: '#888', textTransform: 'uppercase', fontWeight: '700' }}>Mortality Rate</p>
+                  <p style={{ margin: '0 0 6px 0', fontSize: '10px', color: '#888' }}>Mortality</p>
                   <p style={{ margin: 0, fontSize: '24px', fontWeight: '700' }}>{outbreakStats.mortality}</p>
                 </div>
                 <div style={{ background: '#222', border: '1px solid #333', borderRadius: '4px', padding: '14px' }}>
-                  <p style={{ margin: '0 0 6px 0', fontSize: '10px', color: '#888', textTransform: 'uppercase', fontWeight: '700' }}>Countries</p>
+                  <p style={{ margin: '0 0 6px 0', fontSize: '10px', color: '#888' }}>Countries</p>
                   <p style={{ margin: 0, fontSize: '24px', fontWeight: '700' }}>{outbreakStats.countries}</p>
                 </div>
               </div>
@@ -317,36 +179,12 @@ export default function Home() {
             </div>
 
             <div style={{ background: '#222', border: '1px solid #c0392b', borderLeft: '3px solid #c0392b', borderRadius: '4px', padding: '14px', marginBottom: '20px' }}>
-              <h4 style={{ fontSize: '10px', fontWeight: '700', letterSpacing: '1px', margin: '0 0 8px 0', color: '#c0392b', textTransform: 'uppercase' }}>Medical Disclaimer</h4>
-              <p style={{ margin: 0, fontSize: '12px', color: '#999', lineHeight: '1.5' }}>Not medical advice. Contact your healthcare provider for urgent concerns.</p>
-            </div>
-
-            <div style={{ marginBottom: '20px' }}>
-              <h4 style={{ fontSize: '10px', fontWeight: '700', letterSpacing: '1px', margin: '0 0 12px 0', color: '#c0392b', textTransform: 'uppercase' }}>Essential Reading</h4>
-              <div style={{ display: 'grid', gap: '8px' }}>
-                <a href="/articles/what-is-hantavirus" style={{ fontSize: '12px', color: '#bbb', textDecoration: 'none' }}>→ What is Hantavirus?</a>
-                <a href="/articles/hantavirus-symptoms-warning-signs" style={{ fontSize: '12px', color: '#bbb', textDecoration: 'none' }}>→ Symptoms & Warning Signs</a>
-                <a href="/articles/hantavirus-prevention-guide" style={{ fontSize: '12px', color: '#bbb', textDecoration: 'none' }}>→ Prevention Guide</a>
-              </div>
-            </div>
-
-            <div>
-              <h4 style={{ fontSize: '10px', fontWeight: '700', letterSpacing: '1px', margin: '0 0 12px 0', color: '#c0392b', textTransform: 'uppercase' }}>Official Sources</h4>
-              <div style={{ display: 'grid', gap: '8px' }}>
-                <a href="https://www.who.int" target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#bbb', textDecoration: 'none' }}>WHO</a>
-                <a href="https://www.cdc.gov" target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#bbb', textDecoration: 'none' }}>CDC</a>
-              </div>
+              <h4 style={{ fontSize: '10px', fontWeight: '700', margin: '0 0 8px 0', color: '#c0392b' }}>Medical Disclaimer</h4>
+              <p style={{ margin: 0, fontSize: '12px', color: '#999' }}>Not medical advice. Contact your healthcare provider.</p>
             </div>
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 768px) {
-          .main-layout { grid-template-columns: 1fr !important; }
-          .breaking-featured { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </div>
   );
 }
