@@ -114,13 +114,23 @@ export default function Home() {
   const breakingArticles = articles.filter(a => a.isBreaking);
   const breakingItem = breakingArticles.length > 0 ? breakingArticles[0] : null;
 
+  const getNewsUrl = (item: any) => {
+    if (item.type === 'article') {
+      return `/articles/${item.slug}`;
+    }
+    return item.sourceUrl;
+  };
+
+  const getNewsTitle = (item: any) => {
+    return item.type === 'article' ? item.title : item.headline;
+  };
+
   const filtered = searchTerm.trim() === ''
     ? articles.filter(a => !a.isBreaking)
     : articles.filter(a => a.title.toLowerCase().includes(searchTerm.toLowerCase()) || a.excerpt.toLowerCase().includes(searchTerm.toLowerCase()));
 
   const grouped: { [key: string]: any[] } = {};
   
-  // Add articles
   filtered.forEach(a => {
     if (!grouped[a.category]) grouped[a.category] = [];
     grouped[a.category].push({
@@ -130,12 +140,11 @@ export default function Home() {
       slug: a.slug,
       excerpt: a.excerpt,
       source: a.category,
-      sourceUrl: `/articles/${a.slug}`,
+      url: `/articles/${a.slug}`,
       isExternal: false,
     });
   });
 
-  // Add news items
   newsItems.forEach(n => {
     const source = n.source;
     if (!grouped[source]) grouped[source] = [];
@@ -144,7 +153,7 @@ export default function Home() {
       type: 'news',
       title: n.headline,
       excerpt: n.summary,
-      sourceUrl: n.sourceUrl,
+      url: n.sourceUrl,
       source: n.source,
       isExternal: true,
     });
@@ -153,9 +162,9 @@ export default function Home() {
   return (
     <div style={{ minHeight: '100vh', background: '#1a1a1a', color: '#f0f0f0', fontFamily: 'system-ui' }}>
       {currentNews && (
-        <div style={{ background: '#c0392b', color: 'white', padding: '12px 20px', display: 'flex', gap: '16px', cursor: 'pointer' }} onClick={() => window.location.href = currentNews.sourceUrl}>
+        <div style={{ background: '#c0392b', color: 'white', padding: '12px 20px', display: 'flex', gap: '16px', cursor: 'pointer' }} onClick={() => window.location.href = getNewsUrl(currentNews)}>
           <span style={{ fontWeight: '700', whiteSpace: 'nowrap' }}>⚡ BREAKING</span>
-          <p style={{ margin: 0, flex: 1 }}>{currentNews.type === 'article' ? currentNews.title : currentNews.headline}</p>
+          <p style={{ margin: 0, flex: 1 }}>{getNewsTitle(currentNews)}</p>
           <span style={{ fontSize: '11px' }}>{tickerIndex + 1} of {allBreaking.length}</span>
         </div>
       )}
@@ -198,7 +207,7 @@ export default function Home() {
               <div key={category} style={{ marginBottom: '28px' }}>
                 <p style={{ fontSize: '10px', fontWeight: '700', margin: '0 0 16px 0', color: '#0066cc', textTransform: 'uppercase' }}>{category}</p>
                 {items.slice(0, 3).map(item => (
-                  <a key={item.feedId} href={item.sourceUrl} target={item.isExternal ? '_blank' : undefined} rel={item.isExternal ? 'noopener noreferrer' : undefined} style={{ display: 'block', textDecoration: 'none', color: '#f0f0f0', borderLeft: '3px solid #0066cc', paddingLeft: '16px', marginBottom: '18px' }}>
+                  <a key={item.feedId} href={item.url} target={item.isExternal ? '_blank' : undefined} rel={item.isExternal ? 'noopener noreferrer' : undefined} style={{ display: 'block', textDecoration: 'none', color: '#f0f0f0', borderLeft: '3px solid #0066cc', paddingLeft: '16px', marginBottom: '18px' }}>
                     <h4 style={{ margin: '0 0 8px 0', fontSize: '15px', fontWeight: '600', fontFamily: 'Georgia, serif' }}>{item.title}</h4>
                     <p style={{ margin: '0', fontSize: '12px', color: '#999' }}>{item.excerpt.substring(0, 100)}...</p>
                     <span style={{ fontSize: '10px', color: '#0066cc', display: 'block', marginTop: '4px' }}>{item.isExternal ? `Read at ${item.source} →` : 'Read article →'}</span>
