@@ -130,26 +130,32 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
             // Bullet points
             if (line.startsWith('- ')) {
               return (
-                <li key={idx} style={{
+                <div key={idx} style={{
                   marginLeft: '20px',
                   marginBottom: '8px',
-                  listStyleType: 'disc',
+                  display: 'flex',
+                  gap: '10px',
                 }}>
+                  <span style={{ color: '#888' }}>•</span>
                   <span dangerouslySetInnerHTML={{ __html: processedLine.replace('- ', '') }} />
-                </li>
+                </div>
               );
             }
 
-            // Numbered lists
-            if (line.match(/^\d+\. /)) {
+            // Numbered lists - reset counter properly
+            const numberMatch = line.match(/^(\d+)\. /);
+            if (numberMatch) {
+              const num = numberMatch[1];
               return (
-                <li key={idx} style={{
+                <div key={idx} style={{
                   marginLeft: '20px',
                   marginBottom: '8px',
-                  listStyleType: 'decimal',
+                  display: 'flex',
+                  gap: '10px',
                 }}>
+                  <span style={{ color: '#888', minWidth: '20px' }}>{num}.</span>
                   <span dangerouslySetInnerHTML={{ __html: processedLine.replace(/^\d+\. /, '') }} />
-                </li>
+                </div>
               );
             }
 
