@@ -2,7 +2,8 @@
 
 import { articles } from '@/articles';
 import Image from 'next/image';
-import { notFound } from 'next/navigation';
+import { notFound, useEffect } from 'next/navigation';
+import { useParams } from 'next/navigation';
 
 const articleImages: { [key: string]: string } = {
   'what-is-hantavirus': '/images/what-is-hantavirus.jpg',
@@ -13,14 +14,71 @@ const articleImages: { [key: string]: string } = {
   'hantavirus-vs-covid-19': '/images/vs-covid-19.jpg',
 };
 
-export default function ArticlePage({ params }: { params: { slug: string } }) {
-  const article = articles.find(a => a.slug === params.slug);
+export default function ArticlePage() {
+  const params = useParams();
+  const slug = params?.slug as string;
+  
+  const article = articles.find(a => a.slug === slug);
 
   if (!article) {
     notFound();
   }
 
   const imageUrl = articleImages[article.slug];
+  const ogImageUrl = `https://www.hantavirus-updates.com/opengraph-image?title=${encodeURIComponent(article.title)}&category=${encodeURIComponent(article.category)}`;
+
+  // Set OG meta tags dynamically
+  useEffect(() => {
+    // Update page title
+    document.title = `${article.title} | Hantavirus Updates`;
+
+    // Remove old OG meta tags and add new ones
+    const removeMeta = (property: string) => {
+      const element = document.querySelector(`meta[property="${property}"]`);
+      if (element) element.remove();
+    };
+
+    const addMeta = (property: string, content: string) => {
+      removeMeta(property);
+      const meta = document.createElement('meta');
+      meta.setAttribute('property', property);
+      meta.setAttribute('content', content);
+      document.head.appendChild(meta);
+    };
+
+    // Set OG meta tags
+    addMeta('og:title', article.title);
+    addMeta('og:description', article.excerpt);
+    addMeta('og:image', ogImageUrl);
+    addMeta('og:url', `https://www.hantavirus-updates.com/articles/${article.slug}`);
+    addMeta('og:type', 'article');
+
+    // Twitter tags
+    removeMeta('twitter:card');
+    const twitterCard = document.createElement('meta');
+    twitterCard.setAttribute('name', 'twitter:card');
+    twitterCard.setAttribute('content', 'summary_large_image');
+    document.head.appendChild(twitterCard);
+
+    removeMeta('twitter:title');
+    const twitterTitle = document.createElement('meta');
+    twitterTitle.setAttribute('name', 'twitter:title');
+    twitterTitle.setAttribute('content', article.title);
+    document.head.appendChild(twitterTitle);
+
+    removeMeta('twitter:description');
+    const twitterDesc = document.createElement('meta');
+    twitterDesc.setAttribute('name', 'twitter:description');
+    twitterDesc.setAttribute('content', article.excerpt);
+    document.head.appendChild(twitterDesc);
+
+    removeMeta('twitter:image');
+    const twitterImage = document.createElement('meta');
+    twitterImage.setAttribute('name', 'twitter:image');
+    twitterImage.setAttribute('content', ogImageUrl);
+    document.head.appendChild(twitterImage);
+
+  }, [article, ogImageUrl]);
 
   return (
     <div style={{ minHeight: '100vh', background: '#1a1a1a', color: '#f0f0f0', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
