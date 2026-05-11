@@ -89,16 +89,82 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
           {article.excerpt}
         </div>
 
-        {/* FULL CONTENT */}
+        {/* FULL CONTENT - RENDERED MARKDOWN */}
         <div style={{
           fontSize: '15px',
           lineHeight: '1.8',
           color: '#ccc',
           marginBottom: '40px',
-          whiteSpace: 'pre-wrap',
-          wordWrap: 'break-word',
         }}>
-          {article.content}
+          {article.content.split('\n').map((line, idx) => {
+            // Headings
+            if (line.startsWith('## ')) {
+              return (
+                <h2 key={idx} style={{
+                  fontSize: '24px',
+                  fontWeight: '700',
+                  margin: '28px 0 16px 0',
+                  fontFamily: 'Georgia, "Times New Roman", serif',
+                  color: '#f0f0f0',
+                }}>
+                  {line.replace('## ', '')}
+                </h2>
+              );
+            }
+            if (line.startsWith('### ')) {
+              return (
+                <h3 key={idx} style={{
+                  fontSize: '18px',
+                  fontWeight: '600',
+                  margin: '20px 0 12px 0',
+                  color: '#ddd',
+                }}>
+                  {line.replace('### ', '')}
+                </h3>
+              );
+            }
+
+            // Bold text
+            let processedLine = line.replace(/\*\*(.*?)\*\*/g, '<strong style="color: #fff; font-weight: 600;">$1</strong>');
+            
+            // Bullet points
+            if (line.startsWith('- ')) {
+              return (
+                <li key={idx} style={{
+                  marginLeft: '20px',
+                  marginBottom: '8px',
+                  listStyleType: 'disc',
+                }}>
+                  <span dangerouslySetInnerHTML={{ __html: processedLine.replace('- ', '') }} />
+                </li>
+              );
+            }
+
+            // Numbered lists
+            if (line.match(/^\d+\. /)) {
+              return (
+                <li key={idx} style={{
+                  marginLeft: '20px',
+                  marginBottom: '8px',
+                  listStyleType: 'decimal',
+                }}>
+                  <span dangerouslySetInnerHTML={{ __html: processedLine.replace(/^\d+\. /, '') }} />
+                </li>
+              );
+            }
+
+            // Empty lines
+            if (line.trim() === '') {
+              return <div key={idx} style={{ height: '12px' }} />;
+            }
+
+            // Regular paragraphs
+            return (
+              <p key={idx} style={{ margin: '0 0 16px 0' }}>
+                <span dangerouslySetInnerHTML={{ __html: processedLine }} />
+              </p>
+            );
+          })}
         </div>
 
         {/* AUTHOR & DATE */}
