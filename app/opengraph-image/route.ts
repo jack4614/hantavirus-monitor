@@ -28,7 +28,6 @@ export async function GET(request: Request) {
             fontFamily: 'system-ui, -apple-system',
           }}
         >
-          {/* Top red bar */}
           <div
             style={{
               position: 'absolute',
@@ -41,7 +40,6 @@ export async function GET(request: Request) {
             }}
           />
 
-          {/* Category badge */}
           <div
             style={{
               background: '#c0392b',
@@ -58,7 +56,6 @@ export async function GET(request: Request) {
             {category}
           </div>
 
-          {/* Title */}
           <div
             style={{
               fontSize: 56,
@@ -72,7 +69,6 @@ export async function GET(request: Request) {
             {title}
           </div>
 
-          {/* Branding */}
           <div
             style={{
               marginTop: 'auto',
