@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.hantavirus-updates.com'),
   title: "Hantavirus Updates | Breaking News & Information",
   description: "Real-time monitoring of the 2026 Hantavirus outbreak. Breaking news, symptoms, prevention, and outbreak tracking across 7+ countries.",
   keywords: ["hantavirus", "outbreak", "2026", "breaking news", "health"],
