@@ -10,7 +10,13 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: SITE_NAME, template: `%s | ${SITE_NAME}` },
   description: 'Plain-language information about hantavirus: symptoms, how it spreads, prevention and the 2026 MV Hondius outbreak.',
-  icons: { icon: '/favicon.svg' },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '48x48' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
   openGraph: { siteName: SITE_NAME, type: 'website', locale: 'en_US', images: ['/og.png'] },
   twitter: { card: 'summary_large_image', images: ['/og.png'] },
 };
