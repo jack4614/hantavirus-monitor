@@ -1,40 +1,56 @@
-import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/next";
-import "./globals.css";
+import type { Metadata, Viewport } from 'next';
+import Link from 'next/link';
+import { Analytics } from '@vercel/analytics/next';
+import { NAV_PAGES, SITE_NAME, SITE_URL } from '@/lib/content';
+import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.hantavirus-updates.com'),
-  title: "Hantavirus Updates | Breaking News & Information",
-  description: "Real-time monitoring of the 2026 Hantavirus outbreak. Breaking news, symptoms, prevention, and outbreak tracking across 7+ countries.",
-  keywords: ["hantavirus", "outbreak", "2026", "breaking news", "health"],
-  openGraph: {
-    title: "Hantavirus Updates | Breaking News & Information",
-    description: "Real-time monitoring of the 2026 Hantavirus outbreak",
-    url: "https://www.hantavirus-updates.com",
-    siteName: "Hantavirus Updates",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Hantavirus Updates",
-    description: "Real-time monitoring of the 2026 Hantavirus outbreak",
-  },
+  metadataBase: new URL(SITE_URL),
+  title: { default: SITE_NAME, template: `%s | ${SITE_NAME}` },
+  description: 'Plain-language information about hantavirus: symptoms, how it spreads, prevention and the 2026 MV Hondius outbreak.',
+  icons: { icon: '/favicon.svg' },
+  openGraph: { siteName: SITE_NAME, type: 'website', locale: 'en_US', images: ['/og.png'] },
+  twitter: { card: 'summary_large_image', images: ['/og.png'] },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#fbfaf7' },
+    { media: '(prefers-color-scheme: dark)', color: '#14191a' },
+  ],
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <meta property="og:type" content="website" />
-        <meta property="og:locale" content="en_US" />
-      </head>
+    <html lang="en">
       <body>
-        {children}
+        <header className="site-header">
+          <div className="wrap">
+            <Link href="/" className="brand">
+              {SITE_NAME}
+            </Link>
+            <nav aria-label="Main">
+              <ul>
+                {NAV_PAGES.map((p) => (
+                  <li key={p.slug}>
+                    <Link href={p.slug ? `/${p.slug}` : '/'}>{p.nav}</Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        </header>
+        <main className="wrap">{children}</main>
+        <footer className="site-footer">
+          <div className="wrap">
+            <p>
+              General information only, not medical advice. If you have trouble breathing, call your local emergency number.
+            </p>
+            <p>
+              <Link href="/about">About, sources and disclaimer</Link>
+            </p>
+          </div>
+        </footer>
         <Analytics />
       </body>
     </html>
