@@ -1,6 +1,7 @@
 ---
 title: "About, sources and disclaimer"
 description: "Who runs Hantavirus Updates, where the information comes from, and the medical disclaimer."
+seoTitle: "About Hantavirus Updates: sources and disclaimer"
 lastReviewed: "2026-10-03"
 ---
 

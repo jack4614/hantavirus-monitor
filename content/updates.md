@@ -1,6 +1,7 @@
 ---
 title: "Updates"
 description: "Dated notes on hantavirus news from health authorities."
+seoTitle: "Hantavirus news and updates"
 lastReviewed: "2026-10-03"
 ---
 

@@ -1,6 +1,7 @@
 ---
 title: "Hantavirus symptoms and when to see a doctor"
 description: "Early and late symptoms of hantavirus, how long they take to appear, and when to get medical or emergency care."
+seoTitle: "Hantavirus symptoms: early signs and when to see a doctor"
 lastReviewed: "2026-10-03"
 ---
 
@@ -47,10 +48,10 @@ Some people have a flushed face, red eyes or a rash. Later stages can bring low 
 
 See a doctor if you have fever, muscle aches or tiredness and in the last 8 weeks you have:
 
-- cleaned a cabin, shed, barn, garage or attic with signs of mice or rats
+- [cleaned a cabin, shed, barn, garage or attic](/prevention#cleaning-a-cabin-shed-barn-or-garage) with signs of mice or rats
 - handled rodents, traps or nests
 - slept or worked somewhere with rodents
-- been in close contact with a confirmed Andes virus case
+- been in close contact with a confirmed [Andes virus](/transmission#the-andes-virus-exception) case
 
 Tell the doctor about the rodent contact. Early hantavirus looks like flu, and doctors may not think of it unless you mention it. Tests in the first 72 hours can come back negative, so a repeat test may be needed.
 

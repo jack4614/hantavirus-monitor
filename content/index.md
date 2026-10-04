@@ -1,6 +1,7 @@
 ---
 title: "What is hantavirus?"
 description: "Plain-language guide to hantavirus: what it is, who is at risk, how it is treated, and answers to common questions."
+seoTitle: "Hantavirus: what it is, symptoms, how it spreads and prevention"
 lastReviewed: "2026-10-03"
 ---
 
@@ -10,7 +11,7 @@ lastReviewed: "2026-10-03"
 - Infections are rare, but they can be serious. In the Americas, up to half of severe cases have been fatal.
 - There is no vaccine and no specific cure. Early hospital care improves survival.
 - Almost all hantaviruses do not spread from person to person. The one known exception is Andes virus in South America.
-- The 2026 outbreak on the cruise ship MV Hondius is over. WHO declared it ended on 2 July 2026.
+- The 2026 outbreak on the cruise ship [MV Hondius](/mv-hondius-outbreak) is over. WHO declared it ended on 2 July 2026.
 
 ### What it is
 
@@ -35,7 +36,7 @@ Anyone who comes into contact with rodents or their droppings. Typical situation
 
 ### Frequently asked questions
 
-**Can I catch hantavirus from another person?** Almost never. Only Andes virus, found in Argentina and Chile, has been shown to pass between people, and only after close, prolonged contact such as within a household. Hantaviruses in North America, Europe and Asia do not spread between people.
+**Can I catch hantavirus from another person?** Almost never. Only [Andes virus](/transmission#the-andes-virus-exception), found in Argentina and Chile, has been shown to pass between people, and only after close, prolonged contact such as within a household. Hantaviruses in North America, Europe and Asia do not spread between people.
 
 **Can I catch it from my pet?** Hantavirus comes from rodents. Pet rats can carry Seoul virus, so CDC advises against pet rodents in homes with children aged 5 or younger, pregnant women or people with weakened immune systems.
 
@@ -43,6 +44,6 @@ Anyone who comes into contact with rodents or their droppings. Typical situation
 
 **How is it treated?** There is no specific antiviral. Treatment is supportive hospital care, often in intensive care, to help breathing, heart and kidney function. Getting care early makes a real difference.
 
-**I found mouse droppings at home. Should I worry?** Finding droppings is not a reason to panic, but it is a reason to clean up properly. Wet everything down with disinfectant first and never sweep or vacuum dry droppings. The prevention page has the steps.
+**I found mouse droppings at home. Should I worry?** Finding droppings is not a reason to panic, but it is a reason to clean up properly. Wet everything down with disinfectant first and never sweep or vacuum dry droppings. The [prevention page](/prevention) has the steps.
 
-**When should I see a doctor?** If you develop fever, muscle aches or tiredness within eight weeks of being around rodents or their droppings, see a doctor and tell them about the rodent exposure. Go to emergency care if you become short of breath.
+**When should I see a doctor?** If you develop fever, muscle aches or tiredness within eight weeks of being around rodents or their droppings, see a doctor and tell them about the rodent exposure. The [symptoms page](/symptoms) explains what to watch for. Go to emergency care if you become short of breath.

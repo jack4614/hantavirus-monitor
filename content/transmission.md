@@ -1,6 +1,7 @@
 ---
 title: "How people get hantavirus"
 description: "How hantavirus spreads from rodents to people, the situations with higher risk, and why Andes virus is the one exception that spreads between people."
+seoTitle: "How is hantavirus transmitted? Rodents, risks and Andes virus"
 lastReviewed: "2026-10-03"
 ---
 
@@ -24,7 +25,7 @@ In the US and Canada the main carrier is the deer mouse. Rats can carry Seoul vi
 
 ### Situations with higher risk
 
-- Opening and cleaning a cabin, shed, barn, garage or attic that has been closed for a while
+- [Opening and cleaning a cabin, shed, barn, garage or attic](/prevention#cleaning-a-cabin-shed-barn-or-garage) that has been closed for a while
 - Farm, forestry and pest-control work
 - Camping, hiking or sleeping in shelters where rodents live
 - Handling pet rats or feeder rodents
@@ -37,7 +38,7 @@ Andes virus is found in Argentina and Chile and is carried by the long-tailed py
 - close and prolonged contact, mostly household members and intimate partners
 - the early phase of illness, when the virus seems most transmissible
 
-The 2026 cruise ship outbreak was caused by Andes virus, which is why passengers were quarantined and close contacts monitored. WHO considers the risk of spread in hospitals very low when standard infection control is followed.
+The [2026 cruise ship outbreak](/mv-hondius-outbreak) was caused by Andes virus, which is why passengers were quarantined and close contacts monitored. WHO considers the risk of spread in hospitals very low when standard infection control is followed.
 
 Other hantaviruses, including all those found in North America, Europe and Asia, have never been shown to spread between people.
 

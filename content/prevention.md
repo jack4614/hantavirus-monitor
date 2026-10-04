@@ -1,6 +1,7 @@
 ---
 title: "Hantavirus prevention and safe cleanup"
 description: "How to keep rodents out and clean up droppings, nests and dead rodents safely, based on CDC guidance."
+seoTitle: "Hantavirus prevention: how to clean up mouse droppings safely"
 lastReviewed: "2026-10-03"
 ---
 
@@ -55,6 +56,6 @@ Rodents often carry fleas, so insect repellent on clothes and shoes helps.
 
 ### Heavy infestations
 
-For a vacant building or a large number of rodents, the cleanup needs more protection: disposable coveralls, rubber boots, goggles and a respirator with HEPA filters. Consider hiring a professional, and contact your local health department.
+For a vacant building or a large number of rodents, the cleanup needs more protection: disposable coveralls, rubber boots, goggles and a respirator with HEPA filters. Consider hiring a professional, and contact your local health department. If you feel unwell after a cleanup, see the [symptoms page](/symptoms).
 
 Sources: [CDC: How to clean up after rodents](https://www.cdc.gov/healthy-pets/rodent-control/clean-up.html), [CDC: About hantavirus](https://www.cdc.gov/hantavirus/about/index.html), [WHO fact sheet](https://www.who.int/news-room/fact-sheets/detail/hantavirus)

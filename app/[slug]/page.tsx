@@ -13,15 +13,14 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   const page = getPage(params.slug);
   if (!page) return {};
   return {
-    title: page.title,
+    title: { absolute: page.seoTitle },
     description: page.description,
     alternates: { canonical: `/${page.slug}` },
-    openGraph: { title: page.title, description: page.description, url: `/${page.slug}`, type: 'article' },
+    openGraph: { title: page.seoTitle, description: page.description, url: `/${page.slug}`, type: 'article' },
   };
 }
 
 export default function ContentPage({ params }: { params: { slug: string } }) {
-  const page = getPage(params.slug);
-  if (!page) notFound();
-  return <PageView page={page} />;
+  if (!getPage(params.slug)) notFound();
+  return <PageView slug={params.slug} />;
 }

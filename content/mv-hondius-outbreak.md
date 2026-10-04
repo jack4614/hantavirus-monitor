@@ -1,6 +1,7 @@
 ---
 title: "The 2026 MV Hondius hantavirus outbreak"
 description: "What happened in the 2026 Andes virus outbreak on the cruise ship MV Hondius: timeline, cases, origin and lessons."
+seoTitle: "MV Hondius hantavirus outbreak 2026: timeline and key facts"
 lastReviewed: "2026-10-03"
 ---
 
@@ -40,7 +41,7 @@ The first positive test came on 4 May. Over the next weeks, cases were confirmed
 
 ### Where did the virus come from?
 
-Andes virus normally lives in rodents in Argentina and Chile. The first patient and his wife had spent four months travelling through Chile, Uruguay and Argentina before boarding. Argentine scientists trapped rodents near Ushuaia and along the couple's route. They found a previously unknown hantavirus variant near Ushuaia, but it was not the one that spread on the ship. The exact source has not been confirmed.
+[Andes virus](/transmission#the-andes-virus-exception) normally lives in rodents in Argentina and Chile. The first patient and his wife had spent four months travelling through Chile, Uruguay and Argentina before boarding. Argentine scientists trapped rodents near Ushuaia and along the couple's route. They found a previously unknown hantavirus variant near Ushuaia, but it was not the one that spread on the ship. The exact source has not been confirmed.
 
 ### What was learned
 
